@@ -8,36 +8,24 @@ class Command(BaseCommand):
     help = 'our help string comes here'
 
     @staticmethod
-    def insertar_datos_pruebas(self):
-
-        print('Insertando datos de pruebas...')
-        print('Insertando datos de pruebas....OK\n')
-
-    @staticmethod
-    def insertar_datos_produccion(self):
-
-        print('Insertando datos de producción...')
-        print('Insertando datos de producción....OK\n')
+    def insert_test_data():
+        print('Populating with test data...')
+        print('Populating with test data....OK\n')
 
     @staticmethod
-    def clean_tables(self):
+    def insert_production_data():
+        print('Populating with production data...')
+        print('Populating with production data....OK\n')
 
-        print('Eliminando datos de las tablas...')
-        print('Eliminando datos de las tablas....OK')
+    @staticmethod
+    def clean_tables():
+        print('Dropping tables...')
+        print('Dropping tables....OK')
 
     def add_arguments(self, parser):
-
-        parser.add_argument('--produccion',
-                            action='store_true',
-                            dest='produccion',
-                            default=False,
-                            help='Inserta los datos de produccion en la base de datos')
+        parser.add_argument('--production', action='store_true', dest='production', default=False,
+                            help='Populates the database with production data')
 
     def handle(self, *args, **options):
-
-        self.clean_tables(self)
-
-        if options['produccion']:
-            self.insertar_datos_produccion(self)
-        else:
-            self.insertar_datos_pruebas(self)
+        self.clean_tables()
+        self.insert_production_data() if options['production'] else self.insert_test_data()

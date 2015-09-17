@@ -3,4 +3,3 @@
 *.prefs
 *.pydevproject
 .idea/*
-metropol/settings_secret.py
