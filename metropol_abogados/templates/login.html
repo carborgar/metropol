@@ -1,0 +1,65 @@
+{% extends 'layout/base.html' %}
+{% block content %}
+    <div class="row login-card mb20">
+
+        <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <h4>Error!</h4>
+                    <strong>Tu cuenta de usuario o contraseña no coinciden. Por favor, vuelva a intentarlo.</strong>
+                </div>
+            {% endif %}
+
+            {% if next and user.is_authenticated %}
+                <div class="alert alert-warning">
+                    <h4>Warning!</h4>
+                    <strong>Su cuenta no tiene acceso a esta página. Para continuar, por favor iniciar sesión con una cuenta que tiene acceso.</strong>
+                </div>
+
+            {% endif %}
+
+            <div class="box">
+
+                <div class="info">
+                    <h4 class="text-center">Inicia sesión para acceder a Metropol</h4>
+
+                    <form class="form-horizontal" method="post" action="{% url 'django.contrib.auth.views.login' %}"
+                          data-toggle="validator" role="form">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="{{ form.username.id_for_label }}" class="col-lg-4 col-xs-12 control-label">{{ form.username.label }}</label>
+                            <div class="col-lg-8 col-xs-12">
+                                {{ form.username }}
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.password.id_for_label }}" class="col-lg-4 col-xs-12 control-label">{{ form.password.label }}</label>
+                            <div class="col-lg-8 col-xs-12">
+                                {{ form.password }}
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-2">
+                                <button type="submit" class="btn btn-primary">Acceder</button>
+                            </div>
+                        </div>
+                        <input type="hidden" name="next" value="{{ next }}"/>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+        $("input:visible").prop('required',true);
+        $("input:visible").addClass('form-control');
+    </script>
+
+
+{% endblock %}

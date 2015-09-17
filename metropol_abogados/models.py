@@ -7,6 +7,10 @@ class Usuario(User):
     class Meta:
         ordering = ['last_name', 'first_name']
         db_table = 'metropol_t_r_usu_usuario'
+        permissions = (
+            ('gestion_metropol', 'GESTION METROPOL'),
+            ('admin_metropol', 'ADMINISTRADOR METROPOL'),
+        )
 
     def __str__(self):
         return self.last_name + ', ' + self.first_name
