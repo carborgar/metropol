@@ -9,5 +9,14 @@ body {
 }
 
 .footer p {
-    margin-top: 12px;
+    margin-top: 15px;
+}
+
+.language-switch {
+    position: absolute;
+    z-index: 999999;
+    bottom: 0px;
+    right: 0px;
+    background-color: #FCFCFC;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
 }

@@ -1,0 +1,66 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-09-20 14:09+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\metropol\settings.py:116
+msgid "Spanish"
+msgstr "Español"
+
+#: .\metropol_abogados\templates\layout\header.html:13
+msgid "metropol.upperCase"
+msgstr "METROPOL"
+
+#: .\metropol_abogados\templates\layout\menu\anonimo.html:2
+msgid "navbar.login"
+msgstr "Iniciar sesión"
+
+#: .\metropol_abogados\templates\layout\menu\autenticado.html:7
+msgid "navbar.password.change"
+msgstr "Cambiar contraseña"
+
+#: .\metropol_abogados\templates\layout\menu\autenticado.html:9
+msgid "navbar.logout"
+msgstr "Cerrar sesión"
+
+#: .\metropol_abogados\templates\login.html:7
+msgid "login.title"
+msgstr "Inicia sesión para acceder a Metropol"
+
+#: .\metropol_abogados\templates\login.html:12
+msgid "login.error.user.password"
+msgstr ""
+"La cuenta de usuario y la contraseña no coinciden. Por favor, vuelva a "
+"intentarlo."
+
+#: .\metropol_abogados\templates\login.html:17
+msgid "login.warning.account.access"
+msgstr ""
+"Su cuenta no tiene acceso a esta página. Para continuar, por favor iniciar "
+"sesión con una cuenta que tenga acceso."
+
+#: .\metropol_abogados\templates\login.html:32
+msgid "button.login"
+msgstr "Acceder"
+
+#: .\metropol_abogados\templates\login.html:43
+msgid "login.username"
+msgstr "Cuenta de usuario"
+
+#: .\metropol_abogados\templates\login.html:44
+msgid "login.password"
+msgstr "Contraseña"

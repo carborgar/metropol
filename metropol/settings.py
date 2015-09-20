@@ -2,6 +2,7 @@
 
 import os
 from configparser import RawConfigParser
+from django.utils.translation import ugettext_lazy as _
 
 config = RawConfigParser()
 config.read('/etc/secrets/metropol_settings.ini')
@@ -89,8 +90,6 @@ LANGUAGE_CODE = 'es-ES'
 
 TIME_ZONE = 'UTC'
 
-USE_I18N = True
-
 USE_TZ = True
 
 
@@ -105,5 +104,18 @@ STATICFILES_DIRS = (
 
 # Login
 LOGIN_URL = '/login'
-
 LOGIN_REDIRECT_URL = '/'
+
+# Transactions
+ATOMIC_REQUESTS = True
+
+# I18N
+USE_I18N = True
+
+LANGUAGES = [
+    ('es', _('Spanish')),
+]
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, "locale"),
+)
