@@ -14,15 +14,13 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                {% if perms.metropol_abogados.gestion_metropol %}
-                    {% include "layout/menu/gestion_metropol.html" %}
-                {% elif perms.metropol_abogados.admin_metropol %}
-                    {% include "layout/menu/admin_metropol.html" %}
-                {% else %}
-                    {% include "layout/menu/anonimo.html" %}
-                {% endif %}
                 {% if user.is_authenticated %}
-                    {% include "layout/menu/autenticado.html" %}
+                    {% if perms.auth.management_metropol %}
+                        {% include "layout/menu/management_metropol.html" %}
+                    {% endif %}
+                    {% include "layout/menu/authenticated.html" %}
+                {% else %}
+                    {% include "layout/menu/anonymous.html" %}
                 {% endif %}
             </ul>
         </div>
