@@ -3,7 +3,6 @@ from django.db import models
 
 
 class Accommodation(models.Model):
-    id_accommodation = models.AutoField(primary_key=True)
     address = models.CharField(max_length=255, blank=True, null=True)
     population = models.CharField(max_length=255, blank=True, null=True)
     postal_code = models.CharField(max_length=255, blank=True, null=True)
@@ -23,7 +22,6 @@ class EstadoMinuta(models.Model):
 
 
 class ExpPerRol(models.Model):
-    id_exp_per_rol = models.AutoField(primary_key=True)
     id_person = models.ForeignKey('Person', db_column='id_person')
     id_role = models.ForeignKey('Role', db_column='id_role')
     id_exp = models.ForeignKey('Expedient', db_column='id_exp')
@@ -36,20 +34,16 @@ class ExpPerRol(models.Model):
 
 class Expedient(models.Model):
     id_exp = models.AutoField(primary_key=True)
-    expedientesaño_exp = models.FloatField(db_column='ExpedientesAño Exp', blank=True, null=True)
-    expedientesdescripción = models.CharField(db_column='ExpedientesDescripción', max_length=255, blank=True, null=True)
-    expedientescódigo_expediente = models.FloatField(db_column='ExpedientesCódigo Expediente', blank=True, null=True)
-    expedientesfecha_alta = models.DateTimeField(db_column='ExpedientesFecha Alta', blank=True,
-                                                 null=True)
-    expedientesfecha_cierre = models.CharField(db_column='ExpedientesFecha Cierre', max_length=255, blank=True,
-                                               null=True)
-    expedientesnúm_asunto = models.CharField(db_column='ExpedientesNúm Asunto', max_length=255, blank=True,
-                                             null=True)
-    expedientestotal_cuantía = models.FloatField(db_column='ExpedientesTotal Cuantía', blank=True,
-                                                 null=True)
-    estadominuta = models.IntegerField(db_column='EstadoMinuta', blank=True, null=True)
-    id_type_user = models.ForeignKey('TypeUser', db_column='id_type_user', blank=True, null=True)
-    ramaderecho = models.IntegerField(db_column='RamaDerecho', blank=True, null=True)
+    expedientesaño_exp = models.FloatField(db_column='ExpedientesAño Exp', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    expedientesdescripción = models.CharField(db_column='ExpedientesDescripción', max_length=255, blank=True, null=True)  # Field name made lowercase.
+    expedientescódigo_expediente = models.FloatField(db_column='ExpedientesCódigo Expediente', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    expedientesfecha_alta = models.DateTimeField(db_column='ExpedientesFecha Alta', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    expedientesfecha_cierre = models.CharField(db_column='ExpedientesFecha Cierre', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    expedientesnúm_asunto = models.CharField(db_column='ExpedientesNúm Asunto', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    expedientestotal_cuantía = models.FloatField(db_column='ExpedientesTotal Cuantía', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    estadominuta = models.IntegerField(db_column='EstadoMinuta', blank=True, null=True)  # Field name made lowercase.
+    id_user_type = models.ForeignKey('UserType', db_column='id_user_type', blank=True, null=True)
+    ramaderecho = models.IntegerField(db_column='RamaDerecho', blank=True, null=True)  # Field name made lowercase.
     id_state = models.ForeignKey('State', db_column='id_state')
     id_headquarters = models.ForeignKey('Headquarters', db_column='id_headquarters', blank=True, null=True)
 
@@ -58,7 +52,6 @@ class Expedient(models.Model):
 
 
 class Headquarters(models.Model):
-    id_headquarters = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
 
     class Meta:
@@ -78,7 +71,6 @@ class HistorialPresupuestos(models.Model):
 
 
 class Note(models.Model):
-    id_note = models.AutoField(primary_key=True)
     description = models.CharField(max_length=255)
     id_person = models.ForeignKey('Person', db_column='id_person', blank=True, null=True)
     id_exp = models.ForeignKey(Expedient, db_column='id_exp', blank=True, null=True)
@@ -88,23 +80,21 @@ class Note(models.Model):
 
 
 class Person(models.Model):
-    id_person = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, blank=True, null=True)
     id_number = models.CharField(max_length=255, blank=True, null=True)
     email = models.CharField(max_length=255, blank=True, null=True)
     web = models.CharField(max_length=255, blank=True, null=True)
     nationality = models.CharField(max_length=255, blank=True, null=True)
-    creation_date = models.DateTimeField(blank=True, null=True)
+    creation_date = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'person'
 
 
 class Phone(models.Model):
-    id_phone = models.AutoField(primary_key=True)
     number = models.CharField(max_length=255)
     id_person = models.ForeignKey(Person, db_column='id_person')
-    id_type_phone = models.ForeignKey('TypePhone', db_column='id_type_phone')
+    id_phone_type = models.ForeignKey('PhoneType', db_column='id_phone_type')
 
     class Meta:
         db_table = 'phone'
@@ -133,7 +123,6 @@ class RamaDerecho(models.Model):
 
 
 class Role(models.Model):
-    id_role = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=255)
 
     class Meta:
@@ -141,7 +130,6 @@ class Role(models.Model):
 
 
 class State(models.Model):
-    id_state = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
 
     class Meta:
@@ -151,25 +139,23 @@ class State(models.Model):
         return self.name
 
 
-class TypePhone(models.Model):
-    id_type_phone = models.AutoField(primary_key=True)
+class PhoneType(models.Model):
     name = models.CharField(max_length=255)
     text_help = models.CharField(unique=True, max_length=255)
 
     class Meta:
-        db_table = 'type_phone'
+        db_table = 'phone_type'
 
     def __str__(self):
         return self.name
 
 
-class TypeUser(models.Model):
-    id_type_user = models.AutoField(primary_key=True)
+class UserType(models.Model):
     name = models.CharField(max_length=255)
     is_active = models.IntegerField(default=1)
 
     class Meta:
-        db_table = 'type_user'
+        db_table = 'user_type'
 
     def __str__(self):
         return self.name
