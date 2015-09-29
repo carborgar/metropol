@@ -1,28 +1,29 @@
+{% load bootstrap3 %}
+{% load staticfiles %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="es">
     <head>
-        {% load staticfiles %}
-        {% load i18n %}
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
         <title>Metropol</title>
         <!-- CSS  -->
-        <link href="{% static "css/bootstrap.min.css" %}" type="text/css" rel="stylesheet"/>
-        <link href="{% static "css/font-awesome.min.css" %}" type="text/css" rel="stylesheet"/>
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
         <link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet"/>
         <!--  Scripts-->
-        <script src="{% static "js/jquery-2.1.4.min.js" %}"></script>
-        <script src="{% static "js/bootstrap.min.js" %}"></script>
         <script src="{% static "js/validator.js" %}"></script>
     </head>
     <body>
-        <!-- Cabecera -->
+        <!-- Head -->
         {% include "layout/header.html" %}
-        <!-- Cuerpo -->
+        <!-- Body -->
         <main id="content" class="container">
             {% block content %} {% endblock %}
         </main>
-        <!-- Pie -->
+        <!-- Footer -->
         {% include "layout/footer.html" %}
 
 {#        <div class="language-switch hidden-print">#}

@@ -21,6 +21,7 @@ DATABASES = {
     }
 }
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -49,6 +50,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'metropol_abogados',
+    'bootstrap3',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -119,3 +121,20 @@ LANGUAGES = [
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, "locale"),
 )
+
+
+# Bootstrap 3 settings
+
+BOOTSTRAP3 = {
+    # The URL to the jQuery JavaScript file
+    'jquery_url': '%sjs/jquery-2.1.4.min.js' % STATIC_URL,
+    'include_jquery': True,
+    # The Bootstrap base URL
+    'base_url': '%s' % STATIC_URL,
+
+    # Label class to use in horizontal forms
+    'horizontal_label_class': 'col-md-3',
+
+    # Field class to use in horizontal forms
+    'horizontal_field_class': 'col-md-9',
+}

@@ -19,6 +19,9 @@ body {
 .navbar{
     border-radius: 0px;
 }
-.container .text-muted {
+.credit {
   margin: 20px 0;
+}
+#content{
+  padding-top: 60px;
 }
