@@ -2,4 +2,3 @@ Django == 1.8.4
 mysqlclient
 django-endless-pagination
 django-bootstrap3
-django-simple-menu

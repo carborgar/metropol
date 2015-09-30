@@ -26,6 +26,21 @@
         <!-- Footer -->
         {% include "layout/footer.html" %}
 
+        <script type="text/javascript">
+            $("[data-delete]").click(function(e){
+                return confirm("Vas a borrar este dato ' " + $(this).data('delete') + "'. No se podrá recuprear, ¿Estás seguro?");
+            });
+
+            var inputs = $('input');
+            $.each(inputs, function(){
+                if($(this).is(':required') && $(this).is(':visible')){
+                    $(this).parents('.form-group').addClass('required');
+                }
+                $(this).after('<div class="help-block with-errors"></div>');
+            });
+
+        </script>
+
 {#        <div class="language-switch hidden-print">#}
 {#            <form action="{% url 'set_language' %}" method="post" id="langForm">#}
 {#                {% csrf_token %}#}

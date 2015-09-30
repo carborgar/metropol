@@ -23,4 +23,7 @@ urlpatterns = [
     url(r'^$', 'metropol_abogados.views.StaticViews.index'),
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout_then_login, name="logout"),
+    url(r'^manager/person/edit', 'metropol_abogados.views.PersonViews.edit'),
+    url(r'^manager/person/list', 'metropol_abogados.views.PersonViews.person_list'),
+    url(r'^manager/person/details/(?P<person_id>\d+)/', 'metropol_abogados.views.PersonViews.details'),
 ]

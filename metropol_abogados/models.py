@@ -2,15 +2,15 @@ from __future__ import unicode_literals
 from django.db import models
 
 
-class Accommodation(models.Model):
+class Address(models.Model):
     address = models.CharField(max_length=255, blank=True, null=True)
-    population = models.CharField(max_length=255, blank=True, null=True)
+    location = models.CharField(max_length=255, blank=True, null=True)
     postal_code = models.CharField(max_length=255, blank=True, null=True)
     province = models.CharField(max_length=255, blank=True, null=True)
-    id_person = models.ForeignKey('Person', db_column='id_person')
+    person = models.ForeignKey('Person', db_column='id_person')
 
     class Meta:
-        db_table = 'accommodation'
+        db_table = 'address'
 
 
 class EstadoMinuta(models.Model):
@@ -22,18 +22,17 @@ class EstadoMinuta(models.Model):
 
 
 class ExpPerRol(models.Model):
-    id_person = models.ForeignKey('Person', db_column='id_person')
-    id_role = models.ForeignKey('Role', db_column='id_role')
-    id_exp = models.ForeignKey('Expedient', db_column='id_exp')
+    person = models.ForeignKey('Person', db_column='id_person')
+    role = models.ForeignKey('Role', db_column='id_role')
+    exp = models.ForeignKey('Expedient', db_column='id_exp')
     creation_date = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'exp_per_rol'
-        unique_together = (('id_person', 'id_role', 'id_exp'),)
+        unique_together = (('person', 'role', 'exp'),)
 
 
 class Expedient(models.Model):
-    id_exp = models.AutoField(primary_key=True)
     expedientesaño_exp = models.FloatField(db_column='ExpedientesAño Exp', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     expedientesdescripción = models.CharField(db_column='ExpedientesDescripción', max_length=255, blank=True, null=True)  # Field name made lowercase.
     expedientescódigo_expediente = models.FloatField(db_column='ExpedientesCódigo Expediente', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -42,10 +41,10 @@ class Expedient(models.Model):
     expedientesnúm_asunto = models.CharField(db_column='ExpedientesNúm Asunto', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     expedientestotal_cuantía = models.FloatField(db_column='ExpedientesTotal Cuantía', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     estadominuta = models.IntegerField(db_column='EstadoMinuta', blank=True, null=True)  # Field name made lowercase.
-    id_user_type = models.ForeignKey('UserType', db_column='id_user_type', blank=True, null=True)
+    user_type = models.ForeignKey('UserType', db_column='id_user_type', blank=True, null=True)
     ramaderecho = models.IntegerField(db_column='RamaDerecho', blank=True, null=True)  # Field name made lowercase.
-    id_state = models.ForeignKey('State', db_column='id_state')
-    id_headquarters = models.ForeignKey('Headquarters', db_column='id_headquarters', blank=True, null=True)
+    state = models.ForeignKey('State', db_column='id_state')
+    headquarters = models.ForeignKey('Headquarters', db_column='id_headquarters', blank=True, null=True)
 
     class Meta:
         db_table = 'expedient'
@@ -72,8 +71,8 @@ class HistorialPresupuestos(models.Model):
 
 class Note(models.Model):
     description = models.CharField(max_length=255)
-    id_person = models.ForeignKey('Person', db_column='id_person', blank=True, null=True)
-    id_exp = models.ForeignKey(Expedient, db_column='id_exp', blank=True, null=True)
+    person = models.ForeignKey('Person', db_column='id_person', blank=True, null=True)
+    expedient = models.ForeignKey(Expedient, db_column='id_exp', blank=True, null=True)
 
     class Meta:
         db_table = 'note'
@@ -90,11 +89,14 @@ class Person(models.Model):
     class Meta:
         db_table = 'person'
 
+    def __str__(self):
+        return self.name
+
 
 class Phone(models.Model):
     number = models.CharField(max_length=255)
-    id_person = models.ForeignKey(Person, db_column='id_person')
-    id_phone_type = models.ForeignKey('PhoneType', db_column='id_phone_type')
+    person = models.ForeignKey(Person, db_column='id_person')
+    phone_type = models.ForeignKey('PhoneType', db_column='id_phone_type')
 
     class Meta:
         db_table = 'phone'
@@ -127,6 +129,9 @@ class Role(models.Model):
 
     class Meta:
         db_table = 'role'
+
+    def __str__(self):
+        return self.name
 
 
 class State(models.Model):

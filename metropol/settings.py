@@ -34,7 +34,6 @@ SECRET_KEY = config.get('secrets', 'SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config.getboolean('debug', 'DEBUG')
 
-
 ALLOWED_HOSTS = [host for host in config.get('debug', 'ALLOWED_HOSTS').split(',')]
 
 FILE_CHARSET = 'UTF-8'
@@ -51,6 +50,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'metropol_abogados',
     'bootstrap3',
+    'endless_pagination'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -137,4 +137,16 @@ BOOTSTRAP3 = {
 
     # Field class to use in horizontal forms
     'horizontal_field_class': 'col-md-9',
+
+    # Set HTML required attribute on required fields
+    'set_required': False,
+
+    # Class to indicate error (better to set this in your Django form)
+    'error_css_class': '',
+
+    # Class to indicate success, meaning the field has valid input (better to set this in your Django form)
+    'success_css_class': '',
 }
+
+DATE_INPUT_FORMATS = ('%d/%m/%Y',)
+DATE_FORMAT = 'd/m/Y'

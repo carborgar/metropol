@@ -1,27 +1,87 @@
 body {
-    background-color: #dbf3ff;
+    background-color: #FFF;
 }
+
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
+
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
+
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 60px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
 }
-.navbar{
+
+.navbar {
     border-radius: 0px;
 }
+
 .credit {
-  margin: 20px 0;
+    margin: 20px 0;
 }
-#content{
-  padding-top: 60px;
+
+#content {
+    padding-top: 60px;
+}
+
+.form-group.required .control-label:after {
+    content: "*";
+    color: red;
+}
+
+@media (min-width: 768px) {
+    .form-horizontal .control-label {
+        text-align: left;
+    }
+    .dl-horizontal dt{
+        text-align: left;
+    }
+}
+
+.diggy-pagination > a, .diggy-pagination > span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    line-height: 1.42857143;
+    text-decoration: none;
+    color: #337ab7;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    margin-left: -1px;
+}
+
+.diggy-pagination > a:hover, .diggy-pagination > span:hover {
+    z-index: 3;
+    color: #23527C;
+    background-color: #EEE;
+    border-color: #DDD;
+}
+
+.diggy-pagination > .endless_page_current {
+    z-index: 2;
+    color: #ffffff;
+    background-color: #337ab7;
+    border-color: #337ab7;
+    cursor: default;
+}
+
+.diggy-pagination {
+    display: inline-block;
+    padding-left: 0;
+    margin-top: 20px;
+}
+
+.mt20{
+    margin-top: 20px;
+}
+dd{
+    margin: 0px 0px 5px 0px;
 }
