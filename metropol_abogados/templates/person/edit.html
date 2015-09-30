@@ -11,8 +11,8 @@
                 {% bootstrap_form form layout='horizontal' %}
                 <p class="text-danger">(*) Son campos obligatorios</p>
                 {% buttons %}
-                    <button type="submit" class="btn btn-success">{% trans "button.save" %}</button>
-                    <a href="#" class="btn btn-warning">{% trans "button.cancel" %}</a>
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-warning">Cancelar</a>
                 {% endbuttons %}
             </form>
         </div>
