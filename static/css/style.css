@@ -85,3 +85,6 @@ body {
 dd{
     margin: 0px 0px 5px 0px;
 }
+.page-header {
+    border-bottom: 1px solid #EEE;
+}

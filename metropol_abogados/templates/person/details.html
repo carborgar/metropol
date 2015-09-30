@@ -4,55 +4,54 @@
 {% block content %}
     <div class="row">
         <div class="col-xs-12">
-            <h2>{% trans "person.details" %}</h2>
+            <h2>Detalles de {{ person.name|default_if_none:"-" }}</h2>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-12 col-sm-6">
             <div class="page-header">
-                <h3>Datos personales</h3>
-                <hr/>
-                <dl class="dl-horizontal">
-                    <dt>Nombre</dt>
-                    <dd>{{ person.name|default_if_none:"-" }}</dd>
-                    <dt>DNI/CIF</dt>
-                    <dd>{{ person.id_number|default_if_none:"-" }}</dd>
-                    <dt>Nacionalidad</dt>
-                    <dd>{{ person.nationality|default_if_none:"-" }}</dd>
-                    <dt>Email</dt>
-                    <dd>{{ person.email|default_if_none:"-" }}</dd>
-                    <dt>Web</dt>
-                    <dd>{{ person.web|default_if_none:"-" }}</dd>
-                    <dt>Fecha de alta</dt>
-                    <dd>{{ person.creation_date|date:"d/m/Y"|default_if_none:"-" }}</dd>
-                </dl>
+                <h3>Datos personales<small><button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal">Editar</button><button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal">Eliminar</button></small></h3>
             </div>
+            <dl class="dl-horizontal">
+                <dt>Nombre</dt>
+                <dd>{{ person.name|default_if_none:"-" }}</dd>
+                <dt>DNI/CIF</dt>
+                <dd>{{ person.id_number|default_if_none:"-" }}</dd>
+                <dt>Nacionalidad</dt>
+                <dd>{{ person.nationality|default_if_none:"-" }}</dd>
+                <dt>Correo</dt>
+                <dd>{{ person.email|default_if_none:"-" }}</dd>
+                <dt>Página web</dt>
+                <dd>{{ person.web|default_if_none:"-" }}</dd>
+                <dt>Fecha de alta</dt>
+                <dd>{{ person.creation_date|date:"d/m/Y"|default_if_none:"-" }}</dd>
+            </dl>
         </div>
 
         <div class="col-xs-12 col-sm-6">
             <div class="page-header">
-                <h3>Datos de contacto</h3>
-                <hr/>
-                <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-hover">
-                        <thead>
+                <h3>Datos de contacto <small><button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal">Nuevo</button></small></h3>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Numero</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for tel in person.phone_set.all %}
                         <tr>
-                            <th>Tipo</th>
-                            <th>Numero</th>
-                            <th>Acciones</th>
+                            <td>{{ tel.phone_type.name }}</td>
+                            <td>{{ tel.number }}</td>
+                            <td><a href="/manager/phone/edit/{{ tel.id }}">Editar</a> <a data-delete="teléfono" href="/manager/phone/delete/{{ tel.id }}">Eliminar</a>
+                            </td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        {% for tel in person.phone_set.all %}
-                            <tr>
-                                <td>{{ tel.phone_type.name }}</td>
-                                <td>{{ tel.number }}</td>
-                                <td><a href="/manager/phone/edit/{{ tel.id }}">Editar</a> <a data-delete="telefono" href="/manager/phone/delete/{{ tel.id }}">Eliminar</a></td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -60,32 +59,32 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="page-header">
-                <h3>Direcciones</h3>
-                <hr/>
-                <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-hover">
-                        <thead>
+                <h3>Direcciones <small><button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal">Nuevo</button></small></h3>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>Direccion</th>
+                        <th>Poblacion</th>
+                        <th>Codigo postal</th>
+                        <th>Provincia</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for address in person.address_set.all %}
                         <tr>
-                            <th>Direccion</th>
-                            <th>Poblacion</th>
-                            <th>Codigo postal</th>
-                            <th>Provincia</th>
-                            <th>Acciones</th>
+                            <td>{{ address.address }}</td>
+                            <td>{{ address.location }}</td>
+                            <td>{{ address.postal_code }}</td>
+                            <td>{{ address.province }}</td>
+                            <td><a href="/manager/address/edit/{{ address.id }}">Editar</a> <a data-delete="dirección" href="/manager/address/delete/{{ address.id }}">Eliminar</a>
+                            </td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        {% for address in person.address_set.all %}
-                            <tr>
-                                <td>{{ address.address }}</td>
-                                <td>{{ address.location }}</td>
-                                <td>{{ address.postal_code }}</td>
-                                <td>{{ address.province }}</td>
-                                <td><a href="/manager/address/edit/{{ address.id }}">Editar</a> <a data-delete="direccion" href="/manager/address/delete/{{ address.id }}">Eliminar</a></td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

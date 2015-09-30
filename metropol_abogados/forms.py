@@ -1,4 +1,5 @@
 __author__ = 'Carlos'
+# -*- coding: utf-8 -*-
 from django import forms
 import datetime
 from metropol_abogados.models import Person, Role
@@ -16,21 +17,21 @@ class MetropolForm(forms.Form):
 
 
 class PersonForm(MetropolForm):
-    name = forms.CharField(label=_('Name'), widget=forms.TextInput(attrs={'required': 'required'}))
-    id_number = forms.CharField(label=_('id.number'), required=False)
-    nationality = forms.CharField(label=_('Nationality'), required=False)
-    email = forms.EmailField(label=_('Email'), required=False)
-    website = forms.URLField(label=_('Web'), required=False, widget=forms.URLInput(attrs={'data-error': _('url.pattern.help')}));
-    creation_date = forms.DateField(label=_('creation.date'), initial=datetime.date.today, widget=forms.DateInput(attrs={'required': 'required'}))
+    name = forms.CharField(label='Nombre', widget=forms.TextInput(attrs={'required': 'required'}))
+    id_number = forms.CharField(label='DNI/CIF', required=False)
+    nationality = forms.CharField(label='Nacionalidad', required=False)
+    email = forms.EmailField(label='Correo', required=False)
+    website = forms.URLField(label='Página web', required=False, widget=forms.URLInput(attrs={'data-error': _('url.pattern.help')}));
+    creation_date = forms.DateField(label='Fecha de alta', initial=datetime.date.today, widget=forms.DateInput(attrs={'required': 'required'}))
 
     def clean_creation_date(self):
         form_creation_date = self.cleaned_data['creation_date']
         today = datetime.date.today()
 
         if form_creation_date > today:
-            raise forms.ValidationError(_('error.date.must.be.future'))
+            raise forms.ValidationError('La fecha no puede ser en el futuro.')
 
 
 class PersonListFilterForm(MetropolForm):
-    role = forms.ModelChoiceField(queryset=Role.objects.all(), required=False, empty_label=_("Todos"))
-    keyword = forms.CharField(label=_('Keyword'), required=False, widget=forms.TextInput())
+    role = forms.ModelChoiceField(queryset=Role.objects.all(), required=False, empty_label="Todos")
+    keyword = forms.CharField(label='Criterio', required=False, widget=forms.TextInput())

@@ -4,12 +4,12 @@
 {% block content %}
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-sm-offset-3">
-            <h2>{% trans "person.add" %}</h2>
+            <h2>Añadir persona</h2>
             {% bootstrap_messages %}
             <form method="post" action="" class="form-horizontal" data-toggle="validator">
                 {% csrf_token %}
                 {% bootstrap_form form layout='horizontal' %}
-                <p class="text-danger">{% trans "form.mandatory.legend" %}</p>
+                <p class="text-danger">(*) Son campos obligatorios</p>
                 {% buttons %}
                     <button type="submit" class="btn btn-success">{% trans "button.save" %}</button>
                     <a href="#" class="btn btn-warning">{% trans "button.cancel" %}</a>
