@@ -1,5 +1,4 @@
 {% extends 'layout/base.html' %}
-{% load i18n %}
 {% load bootstrap3 %}
 {% load endless %}
 
@@ -49,7 +48,7 @@
                             <td>{{ person.name|default_if_none:"-" }}</td>
                             <td>{{ person.id_number|default_if_none:"-" }}</td>
                             <td>{{ person.email|default_if_none:"-" }}</td>
-                            <td><a href="/manager/person/details/{{ person.id }}"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+                            <td><a href="{% url 'person-details' person.id %}"><span class="glyphicon glyphicon-eye-open"></span></a></td>
                         </tr>
                     {% endfor %}
                     </tbody>

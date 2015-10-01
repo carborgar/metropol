@@ -3,14 +3,14 @@
 {% block content %}
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-sm-offset-3">
-            <h2>{% if form.id.value %}Editar{% else %}Añadir {% endif %} persona</h2>
+            <h2>{% if form.phone_id.value %}Editar{% else %}Añadir{% endif %} teléfono</h2>
             <form method="post" class="form-horizontal" data-toggle="validator">
                 {% csrf_token %}
                 {% bootstrap_form form layout='horizontal' %}
                 <p class="text-danger">(*) Son campos obligatorios</p>
                 {% buttons %}
                     <button type="submit" class="btn btn-success">Guardar</button>
-                    <a href="{% url 'person-list' %}" class="btn btn-warning">Cancelar</a>
+                    <a href="{% url 'person-details' form.person_id.value %}" class="btn btn-warning">Cancelar</a>
                 {% endbuttons %}
             </form>
         </div>

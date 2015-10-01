@@ -1,21 +1,40 @@
 __author__ = 'Carlos'
 
-from metropol_abogados.forms import *
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from metropol_abogados.services import PersonService
-from metropol_abogados.models import Person, Role
-from metropol_abogados.forms import PersonListFilterForm
+from metropol_abogados.models import Person
+from metropol_abogados.forms import PersonListFilterForm, PersonForm
 from django.shortcuts import get_object_or_404
+from django.core.urlresolvers import reverse
+from django.contrib import messages
+from django.http import HttpResponseRedirect
 
 
-def edit(request):
+def get_redirect(request, person_id):
+    msg = "Persona %s correctamente" % ("guardada" if not person_id else "editada")
+    messages.success(request, msg)
+    if person_id:
+        return HttpResponseRedirect(reverse('person-details', args=(person_id,)))
+    else:
+        return HttpResponseRedirect(reverse('person-list'))
+
+
+def edit(request, person_id=None):
     if request.method == 'POST':
         form = PersonForm(request.POST)
         if form.is_valid():
             PersonService.save_from_form(form)
+
+            return get_redirect(request, person_id)
     else:
-        form = PersonForm()
+        initial_data = {}
+
+        if person_id:
+            person = get_object_or_404(Person, id=person_id)
+            initial_data = PersonService.build_initial_data(person)
+
+        form = PersonForm(initial=initial_data)
 
     return render_to_response("person/edit.html", {'form': form}, context_instance=RequestContext(request))
 
@@ -42,3 +61,12 @@ def details(request, person_id):
     person = get_object_or_404(Person, id=person_id)
 
     return render_to_response("person/details.html", {"person": person}, context_instance=RequestContext(request))
+
+
+def delete(request, person_id):
+    person = get_object_or_404(Person, id=person_id)
+    assert not person.expperrol_set.all(), "No se puede borrar esta persona porque tiene expedientes asociados."
+    person.delete()
+    messages.success(request, "Se ha borrado la persona correctamente.")
+
+    return HttpResponseRedirect(reverse('person-list'))

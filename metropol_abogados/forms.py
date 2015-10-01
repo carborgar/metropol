@@ -2,8 +2,7 @@ __author__ = 'Carlos'
 # -*- coding: utf-8 -*-
 from django import forms
 import datetime
-from metropol_abogados.models import Person, Role
-from django.utils.translation import ugettext as _
+from metropol_abogados.models import Role, PhoneType
 
 
 class MetropolForm(forms.Form):
@@ -14,15 +13,18 @@ class MetropolForm(forms.Form):
                 field.widget.attrs['class'] += ' form-control'
             else:
                 field.widget.attrs.update({'class': 'form-control'})
+            if field.required:
+                field.widget.attrs.update({'required': 'required'})
 
 
 class PersonForm(MetropolForm):
-    name = forms.CharField(label='Nombre', widget=forms.TextInput(attrs={'required': 'required'}))
+    id = forms.IntegerField(required=False, widget=forms.HiddenInput())
+    name = forms.CharField(label='Nombre')
     id_number = forms.CharField(label='DNI/CIF', required=False)
     nationality = forms.CharField(label='Nacionalidad', required=False)
     email = forms.EmailField(label='Correo', required=False)
-    website = forms.URLField(label='Página web', required=False, widget=forms.URLInput(attrs={'data-error': _('url.pattern.help')}));
-    creation_date = forms.DateField(label='Fecha de alta', initial=datetime.date.today, widget=forms.DateInput(attrs={'required': 'required'}))
+    web = forms.URLField(label='Página web', required=False, widget=forms.URLInput(attrs={'data-error': "Patrón: http://www.ejemplo.com"}));
+    creation_date = forms.DateField(label='Fecha de alta', initial=datetime.date.today)
 
     def clean_creation_date(self):
         form_creation_date = self.cleaned_data['creation_date']
@@ -34,4 +36,12 @@ class PersonForm(MetropolForm):
 
 class PersonListFilterForm(MetropolForm):
     role = forms.ModelChoiceField(queryset=Role.objects.all(), required=False, empty_label="Todos")
-    keyword = forms.CharField(label='Criterio', required=False, widget=forms.TextInput())
+    keyword = forms.CharField(label='Criterio', required=False)
+
+
+class PhoneForm(MetropolForm):
+    person_id = forms.IntegerField(widget=forms.HiddenInput())
+    phone_id = forms.IntegerField(required=False, widget=forms.HiddenInput())
+    phone_type = forms.ModelChoiceField(label="Tipo", queryset=PhoneType.objects.all())
+    number = forms.CharField(label="Número")
+
