@@ -33,4 +33,8 @@ urlpatterns = [
     url(r'^manager/phone/create/(?P<person_id>\d+)/$', 'metropol_abogados.views.PhoneViews.edit', name="phone-create"),
     url(r'^manager/phone/edit/(?P<person_id>\d+)/(?P<phone_id>\d+)/$', 'metropol_abogados.views.PhoneViews.edit', name="phone-edit"),
     url(r'^manager/phone/delete/(?P<phone_id>\d+)/$', 'metropol_abogados.views.PhoneViews.delete', name="phone-delete"),
+    # Address views
+    url(r'^manager/address/create/(?P<person_id>\d+)/$', 'metropol_abogados.views.AddressViews.edit', name="address-create"),
+    url(r'^manager/address/edit/(?P<person_id>\d+)/(?P<address_id>\d+)/$', 'metropol_abogados.views.AddressViews.edit', name="address-edit"),
+    url(r'^manager/address/delete/(?P<address_id>\d+)/$', 'metropol_abogados.views.AddressViews.delete', name="address-delete"),
 ]

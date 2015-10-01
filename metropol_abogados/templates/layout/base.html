@@ -12,6 +12,8 @@
         <!-- CSS  -->
         {% bootstrap_css %}
         {% bootstrap_javascript %}
+
+        <link rel="icon" type="image/x-icon" href="{% static "img/favicon.ico" %}"/>
         <link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet"/>
         <!--  Scripts-->
         <script src="{% static "js/validator.js" %}"></script>
@@ -44,28 +46,5 @@
             });
 
         </script>
-
-{#        <div class="language-switch hidden-print">#}
-{#            <form action="{% url 'set_language' %}" method="post" id="langForm">#}
-{#                {% csrf_token %}#}
-{#                <input name="next" type="hidden" value="{{ request.path }}"/>#}
-{#                <select name="language" class="form-control" id="langSel">#}
-{#                    {% get_current_language as LANGUAGE_CODE %}#}
-{#                    {% get_available_languages as LANGUAGES %}#}
-{#                    {% get_language_info_list for LANGUAGES as languages %}#}
-{#                    {% for language in languages %}#}
-{#                        <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %}#}
-{#                                selected="selected"{% endif %}>#}
-{#                            {{ language.name_local }} ({{ language.code }})#}
-{#                        </option>#}
-{#                    {% endfor %}#}
-{#                </select>#}
-{#            </form>#}
-{#        </div>#}
-{#        <script type="text/javascript">#}
-{#            $('#langSel').change(function () {#}
-{#                $('#langForm').submit();#}
-{#            });#}
-{#        </script>#}
     </body>
 </html>

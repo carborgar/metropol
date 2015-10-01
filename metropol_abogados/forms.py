@@ -45,3 +45,11 @@ class PhoneForm(MetropolForm):
     phone_type = forms.ModelChoiceField(label="Tipo", queryset=PhoneType.objects.all())
     number = forms.CharField(label="Número")
 
+
+class AddressForm(MetropolForm):
+    person_id = forms.IntegerField(widget=forms.HiddenInput())
+    address_id = forms.IntegerField(required=False, widget=forms.HiddenInput())
+    address = forms.CharField(label="Dirección")
+    location = forms.CharField(label="Población")
+    zipcode = forms.CharField(label="Código postal", required=False)
+    province = forms.CharField(label="Provincia", required=False)

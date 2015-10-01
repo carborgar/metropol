@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-xs-12 col-sm-6">
             <div class="page-header">
-                <h3>Datos personales<small> <a href="{% url 'person-edit' person.id %}">Editar</a>{% if not person.expperrol_set.all %} <a href="{% url 'person-delete' person.id %}" data-delete="persona">Eliminar</a>{% endif %}</small></h3>
+                <h3>Datos personales<small> <a href="{% url 'person-edit' person.id %}">Editar</a>{% if not person.expperrol_set.all %} | <a href="{% url 'person-delete' person.id %}" data-delete="persona">Eliminar</a>{% endif %}</small></h3>
             </div>
             <dl class="dl-horizontal">
                 <dt>Nombre</dt>
@@ -45,7 +45,7 @@
                         <tr>
                             <td>{{ tel.phone_type.name }}</td>
                             <td>{{ tel.number }}</td>
-                            <td><a href="{% url 'phone-edit' person.id tel.id %}">Editar</a> <a data-delete="teléfono" href="{% url 'phone-delete' tel.id %}">Eliminar</a>
+                            <td><a href="{% url 'phone-edit' person.id tel.id %}">Editar</a> | <a data-delete="teléfono" href="{% url 'phone-delete' tel.id %}">Eliminar</a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -58,7 +58,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="page-header">
-                <h3>Direcciones<small> <a href="#">Nuevo</a> <a data-delete="teléfono" href="#">Eliminar</a></small></h3>
+                <h3>Direcciones<small> <a href="{% url "address-create" person.id %}">Nuevo</a></small></h3>
             </div>
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover">
@@ -78,7 +78,7 @@
                             <td>{{ address.location }}</td>
                             <td>{{ address.postal_code }}</td>
                             <td>{{ address.province }}</td>
-                            <td><a href="#">Editar</a> <a data-delete="dirección" href="#">Eliminar</a>
+                            <td><a href="{% url "address-edit" person.id address.id%}">Editar</a> | <a data-delete="dirección" href="{% url "address-delete" address.id%}">Eliminar</a>
                             </td>
                         </tr>
                     {% endfor %}
