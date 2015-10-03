@@ -35,8 +35,8 @@ class PersonForm(MetropolForm):
 
 
 class PersonListFilterForm(MetropolForm):
-    role = forms.ModelChoiceField(queryset=Role.objects.all(), required=False, empty_label="Todos")
-    keyword = forms.CharField(label='Criterio', required=False)
+    role = forms.ModelChoiceField(queryset=Role.objects.all(), required=False, empty_label="Todos", label="Tipo")
+    keyword = forms.CharField(label='Nombre', required=False)
 
 
 class PhoneForm(MetropolForm):

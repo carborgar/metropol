@@ -125,10 +125,12 @@ class RamaDerecho(models.Model):
 
 
 class Role(models.Model):
-    name = models.CharField(unique=True, max_length=255)
+    text_help = models.CharField(unique=True, max_length=255)
+    name = models.CharField(max_length=255)
 
     class Meta:
         db_table = 'role'
+        ordering = ['name']
 
     def __str__(self):
         return self.name
@@ -150,6 +152,7 @@ class PhoneType(models.Model):
 
     class Meta:
         db_table = 'phone_type'
+        ordering = ['name']
 
     def __str__(self):
         return self.name

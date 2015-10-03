@@ -33,18 +33,26 @@
         {% include "layout/footer.html" %}
 
         <script type="text/javascript">
+            $.each($("[data-help]"), function(){
+                $(this).attr("data-toggle", "tooltip");
+                $(this).attr("title", $(this).data('help'));
+            });
             $("[data-delete]").click(function(e){
                 return confirm("Vas a borrar este dato ' " + $(this).data('delete') + "'. No se podrá recuprear, ¿Estás seguro?");
             });
-
-            var inputs = $('input');
-            $.each(inputs, function(){
+            $.each($('input'), function(){
                 if($(this).is(':required') && $(this).is(':visible')){
                     $(this).parents('.form-group').addClass('required');
                 }
-                $(this).after('<div class="help-block with-errors"></div>');
-            });
+                var helpBlockHTML = '<div class="help-block with-errors"></div>';
+                if($(this).parents('.input-group').length){
+                    $(this).parents('.input-group').after(helpBlockHTML);
+                }else{
+                    $(this).after(helpBlockHTML);
+                }
 
+            });
+            $('[data-toggle="tooltip"]').tooltip({placement:'bottom'});
         </script>
     </body>
 </html>

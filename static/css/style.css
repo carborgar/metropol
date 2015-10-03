@@ -29,12 +29,12 @@ body {
 }
 
 #content {
-    padding-top: 60px;
+    /*padding-top: 60px;*/
 }
 
 .form-group.required .control-label:after {
-    content: "*";
-    color: red;
+    content: " (*)";
+    color: #E74C3C;
 }
 
 @media (min-width: 768px) {
@@ -87,4 +87,7 @@ dd{
 }
 .page-header {
     border-bottom: 1px solid #EEE;
+}
+.table tr, .table th {
+   text-align: center;
 }

@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-
+from django.db.models import Q
 
 def get_redirect(request, person_id):
     msg = "Persona %s correctamente" % ("guardada" if not person_id else "editada")
@@ -48,7 +48,7 @@ def person_list(request):
     search_term = request.GET.get('keyword') or None
 
     if search_term:
-        persons = persons.filter(name__icontains=search_term)
+        persons = persons.filter(Q(name__icontains=search_term) | Q(id_number__icontains=search_term) | Q(email__icontains=search_term))
 
     if form.is_valid() and selected_role:
         persons = persons.filter(expperrol__role__in=[selected_role]).distinct()

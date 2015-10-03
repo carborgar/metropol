@@ -44,11 +44,11 @@
                     {% paginate persons %}
                     {% for person in persons %}
                         <tr>
-                            <td>{{ person.id }}</td>
-                            <td>{{ person.name|default_if_none:"-" }}</td>
-                            <td>{{ person.id_number|default_if_none:"-" }}</td>
-                            <td>{{ person.email|default_if_none:"-" }}</td>
-                            <td><a href="{% url 'person-details' person.id %}"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+                            <td class="col-md-1">{{ person.id }}</td>
+                            <td class="col-md-4">{{ person.name|default:"-" }}</td>
+                            <td class="col-md-2">{{ person.id_number|default:"-" }}</td>
+                            <td class="col-md-3">{{ person.email|default:"-" }}</td>
+                            <td class="col-md-1"><a data-help="Ver detalles" href="{% url 'person-details' person.id %}"><span class="glyphicon glyphicon-eye-open"></span></a></td>
                         </tr>
                     {% endfor %}
                     </tbody>
