@@ -24,7 +24,7 @@ class PersonForm(MetropolForm):
     nationality = forms.CharField(label='Nacionalidad', required=False)
     email = forms.EmailField(label='Correo', required=False)
     web = forms.URLField(label='Página web', required=False, widget=forms.URLInput(attrs={'data-error': "Patrón: http://www.ejemplo.com"}));
-    creation_date = forms.DateField(label='Fecha de alta', initial=datetime.date.today)
+    creation_date = forms.DateField(label='Fecha de alta', initial=datetime.datetime.now)
 
     def clean_creation_date(self):
         form_creation_date = self.cleaned_data['creation_date']
@@ -33,6 +33,7 @@ class PersonForm(MetropolForm):
         if form_creation_date > today:
             raise forms.ValidationError('La fecha no puede ser en el futuro.')
 
+        return form_creation_date
 
 class PersonListFilterForm(MetropolForm):
     role = forms.ModelChoiceField(queryset=Role.objects.all(), required=False, empty_label="Todos", label="Tipo")

@@ -10,6 +10,8 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.db.models import Q
+import datetime
+
 
 def get_redirect(request, person_id):
     msg = "Persona %s correctamente" % ("guardada" if not person_id else "editada")

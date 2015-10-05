@@ -92,7 +92,7 @@ LANGUAGE_CODE = 'es-ES'
 
 TIME_ZONE = 'UTC'
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

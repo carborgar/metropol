@@ -84,7 +84,7 @@ class Person(models.Model):
     email = models.CharField(max_length=255, blank=True, null=True)
     web = models.CharField(max_length=255, blank=True, null=True)
     nationality = models.CharField(max_length=255, blank=True, null=True)
-    creation_date = models.DateTimeField(auto_now=True)
+    creation_date = models.DateTimeField()
 
     class Meta:
         db_table = 'person'
