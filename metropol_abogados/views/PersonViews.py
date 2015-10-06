@@ -10,6 +10,7 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.db.models import Q
+from django.contrib.auth.decorators import permission_required
 
 
 def get_redirect(request, person_id):
@@ -21,6 +22,7 @@ def get_redirect(request, person_id):
         return HttpResponseRedirect(reverse('person-list'))
 
 
+@permission_required('auth.management_metropol')
 def edit(request, person_id=None):
     if request.method == 'POST':
         form = PersonForm(request.POST)
@@ -40,6 +42,7 @@ def edit(request, person_id=None):
     return render_to_response("person/edit.html", {'form': form}, context_instance=RequestContext(request))
 
 
+@permission_required('auth.management_metropol')
 def person_list(request):
     form = PersonListFilterForm(request.GET)
     order_by = request.GET.get('order_by', 'name')
@@ -64,12 +67,14 @@ def person_list(request):
                               context_instance=RequestContext(request))
 
 
+@permission_required('auth.management_metropol')
 def details(request, person_id):
     person = get_object_or_404(Person, id=person_id)
 
     return render_to_response("person/details.html", {"person": person}, context_instance=RequestContext(request))
 
 
+@permission_required('auth.management_metropol')
 def delete(request, person_id):
     person = get_object_or_404(Person, id=person_id)
     assert not person.expperrol_set.all(), "No se puede borrar esta persona porque tiene expedientes asociados."

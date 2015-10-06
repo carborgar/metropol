@@ -3,56 +3,61 @@
 {% load i18n %}
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="ISO-8859-1">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="ISO-8859-1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Metropol</title>
-        <!-- CSS  -->
-        {% bootstrap_css %}
-        {% bootstrap_javascript %}
+    <title>Metropol</title>
+    <!-- CSS  -->
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
 
-        <link rel="icon" type="image/x-icon" href="{% static "img/favicon.ico" %}"/>
-        <link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet"/>
-        <!--  Scripts-->
-        <script src="{% static "js/validator.js" %}"></script>
-    </head>
-    <body>
-        <!-- Head -->
-        {% include "layout/header.html" %}
-        <!-- Body -->
+    <link rel="icon" type="image/x-icon" href="{% static "img/favicon.ico" %}"/>
+    <link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet"/>
+    <!--  Scripts-->
+    <script src="{% static "js/validator.js" %}"></script>
+</head>
+<body>
+<!-- Head -->
+{% include "layout/header.html" %}
+<!-- Body -->
 
-        <main id="content" class="container">
-            <section id="messages">
-                {% bootstrap_messages %}
-            </section>
-            {% block content %} {% endblock %}
-        </main>
-        <!-- Footer -->
-        {% include "layout/footer.html" %}
+<main id="content" class="container">
+    <section id="messages">
+        {% bootstrap_messages %}
+    </section>
+    {% block content %} {% endblock %}
+</main>
+<!-- Footer -->
+{% include "layout/footer.html" %}
 
-        <script type="text/javascript">
-            $.each($("[data-help]"), function(){
-                $(this).attr("data-toggle", "tooltip");
-                $(this).attr("title", $(this).data('help'));
-            });
-            $("[data-delete]").click(function(e){
-                return confirm("Vas a borrar este dato ' " + $(this).data('delete') + "'. No se podrá recuprear, ¿Estás seguro?");
-            });
-            $.each($('input'), function(){
-                if($(this).is(':required') && $(this).is(':visible')){
-                    $(this).parents('.form-group').addClass('required');
-                }
-                var helpBlockHTML = '<div class="help-block with-errors"></div>';
-                if($(this).parents('.input-group').length){
-                    $(this).parents('.input-group').after(helpBlockHTML);
-                }else{
-                    $(this).after(helpBlockHTML);
-                }
+<script type="text/javascript">
+    $.each($("[data-help]"), function () {
+        $(this).attr("data-toggle", "tooltip");
+        $(this).attr("title", $(this).data('help'));
+    });
+    $("[data-delete]").click(function (e) {
+        return confirm("Vas a borrar " + $(this).data('delete') + ". No se podrá recuprear, ¿Estás seguro?");
+    });
 
-            });
-            $('[data-toggle="tooltip"]').tooltip({placement:'bottom'});
-        </script>
-    </body>
+    $.each($('input, textarea, select').filter(':input:visible').not(':input[type=button], :input[type=submit], :input[type=reset]'), function () {
+        var parentFormGroup = $(this).parents('.form-group');
+        var helpBlockHTML = '<div class="help-block with-errors"></div>';
+        var parentInputGroup = $(this).parents('.input-group');
+
+        if ($(this).is(':required')) {
+            parentFormGroup.addClass('required');
+        }
+
+        if (parentInputGroup.length) {
+            parentInputGroup.after(helpBlockHTML);
+        } else {
+            $(this).after(helpBlockHTML);
+        }
+
+    });
+    $('[data-toggle="tooltip"]').tooltip({placement: 'bottom'});
+</script>
+</body>
 </html>

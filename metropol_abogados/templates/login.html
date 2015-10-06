@@ -9,17 +9,25 @@
             <div style="padding-top:30px" class="panel-body">
                 {% if form.errors %}
                     <div class="alert alert-danger">
-                        <strong>{% trans "login.error.user.password" %}</strong>
+                        <p><strong>Tu nombre de usuario y contraseña no coinciden. Por favor, inténtalo de
+                            nuevo.</strong></p>
                     </div>
                 {% endif %}
-                {% if next and user.is_authenticated %}
+                {% if next %}
                     <div class="alert alert-warning">
-                        <strong>{% trans "login.warning.account.access" %}</strong>
+                        {% if user.is_authenticated %}
+                            <p>Tu cuenta no tiene acceso a esta página. Para seguir, inicia sesión con una cuenta que
+                                tenga acceso.</p>
+                        {% else %}
+                            <p>Por favor, inicie sesión para ver esta página.</p>
+                        {% endif %}
                     </div>
                 {% endif %}
-                <form id="loginform"  role="form" method="post" action="{% url 'django.contrib.auth.views.login' %}" data-toggle="validator">
+                <form id="loginform" role="form" method="post" action="{% url 'django.contrib.auth.views.login' %}"
+                      data-toggle="validator">
                     {% csrf_token %}
                     <input type="hidden" name="next" value="{{ next }}"/>
+
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
@@ -37,10 +45,10 @@
             </div>
         </div>
     </div>
-    <script type ="text/javascript">
-        $("input:visible").prop('required', true);
+    <script type="text/javascript">
+        $("input:visible").attr('required', true);
         $("input:visible").addClass('form-control');
-        $("#id_username").prop('placeholder', '{% trans 'login.username' %}');
-        $("#id_password").prop('placeholder', '{% trans 'login.password' %}');
+        $("#id_username").attr('placeholder', '{% trans 'login.username' %}');
+        $("#id_password").attr('placeholder', '{% trans 'login.password' %}');
     </script>
 {% endblock %}

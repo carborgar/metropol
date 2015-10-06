@@ -10,8 +10,10 @@ from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import permission_required
 
 
+@permission_required('auth.management_metropol')
 def edit(request, person_id, phone_id=None):
     person = get_object_or_404(Person, id=person_id)
     initial_data = {'person_id': person.id}
@@ -35,6 +37,7 @@ def edit(request, person_id, phone_id=None):
     return render_to_response("phone/edit.html", {'form': form}, context_instance=RequestContext(request))
 
 
+@permission_required('auth.management_metropol')
 def delete(request, phone_id):
     phone = get_object_or_404(Phone, id=phone_id)
     person_id = phone.person.id

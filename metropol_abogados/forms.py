@@ -38,7 +38,7 @@ class PersonForm(MetropolForm):
 
 class PersonListFilterForm(MetropolForm):
     role = forms.ChoiceField(required=False, label="Rol")
-    keyword = forms.CharField(label='Nombre', required=False)
+    keyword = forms.CharField(label='Criterio de búsqueda', required=False)
 
     def __init__(self, *args, **kwargs):
         super(PersonListFilterForm, self).__init__(*args, **kwargs)
@@ -50,7 +50,7 @@ class PersonListFilterForm(MetropolForm):
 class PhoneForm(MetropolForm):
     person_id = forms.IntegerField(widget=forms.HiddenInput())
     phone_id = forms.IntegerField(required=False, widget=forms.HiddenInput())
-    phone_type = forms.ModelChoiceField(label="Tipo", queryset=PhoneType.objects.all())
+    phone_type = forms.ModelChoiceField(label="Tipo", queryset=PhoneType.objects.all(), empty_label='Seleccina un tipo')
     number = forms.CharField(label="Número")
 
 

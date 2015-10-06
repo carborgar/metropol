@@ -50,7 +50,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'metropol_abogados',
     'bootstrap3',
-    'endless_pagination'
+    'endless_pagination',
 )
 
 MIDDLEWARE_CLASSES = (
