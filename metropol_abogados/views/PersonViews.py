@@ -3,14 +3,13 @@ __author__ = 'Carlos'
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from metropol_abogados.services import PersonService
-from metropol_abogados.models import Person
+from metropol_abogados.models import Person, Role
 from metropol_abogados.forms import PersonListFilterForm, PersonForm
 from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.db.models import Q
-import datetime
 
 
 def get_redirect(request, person_id):
