@@ -35,9 +35,16 @@ class PersonForm(MetropolForm):
 
         return form_creation_date
 
+
 class PersonListFilterForm(MetropolForm):
-    role = forms.ModelChoiceField(queryset=Role.objects.all(), required=False, empty_label="Todos", label="Tipo")
+    role = forms.ChoiceField(required=False, label="Rol")
     keyword = forms.CharField(label='Nombre', required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(PersonListFilterForm, self).__init__(*args, **kwargs)
+        choices = [(role.id, role) for role in Role.objects.all()]
+        choices.extend([('-1', 'Sin rol'), (None, 'Todos')])
+        self.fields['role'].choices = sorted(choices, key=lambda tup: str(tup[1]))
 
 
 class PhoneForm(MetropolForm):

@@ -46,14 +46,20 @@ def person_list(request):
     order_by = request.GET.get('order_by', 'name')
     persons = Person.objects.order_by(order_by)
 
-    selected_role = request.GET.get('role') or None
+    selected_role_id = request.GET.get('role') or None
     search_term = request.GET.get('keyword') or None
 
     if search_term:
         persons = persons.filter(Q(name__icontains=search_term) | Q(id_number__icontains=search_term) | Q(email__icontains=search_term))
 
-    if form.is_valid() and selected_role:
-        persons = persons.filter(expperrol__role__in=[selected_role]).distinct()
+    if form.is_valid() and selected_role_id:
+        # The user selected a role. Role -1 means "without role" (for old database compatibility)
+        if selected_role_id == '-1':
+            # Search persons without a role
+            persons = persons.filter(expperrol__isnull=True)
+        else:
+            selected_role = get_object_or_404(Role, id=selected_role_id)
+            persons = persons.filter(expperrol__role__in=[selected_role]).distinct()
 
     return render_to_response("person/list.html", {"persons": persons, 'filter_form': form},
                               context_instance=RequestContext(request))
