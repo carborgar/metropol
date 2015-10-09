@@ -33,16 +33,12 @@ class ExpPerRol(models.Model):
 
 
 class Expedient(models.Model):
-    expedientesaño_exp = models.FloatField(db_column='ExpedientesAño Exp', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    expedientesdescripción = models.CharField(db_column='ExpedientesDescripción', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    expedientescódigo_expediente = models.FloatField(db_column='ExpedientesCódigo Expediente', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    expedientesfecha_alta = models.DateTimeField(db_column='ExpedientesFecha Alta', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    expedientesfecha_cierre = models.CharField(db_column='ExpedientesFecha Cierre', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    expedientesnúm_asunto = models.CharField(db_column='ExpedientesNúm Asunto', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    expedientestotal_cuantía = models.FloatField(db_column='ExpedientesTotal Cuantía', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    estadominuta = models.IntegerField(db_column='EstadoMinuta', blank=True, null=True)  # Field name made lowercase.
+    id_exp = models.AutoField(primary_key=True)
+    description = models.CharField(max_length=255, blank=True, null=True)
+    creation_date = models.DateTimeField()
+    end_date = models.DateTimeField(blank=True, null=True)
     user_type = models.ForeignKey('UserType', db_column='id_user_type', blank=True, null=True)
-    ramaderecho = models.IntegerField(db_column='RamaDerecho', blank=True, null=True)  # Field name made lowercase.
+    phase = models.ForeignKey('Phase', db_column='id_phase', blank=True, null=True)
     state = models.ForeignKey('State', db_column='id_state')
     headquarters = models.ForeignKey('Headquarters', db_column='id_headquarters', blank=True, null=True)
 
@@ -52,9 +48,12 @@ class Expedient(models.Model):
 
 class Headquarters(models.Model):
     name = models.CharField(max_length=255)
+    text_help = models.CharField(unique=True, max_length=255)
+    is_active = models.IntegerField(default=1)
 
     class Meta:
         db_table = 'headquarters'
+        ordering = ['name']
 
     def __str__(self):
         return self.name
@@ -116,12 +115,27 @@ class Presupuestos(models.Model):
         db_table = 'presupuestos'
 
 
-class RamaDerecho(models.Model):
-    id = models.AutoField(db_column='Id', primary_key=True)
-    rama = models.CharField(db_column='Rama', max_length=255, blank=True, null=True)
+class LawBranch(models.Model):
+    name = models.CharField(max_length=255)
+    text_help = models.CharField(unique=True, max_length=255)
+    is_active = models.IntegerField(default=1)
 
     class Meta:
-        db_table = 'rama derecho'
+        db_table = 'law_branch'
+        ordering = ['name']
+
+
+class Phase(models.Model):
+    sequence = models.IntegerField()
+    name = models.CharField(max_length=255)
+    text_help = models.CharField(max_length=255)
+    is_active = models.IntegerField(default=1)
+    law_branch = models.ForeignKey(LawBranch, db_column='id_law_branch')
+
+    class Meta:
+        db_table = 'phase'
+        ordering = ['sequence']
+        unique_together = (('id', 'sequence'),)
 
 
 class Role(models.Model):
@@ -137,10 +151,13 @@ class Role(models.Model):
 
 
 class State(models.Model):
+    text_help = models.CharField(unique=True, max_length=255)
     name = models.CharField(max_length=255)
+    is_active = models.IntegerField(default=1)
 
     class Meta:
         db_table = 'state'
+        ordering = ['name']
 
     def __str__(self):
         return self.name
@@ -160,10 +177,12 @@ class PhoneType(models.Model):
 
 class UserType(models.Model):
     name = models.CharField(max_length=255)
+    text_help = models.CharField(unique=True, max_length=255)
     is_active = models.IntegerField(default=1)
 
     class Meta:
         db_table = 'user_type'
+        ordering = ['name']
 
     def __str__(self):
         return self.name
