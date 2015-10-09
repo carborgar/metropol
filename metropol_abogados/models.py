@@ -33,7 +33,6 @@ class ExpPerRol(models.Model):
 
 
 class Expedient(models.Model):
-    id_exp = models.AutoField(primary_key=True)
     description = models.CharField(max_length=255, blank=True, null=True)
     creation_date = models.DateTimeField()
     end_date = models.DateTimeField(blank=True, null=True)
@@ -49,7 +48,7 @@ class Expedient(models.Model):
 class Headquarters(models.Model):
     name = models.CharField(max_length=255)
     text_help = models.CharField(unique=True, max_length=255)
-    is_active = models.IntegerField(default=1)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'headquarters'
@@ -118,7 +117,7 @@ class Presupuestos(models.Model):
 class LawBranch(models.Model):
     name = models.CharField(max_length=255)
     text_help = models.CharField(unique=True, max_length=255)
-    is_active = models.IntegerField(default=1)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'law_branch'
@@ -129,7 +128,7 @@ class Phase(models.Model):
     sequence = models.IntegerField()
     name = models.CharField(max_length=255)
     text_help = models.CharField(max_length=255)
-    is_active = models.IntegerField(default=1)
+    is_active = models.BooleanField(default=True)
     law_branch = models.ForeignKey(LawBranch, db_column='id_law_branch')
 
     class Meta:
@@ -153,7 +152,7 @@ class Role(models.Model):
 class State(models.Model):
     text_help = models.CharField(unique=True, max_length=255)
     name = models.CharField(max_length=255)
-    is_active = models.IntegerField(default=1)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'state'
@@ -178,7 +177,7 @@ class PhoneType(models.Model):
 class UserType(models.Model):
     name = models.CharField(max_length=255)
     text_help = models.CharField(unique=True, max_length=255)
-    is_active = models.IntegerField(default=1)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'user_type'
