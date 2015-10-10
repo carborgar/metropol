@@ -11,6 +11,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 from django.contrib.auth.decorators import permission_required
+from django.views import generic
 
 
 def get_redirect(request, person_id):
@@ -66,12 +67,9 @@ def person_list(request):
     return render_to_response("person/list.html", {"persons": persons, 'filter_form': form},
                               context_instance=RequestContext(request))
 
-
-@permission_required('auth.management_metropol')
-def details(request, person_id):
-    person = get_object_or_404(Person, id=person_id)
-
-    return render_to_response("person/details.html", {"person": person}, context_instance=RequestContext(request))
+class DetailsView(generic.DetailView):
+    model = Person
+    template_name = 'person/details.html'
 
 
 @permission_required('auth.management_metropol')

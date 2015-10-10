@@ -19,22 +19,11 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     # Translation URLS
     url(r'^i18n/', include('django.conf.urls.i18n')),
-    # Application views
-    url(r'^$', 'metropol_abogados.views.StaticViews.index', name="login"),
+    # Auth URLS
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout_then_login, name="logout"),
-    # Person views
-    url(r'^manager/person/list/$', 'metropol_abogados.views.PersonViews.person_list', name='person-list'),
-    url(r'^manager/person/details/(?P<person_id>\d+)/$', 'metropol_abogados.views.PersonViews.details', name='person-details'),
-    url(r'^manager/person/create/$', 'metropol_abogados.views.PersonViews.edit', name="person-create"),
-    url(r'^manager/person/edit/(?P<person_id>\d+)/$', 'metropol_abogados.views.PersonViews.edit', name="person-edit"),
-    url(r'^manager/person/delete/(?P<person_id>\d+)/$', 'metropol_abogados.views.PersonViews.delete', name="person-delete"),
-    # Phone views
-    url(r'^manager/phone/create/(?P<person_id>\d+)/$', 'metropol_abogados.views.PhoneViews.edit', name="phone-create"),
-    url(r'^manager/phone/edit/(?P<person_id>\d+)/(?P<phone_id>\d+)/$', 'metropol_abogados.views.PhoneViews.edit', name="phone-edit"),
-    url(r'^manager/phone/delete/(?P<phone_id>\d+)/$', 'metropol_abogados.views.PhoneViews.delete', name="phone-delete"),
-    # Address views
-    url(r'^manager/address/create/(?P<person_id>\d+)/$', 'metropol_abogados.views.AddressViews.edit', name="address-create"),
-    url(r'^manager/address/edit/(?P<person_id>\d+)/(?P<address_id>\d+)/$', 'metropol_abogados.views.AddressViews.edit', name="address-edit"),
-    url(r'^manager/address/delete/(?P<address_id>\d+)/$', 'metropol_abogados.views.AddressViews.delete', name="address-delete"),
+    # Application views
+    url(r'^', include('metropol_abogados.urls')),
+    # Select2 views
+    url(r'^select2/', include('django_select2.urls')),
 ]
