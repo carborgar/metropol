@@ -2,3 +2,4 @@ Django == 1.8.4
 mysqlclient
 django-endless-pagination
 django-bootstrap3
+git+https://github.com/carborgar/django-chosen.git

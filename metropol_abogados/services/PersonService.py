@@ -1,5 +1,3 @@
-__author__ = 'Carlos'
-
 from metropol_abogados.models import Person
 from metropol_abogados.utils import DateUtils
 
@@ -34,4 +32,3 @@ def find_all():
 def build_initial_data(person):
     return {'id': person.id, 'name': person.name, 'id_number': person.id_number, 'email': person.email,
             'web': person.web, 'nationality': person.nationality, 'creation_date': person.creation_date}
-

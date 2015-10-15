@@ -24,12 +24,12 @@ class EstadoMinuta(models.Model):
 class ExpPerRol(models.Model):
     person = models.ForeignKey('Person', db_column='id_person')
     role = models.ForeignKey('Role', db_column='id_role')
-    exp = models.ForeignKey('Expedient', db_column='id_exp')
+    expedient = models.ForeignKey('Expedient', db_column='id_exp')
     creation_date = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'exp_per_rol'
-        unique_together = (('person', 'role', 'exp'),)
+        unique_together = (('person', 'role', 'expedient'),)
 
 
 class Expedient(models.Model):
@@ -40,6 +40,23 @@ class Expedient(models.Model):
     phase = models.ForeignKey('Phase', db_column='id_phase', blank=True, null=True)
     state = models.ForeignKey('State', db_column='id_state')
     headquarters = models.ForeignKey('Headquarters', db_column='id_headquarters', blank=True, null=True)
+    # persons = models.ManyToManyField('Person', through=ExpPerRol)
+
+    def customers(self):
+        # Returns the customers of the expedient
+        return [expperrol.person for expperrol in self.expperrol_set.filter(role__text_help__iexact='CLIENTE')]
+
+    def contraries(self):
+        # Returns the contraries (not lawyers) of the expedient
+        return [expperrol.person for expperrol in self.expperrol_set.filter(role__text_help__iexact='CONTRARIO')]
+
+    def contrary_lawyers(self):
+        # Returns the contrary lawyers of the expedient
+        return [expperrol.person for expperrol in self.expperrol_set.filter(role__text_help__iexact='ABOGADO_CONTRARIO')]
+
+    def attorneys(self):
+        # Returns the attorneys of the expedient
+        return [expperrol.person for expperrol in self.expperrol_set.filter(role__text_help__iexact='PROCURADOR')]
 
     class Meta:
         db_table = 'expedient'
@@ -88,7 +105,7 @@ class Person(models.Model):
         db_table = 'person'
 
     def __str__(self):
-        return self.name
+        return self.name or ''
 
 
 class Phone(models.Model):
@@ -119,6 +136,9 @@ class LawBranch(models.Model):
     text_help = models.CharField(unique=True, max_length=255)
     is_active = models.BooleanField(default=True)
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         db_table = 'law_branch'
         ordering = ['name']
@@ -130,6 +150,9 @@ class Phase(models.Model):
     text_help = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     law_branch = models.ForeignKey(LawBranch, db_column='id_law_branch')
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         db_table = 'phase'

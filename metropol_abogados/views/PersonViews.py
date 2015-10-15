@@ -1,5 +1,3 @@
-__author__ = 'Carlos'
-
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from metropol_abogados.services import PersonService
@@ -66,6 +64,7 @@ def person_list(request):
 
     return render_to_response("person/list.html", {"persons": persons, 'filter_form': form},
                               context_instance=RequestContext(request))
+
 
 class DetailsView(generic.DetailView):
     model = Person

@@ -51,6 +51,7 @@ INSTALLED_APPS = (
     'metropol_abogados',
     'bootstrap3',
     'endless_pagination',
+    'chosen',
 )
 
 MIDDLEWARE_CLASSES = (

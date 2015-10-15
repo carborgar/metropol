@@ -16,7 +16,11 @@
     <link rel="icon" type="image/x-icon" href="{% static "img/favicon.ico" %}"/>
     <link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet"/>
     <!--  Scripts-->
-    <script src="{% static "js/validator.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/formValidation/formValidation.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/formValidation/bootstrap.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/formValidation/language/es_ES.js" %}"></script>
+
+    {% block extrahead %}{% endblock %}
 </head>
 <body>
 <!-- Head -->
@@ -33,6 +37,12 @@
 {% include "layout/footer.html" %}
 
 <script type="text/javascript">
+    $('[data-toggle="validator"]').formValidation({
+        locale: 'es_ES',
+        framework: 'bootstrap',
+        excluded: ':disabled'
+    });
+
     $.each($("[data-help]"), function () {
         $(this).attr("data-toggle", "tooltip");
         $(this).attr("title", $(this).data('help'));
@@ -43,18 +53,18 @@
 
     $.each($('input, textarea, select').filter(':input:visible').not(':input[type=button], :input[type=submit], :input[type=reset]'), function () {
         var parentFormGroup = $(this).parents('.form-group');
-        var helpBlockHTML = '<div class="help-block with-errors"></div>';
-        var parentInputGroup = $(this).parents('.input-group');
+{#        var helpBlockHTML = '<div class="help-block with-errors"></div>';#}
+{#        var parentInputGroup = $(this).parents('.input-group');#}
 
         if ($(this).is(':required')) {
             parentFormGroup.addClass('required');
         }
 
-        if (parentInputGroup.length) {
-            parentInputGroup.after(helpBlockHTML);
-        } else {
-            $(this).after(helpBlockHTML);
-        }
+{#        if (parentInputGroup.length) {#}
+{#            parentInputGroup.after(helpBlockHTML);#}
+{#        } else {#}
+{#            $(this).after(helpBlockHTML);#}
+{#        }#}
 
     });
     $('[data-toggle="tooltip"]').tooltip({placement: 'bottom'});

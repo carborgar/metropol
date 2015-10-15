@@ -41,7 +41,8 @@ body {
     .form-horizontal .control-label {
         text-align: left;
     }
-    .dl-horizontal dt{
+
+    .dl-horizontal dt {
         text-align: left;
     }
 }
@@ -79,15 +80,40 @@ body {
     margin-top: 20px;
 }
 
-.mt20{
+.mt20 {
     margin-top: 20px;
 }
-dd{
+
+dd {
     margin: 0px 0px 5px 0px;
 }
+
 .page-header {
     border-bottom: 1px solid #EEE;
 }
-.table tr, .table th {
-   text-align: center;
+td, th{
+    vertical-align: middle;
 }
+th:first-child, th:last-child, td:first-child, td:last-child {
+    text-align: center
+}
+textarea{
+    resize: none;
+    max-height: 150px;
+}
+.chosen-container{
+    width: 100% !important;
+}
+/*.nav-tabs > li{*/
+	/*position: relative;*/
+	/*min-height: 1px;*/
+	/*width: 50%;*/
+/*}*/
+/*.nav-tabs > li > a, .nav-tabs > li > a:hover, .nav-tabs > li > a:focus{*/
+    /*background-color: #E7E7E8;*/
+/*}*/
+/*.nav-tabs > li > a{*/
+    /*border-radius: 0px !important;*/
+    /*outline: 0 !important;*/
+    /*border: 1px solid #D5D2D3 !important;*/
+/*}*/

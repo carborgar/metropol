@@ -1,0 +1,72 @@
+{% extends 'layout/base.html' %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+{% block extrahead %}
+    {{ form.media }}
+    <link rel="stylesheet" href="{% static "css/chosen-bootstrap.css" %}"/>
+    <script src="{% static "js/jquery.cascadingdropdown.js" %}"></script>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+            <h2>{% if form.id.value %}Editar{% else %}Añadir {% endif %} expediente</h2>
+
+            <form method="post" class="form-horizontal" data-toggle="validator" id="expedientForm">
+                {% csrf_token %}
+                {% bootstrap_form form layout='horizontal' %}
+                <p class="text-danger">(*) Son campos obligatorios</p>
+                <button type="submit" class="btn btn-success">Guardar</button>
+                <a href="{% if form.id.value %}{% url 'expedient-details' form.id.value %}{% else %}{% url 'expedient-list' %}{% endif %}"
+                   class="btn btn-warning">Cancelar</a>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        $('#id_state').change(function () {
+            filterEndDate();
+        });
+
+        $(function(){
+            filterEndDate();
+        });
+
+        function filterEndDate() {
+            var selectedValue = $('#id_state option:selected').val();
+            var endDateInput = $('#id_end_date');
+            var parent = endDateInput.parents('.form-group');
+
+            if (selectedValue != 2) {
+                endDateInput.removeAttr('required');
+                parent.hide();
+            } else {
+                endDateInput.prop('required', true);
+                parent.addClass('required');
+                parent.show();
+            }
+        }
+
+        $('#expedientForm').cascadingDropdown({
+            selectBoxes: [
+                {
+                    selector: "#id_branch"
+                },
+                {
+                    selector: '#id_phase',
+                    requires: ['#id_branch'],
+                    source: function (request, response) {
+                        $.getJSON('{% url "api-phase-list" %}', request, function (data) {
+                            response($.map(data, function (item, index) {
+                                return {
+                                    label: item.label,
+                                    value: item.value,
+                                    selected: index == 0
+                                };
+                            }));
+                        });
+                    }
+                }
+            ]
+        });
+    </script>
+{% endblock %}

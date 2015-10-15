@@ -1,5 +1,3 @@
-__author__ = 'Carlos'
-
 from metropol_abogados.models import Phone
 
 

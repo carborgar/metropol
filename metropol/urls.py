@@ -24,6 +24,4 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout_then_login, name="logout"),
     # Application views
     url(r'^', include('metropol_abogados.urls')),
-    # Select2 views
-    url(r'^select2/', include('django_select2.urls')),
 ]
