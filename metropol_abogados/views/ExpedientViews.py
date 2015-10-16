@@ -47,7 +47,6 @@ def expedient_list(request):
     return render_to_response("expedient/list.html", {"expedients": eps}, context_instance=RequestContext(request))
 
 
-@permission_required('auth.management_metropol')
 class DetailsView(generic.DetailView):
     model = Expedient
     template_name = 'expedient/details.html'
