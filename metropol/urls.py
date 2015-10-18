@@ -22,6 +22,8 @@ urlpatterns = [
     # Auth URLS
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout_then_login, name="logout"),
+    # Welcome URL
+    url(r'^$', 'metropol_abogados.views.StaticViews.index', name="index"),
     # Application views
-    url(r'^', include('metropol_abogados.urls')),
+    url(r'^metropol/', include('metropol_abogados.urls')),
 ]

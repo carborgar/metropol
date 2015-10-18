@@ -104,6 +104,12 @@ textarea{
 .chosen-container{
     width: 100% !important;
 }
+.table tbody>tr>td{
+    vertical-align: middle;
+}
+table>tbody>tr>td>ul{
+    margin: 0px;
+}
 /*.nav-tabs > li{*/
 	/*position: relative;*/
 	/*min-height: 1px;*/

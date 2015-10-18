@@ -23,14 +23,10 @@
                         <tr>
                             <td class="col-md-1">{{ expedient.id }}</td>
                             <td class="col-md-4">
-                                <ul>
-                                {% for person in expedient.customers %}
-                                    <li>{{ person }}</li>
-                                {% endfor %}
-                                </ul>
+                                <ul>{% for person in expedient.customers %}<li>{{ person }}</li>{% empty %}-{% endfor %}</ul>
                             </td>
-                            <td class="col-md-2">{{ expedient.phase.law_branch.name }}</td>
-                            <td class="col-md-3">{{ expedient.phase.name }}</td>
+                            <td class="col-md-2">{{ expedient.phase.law_branch.name|default:"-" }}</td>
+                            <td class="col-md-3">{{ expedient.phase.name|default:"-" }}</td>
                             <td class="col-md-1"><a data-help="Ver detalles" href="{% url 'expedient-details' expedient.id %}"><span class="glyphicon glyphicon-eye-open"></span></a></td>
                         </tr>
                     {% endfor %}

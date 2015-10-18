@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
-from django import forms
 import datetime
-from .models import *
+
+from django import forms
 from chosen import forms as chosenforms
 from django.forms import DateField
+
+from .models import *
 from metropol.validators import validate_past_date
 
 
@@ -68,7 +70,7 @@ class ExpedientForm(MetropolForm):
     user_types = UserType.objects.filter(is_active=True)
 
     id = forms.IntegerField(required=False, widget=forms.HiddenInput())
-    expedient_num = forms.IntegerField(widget=forms.NumberInput(attrs={'min': '1'}), label="Nº expediente")
+    expedient_num = forms.IntegerField(min_value=1, widget=forms.NumberInput(attrs={'min': '1'}), label="Nº expediente")
     branch = forms.ModelChoiceField(queryset=LawBranch.objects.all(), label="Rama derecho", empty_label='Selecciona una rama')
     phase = forms.IntegerField(label="Fase", widget=forms.Select())
     state = forms.ModelChoiceField(queryset=State.objects.all(), label="Estado")
@@ -78,7 +80,7 @@ class ExpedientForm(MetropolForm):
     customers = chosenforms.ChosenModelMultipleChoiceField(queryset=persons, label="Clientes", overlay='Selecciona los clientes')
     contraries = chosenforms.ChosenModelMultipleChoiceField(queryset=persons, label="Contrarios", overlay='Selecciona los contrarios')
     contrary_lawyers = chosenforms.ChosenModelMultipleChoiceField(queryset=persons, label="Abogados contrarios", overlay='Selecciona los abogados contrarios')
-    attorneys = chosenforms.ChosenModelMultipleChoiceField(queryset=persons, label="Procuradores", overlay='Selecciona los procuradores')
+    attorneys = chosenforms.ChosenModelMultipleChoiceField(required=False, queryset=persons, label="Procuradores", overlay='Selecciona los procuradores')
     creation_date = PastDateField(label="Fecha alta", initial=datetime.datetime.now)
     end_date = forms.DateField(label="Fecha cierre", required=False)
 
@@ -118,7 +120,4 @@ class ExpedientForm(MetropolForm):
             # Check that creation date is before or equal to end date
             if form_creation_date > form_end_date:
                 raise forms.ValidationError("La fecha de cierre debe ser igual o posterior a la fecha de alta.")
-
-
-
 

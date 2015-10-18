@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import permission_required
 from .views import PersonViews, AddressViews, PhoneViews, ExpedientViews, PhaseViews
 
 urlpatterns = [
-    url(r'^$', 'metropol_abogados.views.StaticViews.index', name="login"),
     # REST API urls
     url(r'^api/phase/list/$', PhaseViews.phase_by_branch_json, name="api-phase-list"),
     # Person views

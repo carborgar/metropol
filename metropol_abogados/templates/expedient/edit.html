@@ -4,7 +4,7 @@
 {% block extrahead %}
     {{ form.media }}
     <link rel="stylesheet" href="{% static "css/chosen-bootstrap.css" %}"/>
-    <script src="{% static "js/jquery.cascadingdropdown.js" %}"></script>
+    <script src="{% static "js/jquery.cascadingdropdown.min.js" %}"></script>
 {% endblock %}
 {% block content %}
     <div class="row">
@@ -29,6 +29,11 @@
 
         $(function(){
             filterEndDate();
+            if($('#id_id').val()){
+                $('#id_expedient_num').attr('disabled','disabled');
+            }
+            $('#id_phase').prepend("<option value=''>Selecciona antes una rama</option>").val('');
+
         });
 
         function filterEndDate() {

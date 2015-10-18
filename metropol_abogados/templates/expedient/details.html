@@ -34,10 +34,12 @@
                             <dd>{{ expedient.user_type|default:'-'}}</dd>
                             <dt>Fecha de alta</dt>
                             <dd>{{ expedient.creation_date|date:"d/m/Y"}}</dd>
-                            <dt>Fecha de cierre</dt>
-                            <dd>{{ expedient.end_date|date:"d/m/Y"|default:'-'}}</dd>
+                            {% if  expedient.end_date %}
+                                <dt>Fecha de cierre</dt>
+                                <dd>{{ expedient.end_date|date:"d/m/Y"}}</dd>
+                            {% endif %}
                             <dt>Descripción</dt>
-                            <dd>{% if expedient.description %}<texarea class="form-control">{{ expedient.description}}</texarea>{% else %}-{% endif%}</dd>
+                            <dd>{{ expedient.description|default:"-" }}</dd>
                         </dl>
                          <div class="row">
                             <div class="col-sm-6">
@@ -59,8 +61,8 @@
                                     {% for person in expedient.customers %}
                                         <tr>
                                             <td class="col-md-1">{{ person.id }}</td>
-                                            <td class="col-md-4">{{ person.name }}</td>
-                                            <td class="col-md-2">{{ person.id_number }}</td>
+                                            <td class="col-md-4">{{ person.name|default:"-" }}</td>
+                                            <td class="col-md-2">{{ person.id_number|default:"-" }}</td>
                                             <td class="col-md-1"><a data-help="Ver detalles" href="{% url 'person-details' person.id %}"><span class="glyphicon glyphicon-eye-open"></span></a></td>
                                         </tr>
                                     {% endfor %}
