@@ -27,14 +27,25 @@
             filterEndDate();
         });
 
+        $('#id_branch').change(function(){
+           filterPhase();
+        });
+
         $(function(){
             filterEndDate();
+            filterPhase();
             if($('#id_id').val()){
-                $('#id_expedient_num').attr('disabled','disabled');
+                $('#id_expedient_num').prop('readonly','readonly');
             }
-            $('#id_phase').prepend("<option value=''>Selecciona antes una rama</option>").val('');
-
         });
+
+        function filterPhase(){
+            if($('#id_branch').val()==""){
+                $('#id_phase').val("").parents('.form-group').hide();
+            }else{
+                 $('#id_phase').parents('.form-group').show();
+            }
+        }
 
         function filterEndDate() {
             var selectedValue = $('#id_state option:selected').val();
@@ -71,7 +82,8 @@
                         });
                     }
                 }
-            ]
+            ],
+
         });
     </script>
 {% endblock %}

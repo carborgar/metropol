@@ -1,4 +1,3 @@
-__author__ = 'Carlos'
 from datetime import datetime
 
 

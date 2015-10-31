@@ -5,6 +5,7 @@ from django import forms
 from chosen import forms as chosenforms
 from django.forms import DateField
 
+from .utils import FormUtils
 from .models import *
 from metropol.validators import validate_past_date
 
@@ -51,7 +52,7 @@ class PersonListFilterForm(MetropolForm):
 class PhoneForm(MetropolForm):
     person_id = forms.IntegerField(widget=forms.HiddenInput())
     phone_id = forms.IntegerField(required=False, widget=forms.HiddenInput())
-    phone_type = forms.ModelChoiceField(label="Tipo", queryset=PhoneType.objects.all(), empty_label='Selecciona un tipo')
+    phone_type = forms.ModelChoiceField(label="Tipo", queryset=PhoneType.objects.all())
     number = forms.CharField(label="Número")
 
 
@@ -67,22 +68,23 @@ class AddressForm(MetropolForm):
 class ExpedientForm(MetropolForm):
     # The queryset for persons (used 4 times)
     persons = Person.objects.all()
-    user_types = UserType.objects.filter(is_active=True)
+    user_types = Attendant.objects.filter(is_active=True)
 
     id = forms.IntegerField(required=False, widget=forms.HiddenInput())
     expedient_num = forms.IntegerField(min_value=1, widget=forms.NumberInput(attrs={'min': '1'}), label="Nº expediente")
-    branch = forms.ModelChoiceField(queryset=LawBranch.objects.all(), label="Rama derecho", empty_label='Selecciona una rama')
-    phase = forms.IntegerField(label="Fase", widget=forms.Select())
+    branch = forms.ModelChoiceField(queryset=LawBranch.objects.all(), required=False, label="Rama derecho")
+    phase = forms.IntegerField(label="Fase", required=False, widget=forms.Select())
     state = forms.ModelChoiceField(queryset=State.objects.all(), label="Estado")
-    headquarters = forms.ModelChoiceField(queryset=Headquarters.objects.all(), label="Sede")
-    user_type = forms.ModelChoiceField(queryset=UserType.objects.filter(is_active=True), label="Tipo usuario")
-    description = forms.CharField(widget=forms.Textarea(), required=False, label="Descripción")
-    customers = chosenforms.ChosenModelMultipleChoiceField(queryset=persons, label="Clientes", overlay='Selecciona los clientes')
-    contraries = chosenforms.ChosenModelMultipleChoiceField(queryset=persons, label="Contrarios", overlay='Selecciona los contrarios')
-    contrary_lawyers = chosenforms.ChosenModelMultipleChoiceField(queryset=persons, label="Abogados contrarios", overlay='Selecciona los abogados contrarios')
-    attorneys = chosenforms.ChosenModelMultipleChoiceField(required=False, queryset=persons, label="Procuradores", overlay='Selecciona los procuradores')
+    headquarters = forms.ModelChoiceField(queryset=Headquarters.objects.all(),required=False, label="Sede")
+    attendant = forms.ModelChoiceField(queryset=Attendant.objects.filter(is_active=True), label="Encargado")
+    description = forms.CharField(widget=forms.Textarea(), required=False, label="Asunto")
+    customers = chosenforms.ChosenModelMultipleChoiceField(queryset=persons, label="Clientes", overlay='Clientes')
+    contraries = chosenforms.ChosenModelMultipleChoiceField(queryset=persons, label="Contrarios", overlay='Contrarios')
+    contrary_lawyers = chosenforms.ChosenModelMultipleChoiceField(queryset=persons, required=False, label="Abogados contrarios", overlay='Selecciona los abogados contrarios')
+    own_attorneys = chosenforms.ChosenModelMultipleChoiceField(required=False, queryset=persons, label="Procuradores propios", overlay='Selecciona los procuradores propios')
+    attorneys = chosenforms.ChosenModelMultipleChoiceField(required=False, queryset=persons, label="Procuradores contrarios", overlay='Selecciona los procuradores contrarios')
     creation_date = PastDateField(label="Fecha alta", initial=datetime.datetime.now)
-    end_date = forms.DateField(label="Fecha cierre", required=False)
+    end_date = forms.DateField(label="Fecha cierre", required=False, initial=datetime.datetime.now)
 
     def clean_expedient_number(self):
         is_creating = not self.cleaned_data['id']
@@ -98,7 +100,7 @@ class ExpedientForm(MetropolForm):
         data = self.cleaned_data['phase']
         all_phases = [phase.id for phase in Phase.objects.all()]
 
-        if data not in all_phases:
+        if data and data not in all_phases:
             raise forms.ValidationError("Esta fase no es válida.")
 
         return data
@@ -108,6 +110,8 @@ class ExpedientForm(MetropolForm):
         form_creation_date = cleaned_data.get("creation_date")
         form_end_date = cleaned_data.get("end_date")
         form_state = cleaned_data.get("state")
+        selected_law_branch = cleaned_data.get("branch")
+        selected_phase = cleaned_data.get("phase")
 
         # Check that, when the state is CERRADO, the field end_date is mandatory. Else must be null
         if form_state.text_help == "CERRADO":
@@ -116,8 +120,27 @@ class ExpedientForm(MetropolForm):
         else:
             self.cleaned_data['end_date'] = None
 
-        if form_end_date:
-            # Check that creation date is before or equal to end date
-            if form_creation_date > form_end_date:
-                raise forms.ValidationError("La fecha de cierre debe ser igual o posterior a la fecha de alta.")
+        # If there is a law branch selected, the field "phase" is mandatory
+        if selected_law_branch and not selected_phase:
+            raise forms.ValidationError("Si seleccionas una rama, debes seleccionar una fase.")
 
+        if form_end_date and form_creation_date > form_end_date:
+            # Check that creation date is before or equal to end date
+            raise forms.ValidationError("La fecha de cierre debe ser igual o posterior a la fecha de alta.")
+
+
+class ExpedientListFilterForm(MetropolForm):
+    branch = forms.ChoiceField(label="Rama", required=False)
+    headquarters = forms.ChoiceField(label="Sede", required=False)
+    state = forms.ModelChoiceField(queryset=State.objects.all(), label="Estado", required=False)
+    customers = chosenforms.ChosenModelMultipleChoiceField(queryset=Person.objects.all(), overlay="Clientes", required=False)
+    keyword = forms.CharField(label='Criterio de búsqueda', required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(ExpedientListFilterForm, self).__init__(*args, **kwargs)
+        extra_choices = [('-1', 'Ninguna'), (None, 'Todos')]
+        branch_choices = FormUtils.add_extra_choices([(b.id, b) for b in LawBranch.objects.all()], extra_choices)
+        headquarters_choices = FormUtils.add_extra_choices([(h.id, h) for h in Headquarters.objects.all()], extra_choices)
+
+        self.fields['branch'].choices = FormUtils.get_sorted_choices(branch_choices)
+        self.fields['headquarters'].choices = FormUtils.get_sorted_choices(headquarters_choices)

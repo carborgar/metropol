@@ -6,7 +6,7 @@
             <h2>Detalles de expediente (#{{ expedient.id }})</h2>
             <div>
                 <!-- Nav tabs -->
-                <ul class="nav nav-tabs nav-justified nav-tabs-justified" role="tablist">
+                <ul class="nav nav-pills nav-justified" role="tablist">
                     <li role="presentation" class="active"><a href="#expedientData" aria-controls="home" role="tab" data-toggle="tab">Datos expediente</a></li>
                     <li role="presentation"><a href="#expiration" aria-controls="profile" role="tab" data-toggle="tab">Vencimientos</a></li>
                     <li role="presentation"><a href="#budget" aria-controls="messages" role="tab" data-toggle="tab">Presupuestos</a></li>
@@ -105,6 +105,68 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
+                                <!-- Self attorneys table -->
+                                <div class="page-header">
+                                    <h4>Procuradores propios</h4>
+                                 </div>
+                                {% if expedient.own_attorneys %}
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>N&ordm;</th>
+                                        <th>Nombre</th>
+                                        <th>DNI/NIF</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for person in expedient.attorneys %}
+                                        <tr>
+                                            <td class="col-md-1">{{ person.id }}</td>
+                                            <td class="col-md-4">{{ person.name }}</td>
+                                            <td class="col-md-2">{{ person.id_number }}</td>
+                                            <td class="col-md-1"><a data-help="Ver detalles" href="{% url 'person-details' person.id %}"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                {% else %}
+                                    <p>No hay ningún procurador asociado.</p>
+                                {% endif %}
+                            </div>
+                            <div class="col-sm-6">
+                                <!-- Attorneys table -->
+                                <div class="page-header">
+                                    <h4>Procuradores contrarios</h4>
+                                 </div>
+                                {% if expedient.attorneys %}
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>N&ordm;</th>
+                                        <th>Nombre</th>
+                                        <th>DNI/NIF</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for person in expedient.attorneys %}
+                                        <tr>
+                                            <td class="col-md-1">{{ person.id }}</td>
+                                            <td class="col-md-4">{{ person.name }}</td>
+                                            <td class="col-md-2">{{ person.id_number }}</td>
+                                            <td class="col-md-1"><a data-help="Ver detalles" href="{% url 'person-details' person.id %}"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                {% else %}
+                                    <p>No hay ningún procurador asociado.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-sm-offset-6">
                                 <!-- Contraries (lawyers) table -->
                                 <div class="page-header">
                                     <h4>Abogados contrarios</h4>
@@ -132,36 +194,6 @@
                                 </table>
                                 {% else %}
                                     <p>No hay ningún abogado contrario asociado.</p>
-                                {% endif %}
-                            </div>
-                            <div class="col-sm-6">
-                                <!-- Attorneys table -->
-                                <div class="page-header">
-                                    <h4>Procuradores</h4>
-                                 </div>
-                                {% if expedient.attorneys %}
-                                <table class="table table-striped table-bordered table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th>N&ordm;</th>
-                                        <th>Nombre</th>
-                                        <th>DNI/NIF</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for person in expedient.attorneys %}
-                                        <tr>
-                                            <td class="col-md-1">{{ person.id }}</td>
-                                            <td class="col-md-4">{{ person.name }}</td>
-                                            <td class="col-md-2">{{ person.id_number }}</td>
-                                            <td class="col-md-1"><a data-help="Ver detalles" href="{% url 'person-details' person.id %}"><span class="glyphicon glyphicon-eye-open"></span></a></td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                                {% else %}
-                                    <p>No hay ningún procurador asociado.</p>
                                 {% endif %}
                             </div>
                         </div>

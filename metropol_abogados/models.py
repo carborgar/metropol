@@ -36,11 +36,11 @@ class Expedient(models.Model):
     description = models.CharField(max_length=255, blank=True, null=True)
     creation_date = models.DateTimeField()
     end_date = models.DateTimeField(blank=True, null=True)
-    user_type = models.ForeignKey('UserType', db_column='id_user_type', blank=True, null=True)
+    attendant = models.ForeignKey('Attendant', db_column='id_user_type', blank=True, null=True)
     phase = models.ForeignKey('Phase', db_column='id_phase', blank=True, null=True)
     state = models.ForeignKey('State', db_column='id_state')
     headquarters = models.ForeignKey('Headquarters', db_column='id_headquarters', blank=True, null=True)
-    # persons = models.ManyToManyField('Person', through=ExpPerRol)
+    persons = models.ManyToManyField('Person', through=ExpPerRol)
 
     def customers(self):
         # Returns the customers of the expedient
@@ -55,11 +55,17 @@ class Expedient(models.Model):
         return [expperrol.person for expperrol in self.expperrol_set.filter(role__text_help__iexact='ABOGADO_CONTRARIO')]
 
     def attorneys(self):
-        # Returns the attorneys of the expedient
-        return [expperrol.person for expperrol in self.expperrol_set.filter(role__text_help__iexact='PROCURADOR')]
+        # Returns the attorneys of the expedient that are not part of metropol
+        return [expperrol.person for expperrol in self.expperrol_set.filter(role__text_help__iexact='PROCURADOR_CONTRARIO')]
+
+    def own_attorneys(self):
+        # Returns the attorneys of the expedient that are part of metropol
+        return [expperrol.person for expperrol in self.expperrol_set.filter(role__text_help__iexact='PROCURADOR_PROPIO')]
 
     class Meta:
         db_table = 'expedient'
+        ordering = ['-id']
+        get_latest_by = 'id'
 
 
 class Headquarters(models.Model):
@@ -197,7 +203,7 @@ class PhoneType(models.Model):
         return self.name
 
 
-class UserType(models.Model):
+class Attendant(models.Model):
     name = models.CharField(max_length=255)
     text_help = models.CharField(unique=True, max_length=255)
     is_active = models.BooleanField(default=True)

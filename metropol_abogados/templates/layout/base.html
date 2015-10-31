@@ -43,6 +43,10 @@
         excluded: ':disabled'
     });
 
+    $.each($("option:contains('---------')"), function () {
+        $(this).text('Seleccionar...');
+    });
+
     $.each($("[data-help]"), function () {
         $(this).attr("data-toggle", "tooltip");
         $(this).attr("title", $(this).data('help'));
@@ -53,18 +57,9 @@
 
     $.each($('input, textarea, select').filter(':input:visible').not(':input[type=button], :input[type=submit], :input[type=reset]'), function () {
         var parentFormGroup = $(this).parents('.form-group');
-{#        var helpBlockHTML = '<div class="help-block with-errors"></div>';#}
-{#        var parentInputGroup = $(this).parents('.input-group');#}
-
         if ($(this).is(':required')) {
             parentFormGroup.addClass('required');
         }
-
-{#        if (parentInputGroup.length) {#}
-{#            parentInputGroup.after(helpBlockHTML);#}
-{#        } else {#}
-{#            $(this).after(helpBlockHTML);#}
-{#        }#}
 
     });
     $('[data-toggle="tooltip"]').tooltip({placement: 'bottom'});

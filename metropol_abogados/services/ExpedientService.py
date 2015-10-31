@@ -16,8 +16,9 @@ def save_from_form(expedient_form):
     form_end_date = expedient_form.cleaned_data['end_date'] or None
     expedient.creation_date = DateUtils.convert_date_to_datetime(form_creation_date)
     expedient.end_date = DateUtils.convert_date_to_datetime(form_end_date)
-    expedient.user_type = expedient_form.cleaned_data['user_type']
-    expedient.phase = Phase.objects.get(id=expedient_form.cleaned_data['phase'])
+    expedient.attendant = expedient_form.cleaned_data['attendant']
+    form_phase = expedient_form.cleaned_data['phase']
+    expedient.phase = Phase.objects.get(id=form_phase) if form_phase else None
     expedient.state = expedient_form.cleaned_data['state']
     expedient.headquarters = expedient_form.cleaned_data['headquarters']
 
@@ -33,12 +34,14 @@ def save_exps(expedient_form, expedient):
     customer_role = Role.objects.get(text_help__iexact="CLIENTE")
     contrary_role = Role.objects.get(text_help__iexact="CONTRARIO")
     contrary_lawyer_role = Role.objects.get(text_help__iexact="ABOGADO_CONTRARIO")
-    attorney_role = Role.objects.get(text_help__iexact="PROCURADOR")
+    attorney_role = Role.objects.get(text_help__iexact="PROCURADOR_CONTRARIO")
+    own_attorney_role = Role.objects.get(text_help__iexact="PROCURADOR_PROPIO")
 
     customers = expedient_form.cleaned_data['customers']
     contraries = expedient_form.cleaned_data['contraries']
     contrary_lawyers = expedient_form.cleaned_data['contrary_lawyers']
     attorneys = expedient_form.cleaned_data['attorneys']
+    own_attorneys = expedient_form.cleaned_data['own_attorneys']
 
     if expedient_id:
         # TODO think on a more efficient solution
@@ -51,7 +54,8 @@ def save_exps(expedient_form, expedient):
         [ExpPerRol(person=customer, expedient=expedient, role=customer_role) for customer in customers] +
         [ExpPerRol(person=contrary, expedient=expedient, role=contrary_role) for contrary in contraries] +
         [ExpPerRol(person=cl, expedient=expedient, role=contrary_lawyer_role) for cl in contrary_lawyers] +
-        [ExpPerRol(person=attorney, expedient=expedient, role=attorney_role) for attorney in attorneys]
+        [ExpPerRol(person=attorney, expedient=expedient, role=attorney_role) for attorney in attorneys] +
+        [ExpPerRol(person=own_attorney, expedient=expedient, role=own_attorney_role) for own_attorney in own_attorneys]
     )
 
 
@@ -60,10 +64,9 @@ def find_all():
 
 
 def build_initial_data(expedient):
-    return {'id': expedient.id, 'expedient_num': expedient.id, 'branch': expedient.phase.law_branch,
-            'phase': expedient.phase,
-            'state': expedient.state, 'headquarters': expedient.headquarters, 'user_type': expedient.user_type,
-            'description': expedient.description, 'customers': expedient.customers(),
-            'contraries': expedient.contraries(),
-            'contrary_lawyers': expedient.contrary_lawyers(), 'attorneys': expedient.attorneys(),
+    return {'id': expedient.id, 'expedient_num': expedient.id, 'branch': expedient.phase.law_branch if expedient.phase else None,
+            'phase': expedient.phase, 'state': expedient.state, 'headquarters': expedient.headquarters,
+            'attendant': expedient.attendant, 'description': expedient.description, 'customers': expedient.customers(),
+            'contraries': expedient.contraries(), 'contrary_lawyers': expedient.contrary_lawyers(),
+            'attorneys': expedient.attorneys(), 'own_attorneys': expedient.own_attorneys(),
             'creation_date': expedient.creation_date, 'end_date': expedient.end_date}

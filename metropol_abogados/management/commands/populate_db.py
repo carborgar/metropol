@@ -116,7 +116,8 @@ class Command(BaseCommand):
 
         print('Inserting permissions....OK')
 
-    def add_arguments(self, parser):
+    @staticmethod
+    def add_arguments(parser):
         parser.add_argument('--production', action='store_true', dest='production', default=False,
                             help='Populates the database with production data')
 
