@@ -20,7 +20,7 @@
                 <dd>{{ person.nationality|default:"-" }}</dd>
                 <dt>Correo</dt>
                 <dd>{{ person.email|default:"-" }}</dd>
-                <dt>Página web</dt>
+                <dt>PÃ¡gina web</dt>
                 <dd>{{ person.web|default:"-"|urlizetrunc:30}}</dd>
                 <dt>Fecha de alta</dt>
                 <dd>{{ person.creation_date|date:"d/m/Y"|default:"-" }}</dd>
@@ -29,10 +29,10 @@
 
         <div class="col-xs-12 col-sm-6">
             <div class="page-header">
-                <h3>Datos de contacto<small> <a data-help="Añadir contacto" href="{% url 'phone-create' person.id %}"><span class="glyphicon glyphicon-plus"/></a></small></h3>
+                <h3>Datos de contacto<small> <a data-help="AÃ±adir contacto" href="{% url 'phone-create' person.id %}"><span class="glyphicon glyphicon-plus"/></a></small></h3>
             </div>
             {% if not person.phone_set.all %}
-                <p>No se ha encontrado ningún dato de contacto</p>
+                <p>No se ha encontrado ningÃºn dato de contacto</p>
             {% else %}
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover">
@@ -48,7 +48,7 @@
                         <tr>
                             <td>{{ tel.phone_type.name }}</td>
                             <td>{{ tel.number }}</td>
-                            <td><a data-help="Editar teléfono" href="{% url 'phone-edit' person.id tel.id %}"><span class="glyphicon glyphicon-pencil"/></a>&nbsp;&nbsp;<a data-help="Borrar teléfono" data-delete="este teléfono" href="{% url 'phone-delete' tel.id %}"><span class="glyphicon glyphicon-trash"/></a>
+                            <td><a data-help="Editar telÃ©fono" href="{% url 'phone-edit' person.id tel.id %}"><span class="glyphicon glyphicon-pencil"/></a>&nbsp;&nbsp;<a data-help="Borrar telÃ©fono" data-delete="este telÃ©fono" href="{% url 'phone-delete' tel.id %}"><span class="glyphicon glyphicon-trash"/></a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -62,7 +62,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="page-header">
-                <h3>Direcciones<small> <a data-help="Añadir dirección" href="{% url "address-create" person.id %}"><span class="glyphicon glyphicon-plus"/></a></small></h3>
+                <h3>Direcciones<small> <a data-help="AÃ±adir direcciÃ³n" href="{% url "address-create" person.id %}"><span class="glyphicon glyphicon-plus"/></a></small></h3>
             </div>
             {% if not person.address_set.all %}
                 <p>No se han encontrado direcciones</p>
@@ -85,7 +85,7 @@
                             <td>{{ address.location|default:'-' }}</td>
                             <td>{{ address.postal_code|default:'-' }}</td>
                             <td>{{ address.province|default:'-' }}</td>
-                            <td><a data-help="Editar dirección" href="{% url "address-edit" person.id address.id%}"><span class="glyphicon glyphicon-pencil"/></a>&nbsp;&nbsp;<a data-help="Borrar dirección" data-delete="esta dirección" href="{% url "address-delete" address.id%}"><span class="glyphicon glyphicon-trash"/></a>
+                            <td><a data-help="Editar direcciÃ³n" href="{% url "address-edit" person.id address.id%}"><span class="glyphicon glyphicon-pencil"/></a>&nbsp;&nbsp;<a data-help="Borrar direcciÃ³n" data-delete="esta direcciÃ³n" href="{% url "address-delete" address.id%}"><span class="glyphicon glyphicon-trash"/></a>
                             </td>
                         </tr>
                     {% endfor %}

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="ISO-8859-1">
+<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -52,7 +52,7 @@
         $(this).attr("title", $(this).data('help'));
     });
     $("[data-delete]").click(function (e) {
-        return confirm("Vas a borrar " + $(this).data('delete') + ". No se podrá recuprear, ¿Estás seguro?");
+        return confirm("Vas a borrar " + $(this).data('delete') + ". No se puede recuperar, Â¿EstÃ¡s seguro?");
     });
 
     $.each($('input, textarea, select').filter(':input:visible').not(':input[type=button], :input[type=submit], :input[type=reset]'), function () {

@@ -86,7 +86,7 @@ class ExpedientForm(MetropolForm):
     creation_date = PastDateField(label="Fecha alta", initial=datetime.datetime.now)
     end_date = forms.DateField(label="Fecha cierre", required=False, initial=datetime.datetime.now)
 
-    def clean_expedient_number(self):
+    def clean_expedient_num(self):
         is_creating = not self.cleaned_data['id']
         if is_creating:
             data = self.cleaned_data['expedient_num']

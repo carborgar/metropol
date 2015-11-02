@@ -2,6 +2,7 @@
 
 import os
 from configparser import RawConfigParser
+
 from django.utils.translation import ugettext_lazy as _
 
 config = RawConfigParser()
@@ -151,5 +152,3 @@ BOOTSTRAP3 = {
 
 DATE_INPUT_FORMATS = ('%d/%m/%Y',)
 DATE_FORMAT = 'd/m/Y'
-FILE_CHARSET = 'ISO-8859-1'
-DEFAULT_CHARSET = 'ISO-8859-1'

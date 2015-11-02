@@ -98,6 +98,9 @@ class Note(models.Model):
     class Meta:
         db_table = 'note'
 
+    def __str__(self):
+        return self.description
+
 
 class Person(models.Model):
     name = models.CharField(max_length=255, blank=True, null=True)

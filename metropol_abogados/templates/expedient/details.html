@@ -16,31 +16,44 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="expedientData">
-                        <div class="page-header">
-                            <h3>Datos expediente <small><a data-help="Editar expediente" href="{% url 'expedient-edit' expedient.id %}"><span class="glyphicon glyphicon-pencil"/></a>&nbsp;&nbsp;<a href="{% url 'expedient-delete' expedient.id %}" data-help="Borrar expediente" data-delete="este expediente"><span class="glyphicon glyphicon-trash"/></a></small></h3>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="page-header">
+                                    <h3>Datos expediente <small><a data-help="Editar expediente" href="{% url 'expedient-edit' expedient.id %}"><span class="glyphicon glyphicon-pencil"/></a>&nbsp;&nbsp;<a href="{% url 'expedient-delete' expedient.id %}" data-help="Borrar expediente" data-delete="este expediente"><span class="glyphicon glyphicon-trash"/></a></small></h3>
+                                </div>
+                                <dl class="dl-horizontal">
+                                    <dt>NÂº expediente</dt>
+                                    <dd>{{ expedient.id}}</dd>
+                                    <dt>Rama derecho</dt>
+                                    <dd>{{ expedient.phase.law_branch|default:'-'}}</dd>
+                                    <dt>Fase</dt>
+                                    <dd>{{ expedient.phase|default:'-'}}</dd>
+                                    <dt>Estado</dt>
+                                    <dd>{{ expedient.state}}</dd>
+                                    <dt>Sede</dt>
+                                    <dd>{{ expedient.headquarters|default:'-'}}</dd>
+                                    <dt>Tipo de usuario</dt>
+                                    <dd>{{ expedient.user_type|default:'-'}}</dd>
+                                    <dt>Fecha de alta</dt>
+                                    <dd>{{ expedient.creation_date|date:"d/m/Y"}}</dd>
+                                    {% if  expedient.end_date %}
+                                        <dt>Fecha de cierre</dt>
+                                        <dd>{{ expedient.end_date|date:"d/m/Y"}}</dd>
+                                    {% endif %}
+                                    <dt>DescripciÃ³n</dt>
+                                    <dd>{{ expedient.description|linebreaks|default:"-" }}</dd>
+                                </dl>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="page-header">
+                                    <h3>Notas</h3>
+                                </div>
+                                {% for note in expedient.note_set.all %}
+                                    <textarea class="form-control">{{ note }}</textarea>
+                                {% endfor %}
+                            </div>
                         </div>
-                        <dl class="dl-horizontal">
-                            <dt>Nº expediente</dt>
-                            <dd>{{ expedient.id}}</dd>
-                            <dt>Rama derecho</dt>
-                            <dd>{{ expedient.phase.law_branch|default:'-'}}</dd>
-                            <dt>Fase</dt>
-                            <dd>{{ expedient.phase|default:'-'}}</dd>
-                            <dt>Estado</dt>
-                            <dd>{{ expedient.state}}</dd>
-                            <dt>Sede</dt>
-                            <dd>{{ expedient.headquarters|default:'-'}}</dd>
-                            <dt>Tipo de usuario</dt>
-                            <dd>{{ expedient.user_type|default:'-'}}</dd>
-                            <dt>Fecha de alta</dt>
-                            <dd>{{ expedient.creation_date|date:"d/m/Y"}}</dd>
-                            {% if  expedient.end_date %}
-                                <dt>Fecha de cierre</dt>
-                                <dd>{{ expedient.end_date|date:"d/m/Y"}}</dd>
-                            {% endif %}
-                            <dt>Descripción</dt>
-                            <dd>{{ expedient.description|default:"-" }}</dd>
-                        </dl>
+
                          <div class="row">
                             <div class="col-sm-6">
                                 <!-- Customers table -->
@@ -69,7 +82,7 @@
                                     </tbody>
                                 </table>
                                 {% else %}
-                                    <p>No hay ningún cliente asociado.</p>
+                                    <p>No hay ningÃºn cliente asociado.</p>
                                 {% endif %}
                             </div>
                             <div class="col-sm-6">
@@ -99,7 +112,7 @@
                                     </tbody>
                                 </table>
                                 {% else %}
-                                <p>No hay ningún contrario asociado.</p>
+                                <p>No hay ningÃºn contrario asociado.</p>
                                 {% endif %}
                             </div>
                         </div>
@@ -131,7 +144,7 @@
                                     </tbody>
                                 </table>
                                 {% else %}
-                                    <p>No hay ningún procurador asociado.</p>
+                                    <p>No hay ningÃºn procurador asociado.</p>
                                 {% endif %}
                             </div>
                             <div class="col-sm-6">
@@ -161,7 +174,7 @@
                                     </tbody>
                                 </table>
                                 {% else %}
-                                    <p>No hay ningún procurador asociado.</p>
+                                    <p>No hay ningÃºn procurador asociado.</p>
                                 {% endif %}
                             </div>
                         </div>
@@ -193,7 +206,7 @@
                                     </tbody>
                                 </table>
                                 {% else %}
-                                    <p>No hay ningún abogado contrario asociado.</p>
+                                    <p>No hay ningÃºn abogado contrario asociado.</p>
                                 {% endif %}
                             </div>
                         </div>
