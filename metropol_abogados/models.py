@@ -26,6 +26,7 @@ class Budget(models.Model):
     description = models.CharField(max_length=255, blank=True, null=True)
     attorney = models.BooleanField(default=False)
     state_budget = models.ForeignKey('StateBudget', db_column='id_state_budget', blank=True, null=True)
+    update_date = models.DateField(blank=True, null=True)
 
     class Meta:
         db_table = 'budget'
