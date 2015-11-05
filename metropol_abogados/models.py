@@ -13,12 +13,30 @@ class Address(models.Model):
         db_table = 'address'
 
 
-class EstadoMinuta(models.Model):
-    id = models.AutoField(db_column='Id', primary_key=True)
-    estado = models.CharField(db_column='Estado', max_length=255, blank=True, null=True)
+class BranchEvent(models.Model):
+    law_branch = models.ForeignKey('LawBranch', db_column='id_law_branch')
+    event = models.ForeignKey('Event', db_column='id_event')
 
     class Meta:
-        db_table = 'estado minuta'
+        db_table = 'branch_event'
+
+
+class Budget(models.Model):
+    amount = models.DecimalField(max_digits=19, decimal_places=2, blank=True, null=True)
+    description = models.CharField(max_length=255, blank=True, null=True)
+    attorney = models.BooleanField(default=False)
+    state_budget = models.ForeignKey('StateBudget', db_column='id_state_budget', blank=True, null=True)
+
+    class Meta:
+        db_table = 'budget'
+
+
+class Event(models.Model):
+    name = models.CharField(max_length=255)
+    text_help = models.CharField(unique=True, max_length=255)
+
+    class Meta:
+        db_table = 'event'
 
 
 class ExpPerRol(models.Model):
@@ -41,6 +59,7 @@ class Expedient(models.Model):
     state = models.ForeignKey('State', db_column='id_state')
     headquarters = models.ForeignKey('Headquarters', db_column='id_headquarters', blank=True, null=True)
     persons = models.ManyToManyField('Person', through=ExpPerRol)
+    budget = models.ForeignKey(Budget, db_column='id_budget', blank=True, null=True)
 
     def customers(self):
         # Returns the customers of the expedient
@@ -68,6 +87,18 @@ class Expedient(models.Model):
         get_latest_by = 'id'
 
 
+class Expiration(models.Model):
+    place = models.CharField(max_length=255, blank=True, null=True)
+    date = models.DateTimeField()
+    description = models.CharField(max_length=255, blank=True, null=True)
+    expedient = models.ForeignKey(Expedient, db_column='id_expedient')
+    event = models.ForeignKey(Event, db_column='id_event', blank=True, null=True)
+
+    class Meta:
+        db_table = 'expiration'
+        ordering = ['date']
+
+
 class Headquarters(models.Model):
     name = models.CharField(max_length=255)
     text_help = models.CharField(unique=True, max_length=255)
@@ -81,15 +112,6 @@ class Headquarters(models.Model):
         return self.name
 
 
-class HistorialPresupuestos(models.Model):
-    expediente = models.IntegerField(db_column='Expediente')
-    fecha = models.DateTimeField(db_column='Fecha')
-    cantidad_entregada = models.DecimalField(db_column='Cantidad_entregada', max_digits=19, decimal_places=4)
-
-    class Meta:
-        db_table = 'historial_presupuestos'
-
-
 class Note(models.Model):
     description = models.CharField(max_length=255)
     person = models.ForeignKey('Person', db_column='id_person', blank=True, null=True)
@@ -100,6 +122,16 @@ class Note(models.Model):
 
     def __str__(self):
         return self.description
+
+
+class Payment(models.Model):
+    date = models.DateTimeField()
+    amount = models.DecimalField(max_digits=19, decimal_places=2)
+    budget = models.ForeignKey(Budget, db_column='id_budget', blank=True, null=True)
+
+    class Meta:
+        db_table = 'payment'
+        ordering = ['date']
 
 
 class Person(models.Model):
@@ -124,20 +156,6 @@ class Phone(models.Model):
 
     class Meta:
         db_table = 'phone'
-
-
-class Presupuestos(models.Model):
-    númeroexpediente = models.FloatField(db_column='NúmeroExpediente', primary_key=True)
-    presupuesto_total = models.DecimalField(db_column='Presupuesto total', max_digits=19, decimal_places=4, blank=True,
-                                            null=True)
-    cantidad_entregada = models.DecimalField(db_column='Cantidad entregada', max_digits=19, decimal_places=4,
-                                             blank=True, null=True)
-    estadominuta = models.IntegerField(db_column='EstadoMinuta', blank=True, null=True)
-    última_revisión = models.DateTimeField(db_column='Última revisión', blank=True, null=True)
-    descripción = models.CharField(db_column='Descripción', max_length=255, blank=True, null=True)
-
-    class Meta:
-        db_table = 'presupuestos'
 
 
 class LawBranch(models.Model):
@@ -194,6 +212,18 @@ class State(models.Model):
         return self.name
 
 
+class StateBudget(models.Model):
+    name = models.CharField(max_length=255)
+    text_help = models.CharField(unique=True, max_length=255)
+
+    class Meta:
+        db_table = 'state_budget'
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
 class PhoneType(models.Model):
     name = models.CharField(max_length=255)
     text_help = models.CharField(unique=True, max_length=255)
@@ -217,13 +247,3 @@ class Attendant(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class Vencimientos(models.Model):
-    númexpediente = models.FloatField(db_column='NúmExpediente')
-    fechavencimiento = models.DateTimeField(db_column='FechaVencimiento')
-    descripción = models.CharField(db_column='Descripción', max_length=255, blank=True, null=True)
-    juicio = models.CharField(db_column='Juicio', max_length=255, blank=True, null=True)
-
-    class Meta:
-        db_table = 'vencimientos'
