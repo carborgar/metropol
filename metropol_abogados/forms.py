@@ -144,3 +144,10 @@ class ExpedientListFilterForm(MetropolForm):
 
         self.fields['branch'].choices = FormUtils.get_sorted_choices(branch_choices)
         self.fields['headquarters'].choices = FormUtils.get_sorted_choices(headquarters_choices)
+
+
+class NoteForm(MetropolForm):
+    note = forms.ModelChoiceField(queryset=Note.objects.all(), required=False)
+    person = forms.ModelChoiceField(queryset=Person.objects.all(), required=False)
+    expedient = forms.ModelChoiceField(queryset=Expedient.objects.all(), required=False)
+    description = forms.CharField()

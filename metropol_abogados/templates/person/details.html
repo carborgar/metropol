@@ -7,7 +7,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-sm-6">
             <div class="page-header">
                 <h3>Datos personales<small> <a data-help="Editar persona" href="{% url 'person-edit' person.id %}"><span class="glyphicon glyphicon-pencil"/></a>{% if not person.expperrol_set.all %}&nbsp;&nbsp;<a href="{% url 'person-delete' person.id %}" data-help="Borrar persona" data-delete="esta persona"><span class="glyphicon glyphicon-trash"/></a>{% endif %}</small></h3>
             </div>
@@ -26,8 +26,7 @@
                 <dd>{{ person.creation_date|date:"d/m/Y"|default:"-" }}</dd>
             </dl>
         </div>
-
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-sm-6">
             <div class="page-header">
                 <h3>Datos de contacto<small> <a data-help="Añadir contacto" href="{% url 'phone-create' person.id %}"><span class="glyphicon glyphicon-plus"/></a></small></h3>
             </div>
@@ -58,9 +57,8 @@
             {% endif %}
         </div>
     </div>
-
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-sm-12">
             <div class="page-header">
                 <h3>Direcciones<small> <a data-help="Añadir dirección" href="{% url "address-create" person.id %}"><span class="glyphicon glyphicon-plus"/></a></small></h3>
             </div>
@@ -94,5 +92,59 @@
             </div>
             {% endif %}
         </div>
+        <div class="col-sm-12">
+                <div class="page-header">
+                    <h3>Notas</h3>
+                </div>
+                <div class="expedient-notes row">
+                    <div class="col-sm-4 text-center">
+                        <form action="{% url "note-edit" %}" method="post" class="note-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="person" value="{{ person.id }}"/>
+                            <input type="hidden" name="note" value=""/>
+                            <textarea name="description" class="sticky-note" required="required" placeholder="Escribe para añadir una nota..."></textarea>
+                            <div class="btn-group sticky-note-action" role="group">
+                                <button type="submit" name="save" value="save" class="btn btn-success btn-xs hidden">Añadir</button>
+                            </div>
+                        </form>
+                    </div>
+                {% for note in person.note_set.all %}
+                    <div class="col-sm-4 text-center">
+                        <form action="{% url "note-edit" %}" method="post" class="note-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="person" value="{{ person.id }}"/>
+                            <input type="hidden" name="note" value="{{ note.id }}"/>
+                            <textarea name="description" class="sticky-note" required="required">{{ note }}</textarea>
+                            <div class="btn-group sticky-note-action" role="group">
+                                <button type="submit" name="save" value="save" class="btn btn-success btn-xs hidden">Guardar</button>
+                                <button formnovalidate type="submit" name="delete" value="delete" data-delete="esta nota" class="btn btn-danger btn-xs hidden">Eliminar</button>
+                            </div>
+                        </form>
+                    </div>
+                    {% if forloop.counter0|divisibleby:3 %}
+                        <div class="clearfix"></div>
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </div>
     </div>
+   <script type="text/javascript">
+        $('.sticky-note').focusin(function(){
+           $(this).next().find('button').removeClass('hidden');
+        });
+        $(function(){
+            $('.note-form').formValidation({
+                framework: 'bootstrap',
+                fields: {
+                    description: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Debes escribir algo en la nota para poder guardarla.'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 {% endblock %}

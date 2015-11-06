@@ -120,6 +120,7 @@ class Note(models.Model):
 
     class Meta:
         db_table = 'note'
+        ordering = ['-id']
 
     def __str__(self):
         return self.description

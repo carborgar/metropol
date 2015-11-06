@@ -83,7 +83,9 @@ body {
 .mt20 {
     margin-top: 20px;
 }
-
+.mb20{
+    margin-bottom: 20px;
+}
 dd {
     margin: 0px 0px 5px 0px;
 }
@@ -110,16 +112,35 @@ textarea{
 table>tbody>tr>td>ul{
     margin: 0px;
 }
-/*.nav-tabs > li{*/
-	/*position: relative;*/
-	/*min-height: 1px;*/
-	/*width: 50%;*/
-/*}*/
-/*.nav-tabs > li > a, .nav-tabs > li > a:hover, .nav-tabs > li > a:focus{*/
-    /*background-color: #E7E7E8;*/
-/*}*/
-/*.nav-tabs > li > a{*/
-    /*border-radius: 0px !important;*/
-    /*outline: 0 !important;*/
-    /*border: 1px solid #D5D2D3 !important;*/
-/*}*/
+.sticky-note {
+	display: inherit;
+	padding:25px 25px 40px;
+	margin:0 auto;
+	width:250px;
+	height:250px;
+	font:16px 'Gloria Hallelujah', cursive;
+	line-height:1.5;
+	border:0;
+	border-radius:3px;
+	background: -webkit-linear-gradient(#F9EFAF, #F7E98D);
+	background: -moz-linear-gradient(#F9EFAF, #F7E98D);
+	background: -o-linear-gradient(#F9EFAF, #F7E98D);
+	background: -ms-linear-gradient(#F9EFAF, #F7E98D);
+	background: linear-gradient(#F9EFAF, #F7E98D);
+	box-shadow:0 4px 6px rgba(0,0,0,0.1);
+	overflow:hidden;
+	transition:box-shadow 0.5s ease;
+	font-smoothing:subpixel-antialiased;
+	max-width:520px;
+	max-height:250px;
+    overflow-y: auto;
+}
+.sticky-note:hover { box-shadow:0 5px 8px rgba(0,0,0,0.15); }
+.sticky-note:focus { box-shadow:0 5px 12px rgba(0,0,0,0.2); outline:none; }
+.expedient-notes{
+    max-height: 530px;
+    overflow-y: auto;
+}
+.sticky-note-action{
+    margin-top: -60px;
+}
