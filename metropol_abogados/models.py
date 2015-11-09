@@ -13,14 +13,6 @@ class Address(models.Model):
         db_table = 'address'
 
 
-class BranchEvent(models.Model):
-    law_branch = models.ForeignKey('LawBranch', db_column='id_law_branch')
-    event = models.ForeignKey('Event', db_column='id_event')
-
-    class Meta:
-        db_table = 'branch_event'
-
-
 class Budget(models.Model):
     amount = models.DecimalField(max_digits=19, decimal_places=2, blank=True, null=True)
     description = models.CharField(max_length=255, blank=True, null=True)
@@ -39,12 +31,15 @@ class Event(models.Model):
     class Meta:
         db_table = 'event'
 
+    def __str__(self):
+        return self.name
+
 
 class ExpPerRol(models.Model):
     person = models.ForeignKey('Person', db_column='id_person')
     role = models.ForeignKey('Role', db_column='id_role')
     expedient = models.ForeignKey('Expedient', db_column='id_exp')
-    creation_date = models.DateTimeField(auto_now=True)
+    creation_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = 'exp_per_rol'
@@ -61,6 +56,10 @@ class Expedient(models.Model):
     headquarters = models.ForeignKey('Headquarters', db_column='id_headquarters', blank=True, null=True)
     persons = models.ManyToManyField('Person', through=ExpPerRol)
     budget = models.ForeignKey(Budget, db_column='id_budget', blank=True, null=True)
+
+    def available_events(self):
+        return Event.objects.filter(
+            lawbranch__in=LawBranch.objects.filter(phase__id=self.phase.id if self.phase else None))
 
     def customers(self):
         # Returns the customers of the expedient
@@ -97,7 +96,7 @@ class Expiration(models.Model):
 
     class Meta:
         db_table = 'expiration'
-        ordering = ['date']
+        ordering = ['-date']
 
 
 class Headquarters(models.Model):
@@ -164,6 +163,7 @@ class LawBranch(models.Model):
     name = models.CharField(max_length=255)
     text_help = models.CharField(unique=True, max_length=255)
     is_active = models.BooleanField(default=True)
+    events = models.ManyToManyField(Event, db_table='branch_event')
 
     def __str__(self):
         return self.name

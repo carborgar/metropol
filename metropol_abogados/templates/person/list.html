@@ -48,7 +48,9 @@
                             <td class="col-md-4">{{ person.name|default:"-" }}</td>
                             <td class="col-md-2">{{ person.id_number|default:"-" }}</td>
                             <td class="col-md-3">{{ person.email|default:"-" }}</td>
-                            <td class="col-md-1"><a data-help="Ver detalles" href="{% url 'person-details' person.id %}"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+                            <td class="col-md-1"><a data-help="Ver detalles"
+                                                    href="{% url 'person-details' person.id %}">{% bootstrap_icon "eye-open" %}</a>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>

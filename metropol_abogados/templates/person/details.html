@@ -9,7 +9,13 @@
     <div class="row">
         <div class="col-sm-6">
             <div class="page-header">
-                <h3>Datos personales<small> <a data-help="Editar persona" href="{% url 'person-edit' person.id %}"><span class="glyphicon glyphicon-pencil"/></a>{% if not person.expperrol_set.all %}&nbsp;&nbsp;<a href="{% url 'person-delete' person.id %}" data-help="Borrar persona" data-delete="esta persona"><span class="glyphicon glyphicon-trash"/></a>{% endif %}</small></h3>
+                <h3>Datos personales
+                    <small><a data-help="Editar persona"
+                              href="{% url 'person-edit' person.id %}">{% bootstrap_icon "pencil" %}</a>
+                        {% if not person.expperrol_set.all %}&nbsp;&nbsp;
+                            <a href="{% url 'person-delete' person.id %}" data-help="Borrar persona"
+                               data-delete="esta persona">{% bootstrap_icon "trash" %}</a>{% endif %}</small>
+                </h3>
             </div>
             <dl class="dl-horizontal">
                 <dt>Nombre</dt>
@@ -28,7 +34,10 @@
         </div>
         <div class="col-sm-6">
             <div class="page-header">
-                <h3>Datos de contacto<small> <a data-help="Añadir contacto" href="{% url 'phone-create' person.id %}"><span class="glyphicon glyphicon-plus"/></a></small></h3>
+                <h3>Datos de contacto
+                    <small><a data-help="Añadir contacto"
+                              href="{% url 'phone-create' person.id %}">{% bootstrap_icon "plus" %}</a></small>
+                </h3>
             </div>
             {% if not person.phone_set.all %}
                 <p>No se ha encontrado ningún dato de contacto</p>
@@ -47,7 +56,10 @@
                         <tr>
                             <td>{{ tel.phone_type.name }}</td>
                             <td>{{ tel.number }}</td>
-                            <td><a data-help="Editar teléfono" href="{% url 'phone-edit' person.id tel.id %}"><span class="glyphicon glyphicon-pencil"/></a>&nbsp;&nbsp;<a data-help="Borrar teléfono" data-delete="este teléfono" href="{% url 'phone-delete' tel.id %}"><span class="glyphicon glyphicon-trash"/></a>
+                            <td><a data-help="Editar teléfono"
+                                   href="{% url 'phone-edit' person.id tel.id %}">{% bootstrap_icon "pencil" %}</a>&nbsp;&nbsp;<a
+                                    data-help="Borrar teléfono" data-delete="este teléfono"
+                                    href="{% url 'phone-delete' tel.id %}">{% bootstrap_icon "trash" %}</a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -60,7 +72,10 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="page-header">
-                <h3>Direcciones<small> <a data-help="Añadir dirección" href="{% url "address-create" person.id %}"><span class="glyphicon glyphicon-plus"/></a></small></h3>
+                <h3>Direcciones
+                    <small><a data-help="Añadir dirección"
+                              href="{% url "address-create" person.id %}">{% bootstrap_icon "plus" %}</a></small>
+                </h3>
             </div>
             {% if not person.address_set.all %}
                 <p>No se han encontrado direcciones</p>
@@ -83,7 +98,10 @@
                             <td>{{ address.location|default:'-' }}</td>
                             <td>{{ address.postal_code|default:'-' }}</td>
                             <td>{{ address.province|default:'-' }}</td>
-                            <td><a data-help="Editar dirección" href="{% url "address-edit" person.id address.id%}"><span class="glyphicon glyphicon-pencil"/></a>&nbsp;&nbsp;<a data-help="Borrar dirección" data-delete="esta dirección" href="{% url "address-delete" address.id%}"><span class="glyphicon glyphicon-trash"/></a>
+                            <td><a data-help="Editar dirección"
+                                   href="{% url "address-edit" person.id address.id %}">{% bootstrap_icon "pencil" %}</a>&nbsp;&nbsp;<a
+                                    data-help="Borrar dirección" data-delete="esta dirección"
+                                    href="{% url "address-delete" address.id %}">{% bootstrap_icon "trash" %}</a>
                             </td>
                         </tr>
                     {% endfor %}

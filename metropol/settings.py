@@ -53,6 +53,7 @@ INSTALLED_APPS = (
     'bootstrap3',
     'endless_pagination',
     'chosen',
+    'bootstrap3_datetime',
 )
 
 MIDDLEWARE_CLASSES = (

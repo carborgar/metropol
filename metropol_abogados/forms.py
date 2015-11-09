@@ -4,6 +4,7 @@ import datetime
 from django import forms
 from chosen import forms as chosenforms
 from django.forms import DateField
+from bootstrap3_datetime.widgets import DateTimePicker
 
 from .utils import FormUtils
 from .models import *
@@ -34,7 +35,8 @@ class PersonForm(MetropolForm):
     id_number = forms.CharField(label='DNI/CIF', required=False)
     nationality = forms.CharField(label='Nacionalidad', required=False)
     email = forms.EmailField(label='Correo', required=False)
-    web = forms.URLField(label='Página web', required=False, widget=forms.URLInput(attrs={'data-error': "Patrón: http://www.ejemplo.com"}));
+    web = forms.URLField(label='Página web', required=False,
+                         widget=forms.URLInput(attrs={'data-error': "Patrón: http://www.ejemplo.com"}))
     creation_date = PastDateField(label='Fecha de alta', initial=datetime.datetime.now)
 
 
@@ -87,12 +89,11 @@ class ExpedientForm(MetropolForm):
     end_date = forms.DateField(label="Fecha cierre", required=False, initial=datetime.datetime.now)
 
     def clean_expedient_num(self):
+        data = self.cleaned_data['expedient_num']
         is_creating = not self.cleaned_data['id']
-        if is_creating:
-            data = self.cleaned_data['expedient_num']
+        if is_creating and Expedient.objects.filter(id=data).exists():
             # If the user is creating a new one, check that the expedient number does not exists
-            if is_creating and Expedient.objects.filter(id=data).exists():
-                raise forms.ValidationError("Este número de expediente ya existe.")
+            raise forms.ValidationError("Este número de expediente ya existe.")
 
         return data
 
@@ -151,3 +152,26 @@ class NoteForm(MetropolForm):
     person = forms.ModelChoiceField(queryset=Person.objects.all(), required=False)
     expedient = forms.ModelChoiceField(queryset=Expedient.objects.all(), required=False)
     description = forms.CharField()
+
+
+class ExpirationForm(MetropolForm):
+    expiration = forms.ModelChoiceField(queryset=Expiration.objects.all(), required=False, widget=forms.HiddenInput())
+    expedient = forms.ModelChoiceField(queryset=Expedient.objects.all(), widget=forms.HiddenInput())
+    date = forms.DateTimeField(label="Fecha",
+                               widget=DateTimePicker(options={"format": "DD/MM/YYYY HH:mm", "pickSeconds": False},
+                                                     attrs={'placeholder': 'DD/MM/AAAA HH:mm'}))
+    place = forms.CharField(label="Lugar", required=False)
+    description = forms.CharField(widget=forms.Textarea(), required=False, label="Asunto")
+    event = forms.ModelChoiceField(queryset=Event.objects.all(), required=False)
+
+    def __init__(self, *args, **kwargs):
+        expedient_events = kwargs.pop("available_events")
+        super(ExpirationForm, self).__init__(*args, **kwargs)
+
+        # If the expedient has branch, take the events related to the branch
+        if expedient_events:
+            self.fields["event"].queryset = expedient_events
+
+        else:
+            # Otherwise, hide the input
+            self.fields['event'].widget = forms.HiddenInput()

@@ -59,7 +59,9 @@
                             </td>
                             <td class="col-md-2">{{ expedient.phase.law_branch.name|default:"-" }}</td>
                             <td class="col-md-3">{{ expedient.description|default:"-"|truncatechars:50 }}</td>
-                            <td class="col-md-1"><a data-help="Ver detalles" href="{% url 'expedient-details' expedient.id %}"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+                            <td class="col-md-1"><a data-help="Ver detalles"
+                                                    href="{% url 'expedient-details' expedient.id %}">{% bootstrap_icon "eye-open" %}</a>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>

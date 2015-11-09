@@ -1,0 +1,35 @@
+{% extends 'layout/base.html' %}
+{% load bootstrap3 %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <h2><a href="{% url "expedient-details" expiration.expedient.id %}">{% bootstrap_icon "arrow-left" %}</a>
+                Detalles de vencimiento</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            {% include "expedient/expedient-data.html" with expedient=expiration.expedient %}
+        </div>
+        <div class="col-sm-6">
+            <div class="page-header">
+                <h3>Datos vencimiento
+                    <small><a data-help="Editar vencimiento"
+                              href="{% url 'expiration-edit' expiration.id %}">{% bootstrap_icon "pencil" %}</a>&nbsp;&nbsp;<a
+                            href="{% url 'expiration-delete' expiration.id %}" data-help="Borrar vencimiento"
+                            data-delete="este vencimiento">{% bootstrap_icon "trash" %}</a></small>
+                </h3>
+            </div>
+            <dl class="dl-horizontal">
+                <dt>Fecha</dt>
+                <dd>{{ expiration.date|date:"d/m/Y" }}</dd>
+                <dt>Evento</dt>
+                <dd>{{ expiration.event|default:'-' }}</dd>
+                <dt>Lugar</dt>
+                <dd>{{ expedient.place|default:'-' }}</dd>
+                <dt>Asunto</dt>
+                <dd>{{ expiration.description|default:"-"|linebreaks }}</dd>
+            </dl>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'layout/base.html' %}
+{% load bootstrap3 %}
+{% block extrahead %}
+    {{ form.media }}
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>{% if form.expiration.value %}Editar{% else %}Añadir {% endif %} vencimiento</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            {% include "expedient/expedient-data.html" with expedient=expedient %}
+        </div>
+        <div class="col-sm-6">
+            <div class="page-header">
+                <h3>Datos vencimiento</h3>
+            </div>
+            <form method="post" class="form-horizontal" data-toggle="validator">
+                {% csrf_token %}
+                {% bootstrap_form form layout='horizontal' %}
+                <p class="text-danger">(*) Son campos obligatorios</p>
+                <button type="submit" class="btn btn-success">Guardar</button>
+                <a href="{% url 'expedient-details' form.expedient.value %}" class="btn btn-warning">Cancelar</a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

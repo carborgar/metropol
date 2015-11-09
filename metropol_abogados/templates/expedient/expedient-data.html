@@ -1,0 +1,33 @@
+{% load bootstrap3 %}
+<div class="page-header">
+    <h3>Datos expediente
+        <small><a data-help="Editar expediente"
+                  href="{% url 'expedient-edit' expedient.id %}">{% bootstrap_icon "pencil" %}</a>&nbsp;&nbsp;<a
+                href="{% url 'expedient-delete' expedient.id %}" data-help="Borrar expediente"
+                data-delete="este expediente">{% bootstrap_icon "trash" %}</a></small>
+    </h3>
+</div>
+<div class="expedient-details">
+    <dl class="dl-horizontal">
+        <dt>Nº expediente</dt>
+        <dd>{{ expedient.id }}</dd>
+        <dt>Rama derecho</dt>
+        <dd>{{ expedient.phase.law_branch|default:'-' }}</dd>
+        <dt>Fase</dt>
+        <dd>{{ expedient.phase|default:'-' }}</dd>
+        <dt>Estado</dt>
+        <dd>{{ expedient.state }}</dd>
+        <dt>Sede</dt>
+        <dd>{{ expedient.headquarters|default:'-' }}</dd>
+        <dt>Tipo de usuario</dt>
+        <dd>{{ expedient.user_type|default:'-' }}</dd>
+        <dt>Fecha de alta</dt>
+        <dd>{{ expedient.creation_date|date:"d/m/Y" }}</dd>
+        {% if  expedient.end_date %}
+            <dt>Fecha de cierre</dt>
+            <dd>{{ expedient.end_date|date:"d/m/Y" }}</dd>
+        {% endif %}
+        <dt>Descripción</dt>
+        <dd>{{ expedient.description|default:'-'|linebreaks }}</dd>
+    </dl>
+</div>
