@@ -3,3 +3,4 @@
 *.prefs
 *.pydevproject
 .idea/*
+metropol_abogados/migrations/0*.py

@@ -55,7 +55,7 @@ class Expedient(models.Model):
     state = models.ForeignKey('State', db_column='id_state')
     headquarters = models.ForeignKey('Headquarters', db_column='id_headquarters', blank=True, null=True)
     persons = models.ManyToManyField('Person', through=ExpPerRol)
-    budget = models.ForeignKey(Budget, db_column='id_budget', blank=True, null=True)
+    budget = models.OneToOneField(Budget, db_column='id_budget', blank=True, null=True)
 
     def available_events(self):
         return Event.objects.filter(
