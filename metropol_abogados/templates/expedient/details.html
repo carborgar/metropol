@@ -8,61 +8,21 @@
             <div>
                 <!-- Nav tabs -->
                 <ul class="nav nav-pills nav-justified" role="tablist">
-                    <li role="presentation" class="active"><a href="#expedientData" aria-controls="home" role="tab"
-                                                              data-toggle="tab">Datos expediente</a></li>
-                    <li role="presentation"><a href="#expiration" aria-controls="profile" role="tab" data-toggle="tab">Vencimientos</a>
+                    <li role="presentation" class="active">
+                        <a href="#expedientData" aria-controls="home" role="tab" data-toggle="tab">Datos expediente</a>
                     </li>
-                    <li role="presentation"><a href="#budget" aria-controls="messages" role="tab" data-toggle="tab">Presupuestos</a>
+                    <li role="presentation"><a href="#expiration" role="tab" data-toggle="tab">Vencimientos</a>
                     </li>
-                    <li role="presentation"><a href="#payment" aria-controls="settings" role="tab" data-toggle="tab">Pagos</a>
+                    <li role="presentation"><a href="#budget-payment" role="tab" data-toggle="tab">Presupuesto y
+                        pagos</a>
+                    </li>
+                    <li role="presentation"><a href="#notes" role="tab" data-toggle="tab">Notas</a>
                     </li>
                 </ul>
 
                 <div class="row">
-                    <div class="col-sm-5">
+                    <div class="col-sm-12">
                         {% include "expedient/expedient-data.html" with expedient=expedient %}
-                    </div>
-                    <div class="col-sm-7">
-                        <div class="page-header">
-                            <h3>Notas</h3>
-                        </div>
-                        <div class="expedient-notes row">
-                            <div class="col-sm-6 text-center">
-                                <form action="{% url "note-edit" %}" method="post" class="note-form">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="expedient" value="{{ expedient.id }}"/>
-                                    <input type="hidden" name="note" value=""/>
-                                    <textarea name="description" class="sticky-note"
-                                              placeholder="Escribe para añadir una nota..."></textarea>
-
-                                    <div class="btn-group sticky-note-action" role="group">
-                                        <button type="submit" name="save" value="save"
-                                                class="btn btn-success btn-xs hidden">Añadir
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                            {% for note in expedient.note_set.all %}
-                                <div class="col-sm-6 text-center">
-                                    <form action="{% url "note-edit" %}" method="post" class="note-form">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="expedient" value="{{ expedient.id }}"/>
-                                        <input type="hidden" name="note" value="{{ note.id }}"/>
-                                        <textarea name="description" class="sticky-note">{{ note }}</textarea>
-
-                                        <div class="btn-group sticky-note-action" role="group">
-                                            <button type="submit" name="save" value="save"
-                                                    class="btn btn-success btn-xs hidden">Guardar
-                                            </button>
-                                            <button formnovalidate type="submit" name="delete" value="delete"
-                                                    data-delete="esta nota" class="btn btn-danger btn-xs hidden">
-                                                Eliminar
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            {% endfor %}
-                        </div>
                     </div>
                 </div>
             </div>
@@ -72,42 +32,27 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <!-- Customers table -->
-                            <div class="page-header">
-                                <h4>Clientes</h4>
-                            </div>
-                            {% include "expedient/expedient-person-list.html" with persons=expedient.customers %}
+                            {% include "expedient/expedient-person-list.html" with persons=expedient.customers title="Clientes" %}
                         </div>
                         <div class="col-sm-6">
                             <!-- Contraries (not lawyers) table -->
-                            <div class="page-header">
-                                <h4>Contrarios</h4>
-                            </div>
-                            {% include "expedient/expedient-person-list.html" with persons=expedient.contraries %}
+                            {% include "expedient/expedient-person-list.html" with persons=expedient.contraries title="Contrarios" %}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
                             <!-- Self attorneys table -->
-                            <div class="page-header">
-                                <h4>Procuradores propios</h4>
-                            </div>
-                            {% include "expedient/expedient-person-list.html" with persons=expedient.own_attorneys %}
+                            {% include "expedient/expedient-person-list.html" with persons=expedient.own_attorneys title="Procuradores propios" %}
                         </div>
                         <div class="col-sm-6">
                             <!-- Attorneys table -->
-                            <div class="page-header">
-                                <h4>Procuradores contrarios</h4>
-                            </div>
-                            {% include "expedient/expedient-person-list.html" with persons=expedient.attorneys %}
+                            {% include "expedient/expedient-person-list.html" with persons=expedient.attorneys title="Procuradores contrarios" %}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-6">
                             <!-- Contraries (lawyers) table -->
-                            <div class="page-header">
-                                <h4>Abogados contrarios</h4>
-                            </div>
-                            {% include "expedient/expedient-person-list.html" with persons=expedient.contrary_lawyers %}
+                            {% include "expedient/expedient-person-list.html" with persons=expedient.contrary_lawyers title="Abogados contrarios" %}
                         </div>
                     </div>
                 </div>
@@ -125,29 +70,11 @@
                         </div>
                     </div>
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="budget">...</div>
-                <div role="tabpanel" class="tab-pane fade" id="payment">...</div>
+                <div role="tabpanel" class="tab-pane fade" id="budget-payment">...</div>
+                <div role="tabpanel" class="tab-pane fade" id="notes">
+                    {% include "note/list.html" with note_list=expedient.note_set.all expedient=expedient %}
+                </div>
             </div>
         </div>
     </div>
-
-    <script type="text/javascript">
-        $('.sticky-note').focusin(function () {
-            $(this).next().find('button').removeClass('hidden');
-        });
-        $(function () {
-            $('.note-form').formValidation({
-                framework: 'bootstrap',
-                fields: {
-                    description: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Debes escribir algo en la nota para poder guardarla.'
-                            }
-                        }
-                    }
-                }
-            });
-        });
-    </script>
 {% endblock %}

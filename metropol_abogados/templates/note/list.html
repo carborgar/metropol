@@ -1,0 +1,58 @@
+{% load bootstrap3 %}
+<div class="page-header">
+    <h3>Notas</h3>
+</div>
+<div class="row">
+    <div class="col-sm-3 text-center">
+        <form action="{% url "note-edit" %}" method="post" class="note-form">
+            {% csrf_token %}
+            <input type="hidden" name="expedient" value="{{ expedient.id }}"/>
+            <input type="hidden" name="note" value=""/>
+            <input type="hidden" name="person" value="{{ person.id }}"/>
+            <textarea name="description" class="sticky-note" placeholder="Escribe para añadir una nota..."></textarea>
+
+            <div class="btn-group sticky-note-action" role="group">
+                <button type="submit" name="save" value="save" class="btn btn-success btn-xs hidden">Añadir</button>
+            </div>
+        </form>
+    </div>
+    {% for note in note_list %}
+        <div class="col-sm-3 text-center">
+            <form action="{% url "note-edit" %}" method="post" class="note-form">
+                {% csrf_token %}
+                <input type="hidden" name="expedient" value="{{ expedient.id }}"/>
+                <input type="hidden" name="person" value="{{ person.id }}"/>
+                <input type="hidden" name="note" value="{{ note.id }}"/>
+                <textarea name="description" class="sticky-note">{{ note }}</textarea>
+
+                <div class="btn-group sticky-note-action" role="group">
+                    <button type="submit" name="save" value="save" class="btn btn-success btn-xs hidden">Guardar
+                    </button>
+                    <button formnovalidate type="submit" name="delete" value="delete" data-delete="esta nota"
+                            class="btn btn-danger btn-xs hidden">Eliminar
+                    </button>
+                </div>
+            </form>
+        </div>
+    {% endfor %}
+</div>
+
+<script type="text/javascript">
+    $('.sticky-note').focusin(function () {
+        $(this).next().find('button').removeClass('hidden');
+    });
+    $(function () {
+        $('.note-form').formValidation({
+            framework: 'bootstrap',
+            fields: {
+                description: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Debes escribir algo en la nota para poder guardarla.'
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>

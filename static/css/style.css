@@ -21,7 +21,7 @@ body {
 }
 
 .navbar {
-    border-radius: 0px;
+    border-radius: 0;
 }
 
 .credit {
@@ -87,7 +87,7 @@ body {
     margin-bottom: 20px;
 }
 dd {
-    margin: 0px 0px 5px 0px;
+    margin: 0 0 5px 0;
 }
 
 .page-header {
@@ -110,7 +110,7 @@ textarea{
     vertical-align: middle;
 }
 table>tbody>tr>td>ul{
-    margin: 0px;
+    margin: 0;
 }
 .sticky-note {
 	display: inherit;
@@ -130,17 +130,12 @@ table>tbody>tr>td>ul{
 	box-shadow:0 4px 6px rgba(0,0,0,0.1);
 	overflow:hidden;
 	transition:box-shadow 0.5s ease;
-	font-smoothing:subpixel-antialiased;
 	max-width:520px;
 	max-height:250px;
     overflow-y: auto;
 }
 .sticky-note:hover { box-shadow:0 5px 8px rgba(0,0,0,0.15); }
 .sticky-note:focus { box-shadow:0 5px 12px rgba(0,0,0,0.2); outline:none; }
-.expedient-notes{
-    max-height: 530px;
-    overflow-y: auto;
-}
 .sticky-note-action{
     margin-top: -60px;
 }

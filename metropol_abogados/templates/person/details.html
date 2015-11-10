@@ -110,39 +110,11 @@
             </div>
             {% endif %}
         </div>
-        <div class="col-sm-12">
-                <div class="page-header">
-                    <h3>Notas</h3>
+        <div class="row">
+            <div class="col-sm-12">
+                {% include "note/list.html" with note_list=person.note_set.all person=person %}
                 </div>
-                <div class="expedient-notes row">
-                    <div class="col-sm-4 text-center">
-                        <form action="{% url "note-edit" %}" method="post" class="note-form">
-                            {% csrf_token %}
-                            <input type="hidden" name="person" value="{{ person.id }}"/>
-                            <input type="hidden" name="note" value=""/>
-                            <textarea name="description" class="sticky-note" required="required" placeholder="Escribe para añadir una nota..."></textarea>
-                            <div class="btn-group sticky-note-action" role="group">
-                                <button type="submit" name="save" value="save" class="btn btn-success btn-xs hidden">Añadir</button>
-                            </div>
-                        </form>
-                    </div>
-                {% for note in person.note_set.all %}
-                    <div class="col-sm-4 text-center">
-                        <form action="{% url "note-edit" %}" method="post" class="note-form">
-                            {% csrf_token %}
-                            <input type="hidden" name="person" value="{{ person.id }}"/>
-                            <input type="hidden" name="note" value="{{ note.id }}"/>
-                            <textarea name="description" class="sticky-note" required="required">{{ note }}</textarea>
-                            <div class="btn-group sticky-note-action" role="group">
-                                <button type="submit" name="save" value="save" class="btn btn-success btn-xs hidden">Guardar</button>
-                                <button formnovalidate type="submit" name="delete" value="delete" data-delete="esta nota" class="btn btn-danger btn-xs hidden">Eliminar</button>
-                            </div>
-                        </form>
-                    </div>
-                {% endfor %}
-                </div>
-            </div>
-    </div>
+        </div>
    <script type="text/javascript">
         $('.sticky-note').focusin(function(){
            $(this).next().find('button').removeClass('hidden');
