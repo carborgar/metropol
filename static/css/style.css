@@ -96,7 +96,7 @@ dd {
 td, th{
     vertical-align: middle;
 }
-th:first-child, th:last-child, td:first-child, td:last-child {
+th:last-child, td:last-child {
     text-align: center
 }
 textarea{

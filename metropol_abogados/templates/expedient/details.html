@@ -70,8 +70,24 @@
                         </div>
                     </div>
                 </div>
-                <div role="tabpanel" class="tab-pane fade"
-                     id="budget-payment">{% include "budget/details.html" with budget=expedient.budget %}</div>
+                <div role="tabpanel" class="tab-pane fade" id="budget-payment">
+                    <div class="row">
+                        <div class="col-sm-6">
+                        {% include "budget/details.html" with budget=expedient.budget %}
+                        </div>
+                        {% if expedient.budget %}
+                            <div class="col-sm-6">
+                                <div class="page-header">
+                                    <h4>Pagos
+                                        <small><a data-help="Añadir pago"
+                                                  href="{% url 'payment-create' expedient.budget.id %}">{% bootstrap_icon "plus" %}</a></small>
+                                    </h4>
+                                </div>
+                                {% include "payment/list.html" with payment_list=expedient.budget.payment_set.all %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
                 <div role="tabpanel" class="tab-pane fade" id="notes">
                     {% include "note/list.html" with note_list=expedient.note_set.all expedient=expedient %}
                 </div>

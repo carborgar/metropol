@@ -2,7 +2,6 @@
 {% load bootstrap3 %}
 {% load staticfiles %}
 {% block extrahead %}
-    {{ form.media }}
     <link rel="stylesheet" href="{% static "css/chosen-bootstrap.css" %}"/>
     <script src="{% static "js/jquery.cascadingdropdown.min.js" %}"></script>
 {% endblock %}
@@ -48,7 +47,8 @@
         }
 
         function filterEndDate() {
-            var selectedValue = $('#id_state option:selected').val();
+            var stateSelector = '#id_state option:selected';
+            var selectedValue = $(stateSelector).val();
             var endDateInput = $('#id_end_date');
             var parent = endDateInput.parents('.form-group');
 
@@ -82,7 +82,7 @@
                         });
                     }
                 }
-            ],
+            ]
 
         });
     </script>

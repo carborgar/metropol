@@ -1,0 +1,28 @@
+{% load bootstrap3 %}
+{% if payment_list %}
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Cantidad entregada</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for payment in payment_list %}
+            <tr>
+                <td class="col-md-5">{{ payment.amount }}</td>
+                <td class="col-md-6">{{ payment.date|date:"d/m/Y" }}</td>
+                <td class="col-md-1">
+                    <a data-help="Editar pago"
+                       href="{% url "payment-edit" payment.id %}">{% bootstrap_icon "pencil" %}</a>&nbsp;&nbsp;
+                    <a href="{% url 'payment-delete' payment.id %}" data-help="Borrar pago"
+                       data-delete="este pago">{% bootstrap_icon "trash" %}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No existe ningún pago.</p>
+{% endif %}

@@ -2,7 +2,7 @@ from django.conf.urls import url
 from django.contrib.auth.decorators import permission_required
 
 from .views import PersonViews, AddressViews, PhoneViews, ExpedientViews, PhaseViews, NoteViews, ExpirationViews, \
-    BudgetViews
+    BudgetViews, PaymentViews
 
 urlpatterns = [
     # REST API urls
@@ -30,14 +30,15 @@ urlpatterns = [
     # Note views
     url(r'^note/edit/$', NoteViews.edit, name="note-edit"),
     # Expiration views
-    url(r'^expiration/details/(?P<pk>\d+)$',
-        permission_required('auth.management_metropol')(ExpirationViews.DetailsView.as_view()),
-        name="expiration-details"),
+    url(r'^expiration/details/(?P<pk>\d+)$', permission_required('auth.management_metropol')(ExpirationViews.DetailsView.as_view()), name="expiration-details"),
     url(r'^expiration/create/(?P<expedient_id>\d+)/$', ExpirationViews.edit, name="expiration-create"),
     url(r'^expiration/edit/(?P<expiration_id>\d+)/$', ExpirationViews.edit, name="expiration-edit"),
     url(r'^expiration/delete/(?P<expiration_id>\d+)/$', ExpirationViews.delete, name="expiration-delete"),
-
     # Budget views
     url(r'^budget/edit/(?P<expedient_id>\d+)/$', BudgetViews.edit, name="budget-edit"),
     url(r'^budget/delete/(?P<expedient_id>\d+)/$', BudgetViews.delete, name="budget-delete"),
+    # Budget views
+    url(r'^payment/create/(?P<budget_id>\d+)/$', PaymentViews.edit, name="payment-create"),
+    url(r'^payment/edit/(?P<payment_id>\d+)/$', PaymentViews.edit, name="payment-edit"),
+    url(r'^payment/delete/(?P<payment_id>\d+)/$', PaymentViews.delete, name="payment-delete"),
 ]

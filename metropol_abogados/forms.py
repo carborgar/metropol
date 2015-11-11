@@ -37,7 +37,9 @@ class PersonForm(MetropolForm):
     email = forms.EmailField(label='Correo', required=False)
     web = forms.URLField(label='Página web', required=False,
                          widget=forms.URLInput(attrs={'data-error': "Patrón: http://www.ejemplo.com"}))
-    creation_date = PastDateField(label='Fecha de alta', initial=datetime.datetime.now)
+    creation_date = PastDateField(label='Fecha de alta', initial=datetime.datetime.now,
+                                  widget=DateTimePicker(options={"format": "DD/MM/YYYY", "pickTime": False},
+                                               attrs={'placeholder': 'DD/MM/AAAA'}))
 
 
 class PersonListFilterForm(MetropolForm):
@@ -85,8 +87,12 @@ class ExpedientForm(MetropolForm):
     contrary_lawyers = chosenforms.ChosenModelMultipleChoiceField(queryset=persons, required=False, label="Abogados contrarios", overlay='Selecciona los abogados contrarios')
     own_attorneys = chosenforms.ChosenModelMultipleChoiceField(required=False, queryset=persons, label="Procuradores propios", overlay='Selecciona los procuradores propios')
     attorneys = chosenforms.ChosenModelMultipleChoiceField(required=False, queryset=persons, label="Procuradores contrarios", overlay='Selecciona los procuradores contrarios')
-    creation_date = PastDateField(label="Fecha alta", initial=datetime.datetime.now)
-    end_date = forms.DateField(label="Fecha cierre", required=False, initial=datetime.datetime.now)
+    creation_date = PastDateField(label="Fecha alta", initial=datetime.datetime.now,
+                                  widget=DateTimePicker(options={"format": "DD/MM/YYYY", "pickTime": False},
+                                               attrs={'placeholder': 'DD/MM/AAAA'}))
+    end_date = forms.DateField(label="Fecha cierre", required=False, initial=datetime.datetime.now,
+                                  widget=DateTimePicker(options={"format": "DD/MM/YYYY", "pickTime": False},
+                                               attrs={'placeholder': 'DD/MM/AAAA'}))
 
     def clean_expedient_num(self):
         data = self.cleaned_data['expedient_num']
@@ -183,3 +189,11 @@ class BudgetForm(MetropolForm):
     amount = forms.DecimalField(label="Cantidad total")
     own_attorney = forms.BooleanField(required=False, label="Procurador propio", widget=forms.Select(choices=YES_NO))
     description = forms.CharField(widget=forms.Textarea(), required=False, label="Descripción")
+
+
+class PaymentForm(MetropolForm):
+    amount = forms.DecimalField(label="Cantidad entregada")
+    date = PastDateField(label='Fecha', initial=datetime.datetime.now,
+                         widget=DateTimePicker(options={"format": "DD/MM/YYYY", "pickTime": False},
+                                               attrs={'placeholder': 'DD/MM/AAAA'}))
+

@@ -3,16 +3,21 @@
 {% block content %}
     <div class="row">
         <div class="col-sm-12">
-            <h2>{% if expedient.budget %}Editar{% else %}Añadir {% endif %} presupuesto</h2>
+            <h2>{% if not creating %}Editar{% else %}Añadir {% endif %} pago</h2>
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-5">
+        <div class="col-sm-6">
             {% include "expedient/expedient-data.html" with expedient=expedient %}
         </div>
-        <div class="col-sm-7">
+        <div class="col-sm-6">
+            {% include "budget/details.html" with expedient=expedient budget=expedient.budget %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
             <div class="page-header">
-                <h3>Datos presupuesto</h3>
+                <h3>Datos del pago</h3>
             </div>
             <form method="post" class="form-horizontal" data-toggle="validator">
                 {% csrf_token %}

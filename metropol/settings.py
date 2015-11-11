@@ -140,10 +140,10 @@ BOOTSTRAP3 = {
     'base_url': '%s' % STATIC_URL,
 
     # Label class to use in horizontal forms
-    'horizontal_label_class': 'col-md-3',
+    'horizontal_label_class': 'col-md-4',
 
     # Field class to use in horizontal forms
-    'horizontal_field_class': 'col-md-9',
+    'horizontal_field_class': 'col-md-8',
 
     # Set HTML required attribute on required fields
     'set_required': False,
