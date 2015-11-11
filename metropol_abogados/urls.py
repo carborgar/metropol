@@ -1,7 +1,8 @@
 from django.conf.urls import url
 from django.contrib.auth.decorators import permission_required
 
-from .views import PersonViews, AddressViews, PhoneViews, ExpedientViews, PhaseViews, NoteViews, ExpirationViews
+from .views import PersonViews, AddressViews, PhoneViews, ExpedientViews, PhaseViews, NoteViews, ExpirationViews, \
+    BudgetViews
 
 urlpatterns = [
     # REST API urls
@@ -35,4 +36,8 @@ urlpatterns = [
     url(r'^expiration/create/(?P<expedient_id>\d+)/$', ExpirationViews.edit, name="expiration-create"),
     url(r'^expiration/edit/(?P<expiration_id>\d+)/$', ExpirationViews.edit, name="expiration-edit"),
     url(r'^expiration/delete/(?P<expiration_id>\d+)/$', ExpirationViews.delete, name="expiration-delete"),
+
+    # Budget views
+    url(r'^budget/edit/(?P<expedient_id>\d+)/$', BudgetViews.edit, name="budget-edit"),
+    url(r'^budget/delete/(?P<expedient_id>\d+)/$', BudgetViews.delete, name="budget-delete"),
 ]

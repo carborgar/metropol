@@ -6,7 +6,7 @@
 {% block content %}
     <div class="row">
         <div class="col-sm-12">
-            <h2>{% if form.expiration.value %}Editar{% else %}Añadir {% endif %} vencimiento</h2>
+            <h2>{% if form.expiration.value %}Editar{% else %}Añadir {% endif %} presupuesto</h2>
         </div>
     </div>
     <div class="row">
@@ -15,16 +15,33 @@
         </div>
         <div class="col-sm-7">
             <div class="page-header">
-                <h3>Datos vencimiento</h3>
+                <h3>Datos presupuesto</h3>
             </div>
             <form method="post" class="form-horizontal" data-toggle="validator">
                 {% csrf_token %}
                 {% bootstrap_form form layout='horizontal' %}
                 <p class="text-danger">(*) Son campos obligatorios</p>
                 <button type="submit" class="btn btn-success">Guardar</button>
-                <a href="{% url 'expedient-details' form.expedient.value %}#expiration"
-                   class="btn btn-warning">Cancelar</a>
+                <a href="{% url 'expedient-details' expedient.id %}#budget-payment" class="btn btn-warning">Cancelar</a>
             </form>
         </div>
     </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $('.budget-form').formValidation({
+                framework: 'bootstrap',
+                fields: {
+                    amount: {
+                        validators: {
+                            numeric: {
+                                thousandsSeparator: ',',
+                                decimalSeparator: '.'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 {% endblock %}

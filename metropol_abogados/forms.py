@@ -175,3 +175,11 @@ class ExpirationForm(MetropolForm):
         else:
             # Otherwise, hide the input
             self.fields['event'].widget = forms.HiddenInput()
+
+
+class BudgetForm(MetropolForm):
+    YES_NO = ((True, 'Sí'), (False, 'No'))
+    state_budget = forms.ModelChoiceField(queryset=StateBudget.objects.all(), label="Estado", required=False)
+    amount = forms.DecimalField(label="Cantidad total")
+    own_attorney = forms.BooleanField(required=False, label="Procurador propio", widget=forms.Select(choices=YES_NO))
+    description = forms.CharField(widget=forms.Textarea(), required=False, label="Descripción")

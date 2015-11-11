@@ -22,16 +22,18 @@
     {% block extrahead %}{% endblock %}
 </head>
 <body>
-<!-- Head -->
-{% include "layout/header.html" %}
-<!-- Body -->
+<section id="wrap">
+    <!-- Head -->
+    {% include "layout/header.html" %}
+    <!-- Body -->
 
-<main id="content" class="container">
-    <section id="messages">
-        {% bootstrap_messages %}
-    </section>
-    {% block content %} {% endblock %}
-</main>
+    <main id="content" class="container">
+        <section id="messages">
+            {% bootstrap_messages %}
+        </section>
+        {% block content %} {% endblock %}
+    </main>
+</section>
 <!-- Footer -->
 {% include "layout/footer.html" %}
 
@@ -50,7 +52,7 @@
         $(this).attr("data-toggle", "tooltip");
         $(this).attr("title", $(this).data('help'));
     });
-    $("[data-delete]").click(function (e) {
+    $("[data-delete]").click(function () {
         return confirm("Vas a borrar " + $(this).data('delete') + ". No se puede recuperar, ¿Estás seguro?");
     });
 

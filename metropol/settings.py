@@ -54,6 +54,7 @@ INSTALLED_APPS = (
     'endless_pagination',
     'chosen',
     'bootstrap3_datetime',
+    'django.contrib.humanize',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -116,6 +117,9 @@ ATOMIC_REQUESTS = True
 
 # I18N
 USE_I18N = True
+
+# L10N
+USE_L10N = True
 
 LANGUAGES = [
     ('es', _('Spanish')),

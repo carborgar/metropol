@@ -37,7 +37,7 @@ def edit(request, expedient_id=None, expiration_id=None):
 
             messages.success(request, "Vencimiento %s correctamente" % ("guardado" if created else "editado"))
 
-        return HttpResponseRedirect(reverse('expedient-details', args=(expedient.id,)))
+        return HttpResponseRedirect('{}#expiration'.format(reverse('expedient-details', args=(expedient.id,))))
 
     else:
         if expiration_id:
@@ -58,4 +58,4 @@ def delete(request, expiration_id):
     expiration.delete()
     messages.success(request, "Se ha borrado el vencimimento correctamente.")
 
-    return HttpResponseRedirect(reverse('expedient-details', args=(expedient_id,)))
+    return HttpResponseRedirect('{}#expiration'.format(reverse('expedient-details', args=(expedient_id,))))

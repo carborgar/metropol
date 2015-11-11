@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 from django.db import models
+from django.db.models import Sum
 
 
 class Address(models.Model):
@@ -14,11 +15,15 @@ class Address(models.Model):
 
 
 class Budget(models.Model):
-    amount = models.DecimalField(max_digits=19, decimal_places=2, blank=True, null=True)
+    amount = models.DecimalField(max_digits=19, decimal_places=2, default=0.00)
     description = models.CharField(max_length=255, blank=True, null=True)
-    attorney = models.BooleanField(default=False)
+    own_attorney = models.BooleanField(default=False, db_column='attorney')
+    update_date = models.DateField(null=True, auto_now=True)
+    expedient = models.OneToOneField('Expedient', db_column='id_expedient', blank=True, null=True)
     state_budget = models.ForeignKey('StateBudget', db_column='id_state_budget', blank=True, null=True)
-    update_date = models.DateField(blank=True, null=True)
+
+    def payed_amount(self):
+        return self.payment_set.aggregate(Sum('amount'))['amount__sum'] or 0
 
     class Meta:
         db_table = 'budget'
@@ -55,7 +60,12 @@ class Expedient(models.Model):
     state = models.ForeignKey('State', db_column='id_state')
     headquarters = models.ForeignKey('Headquarters', db_column='id_headquarters', blank=True, null=True)
     persons = models.ManyToManyField('Person', through=ExpPerRol)
-    budget = models.OneToOneField(Budget, db_column='id_budget', blank=True, null=True)
+
+    def has_budget(self):
+        try:
+            return self.budget is not None
+        except Budget.DoesNotExist:
+            return False
 
     def available_events(self):
         return Event.objects.filter(

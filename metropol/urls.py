@@ -16,12 +16,14 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib.auth import views as auth_views
 
+
 urlpatterns = [
     # Translation URLS
     url(r'^i18n/', include('django.conf.urls.i18n')),
     # Auth URLS
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout_then_login, name="logout"),
+    # url(r'^password_change/$', auth_views.password_change, {'password_change_form': ValidatingPasswordChangeForm,'template_name': 'user/password_change.html', 'post_change_redirect': '/'}),
     # Welcome URL
     url(r'^$', 'metropol_abogados.views.StaticViews.index', name="index"),
     # Application views
