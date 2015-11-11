@@ -27,7 +27,7 @@ def edit(request, expedient_id=None, expiration_id=None):
         expedient = get_object_or_404(Expiration, id=expiration_id).expedient
 
     initial_data = {'expedient': expedient}
-    available_events = expedient.available_events()
+    available_events = expedient.available_events
 
     if request.method == 'POST':
         form = ExpirationForm(request.POST, available_events=available_events)

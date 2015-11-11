@@ -14,6 +14,19 @@ class Address(models.Model):
         db_table = 'address'
 
 
+class Attendant(models.Model):
+    name = models.CharField(max_length=255)
+    text_help = models.CharField(unique=True, max_length=255)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = 'user_type'
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
 class Budget(models.Model):
     amount = models.DecimalField(max_digits=19, decimal_places=2, default=0.00)
     description = models.CharField(max_length=255, blank=True, null=True)
@@ -61,35 +74,45 @@ class Expedient(models.Model):
     headquarters = models.ForeignKey('Headquarters', db_column='id_headquarters', blank=True, null=True)
     persons = models.ManyToManyField('Person', through=ExpPerRol)
 
+    @property
     def has_budget(self):
         try:
             return self.budget is not None
         except Budget.DoesNotExist:
             return False
 
+    @property
     def available_events(self):
         return Event.objects.filter(
             lawbranch__in=LawBranch.objects.filter(phase__id=self.phase.id if self.phase else None))
 
+    @property
     def customers(self):
         # Returns the customers of the expedient
         return [expperrol.person for expperrol in self.expperrol_set.filter(role__text_help__iexact='CLIENTE')]
 
+    @property
     def contraries(self):
         # Returns the contraries (not lawyers) of the expedient
         return [expperrol.person for expperrol in self.expperrol_set.filter(role__text_help__iexact='CONTRARIO')]
 
+    @property
     def contrary_lawyers(self):
         # Returns the contrary lawyers of the expedient
-        return [expperrol.person for expperrol in self.expperrol_set.filter(role__text_help__iexact='ABOGADO_CONTRARIO')]
+        return [expperrol.person for expperrol in
+                self.expperrol_set.filter(role__text_help__iexact='ABOGADO_CONTRARIO')]
 
+    @property
     def attorneys(self):
         # Returns the attorneys of the expedient that are not part of metropol
-        return [expperrol.person for expperrol in self.expperrol_set.filter(role__text_help__iexact='PROCURADOR_CONTRARIO')]
+        return [expperrol.person for expperrol in
+                self.expperrol_set.filter(role__text_help__iexact='PROCURADOR_CONTRARIO')]
 
+    @property
     def own_attorneys(self):
         # Returns the attorneys of the expedient that are part of metropol
-        return [expperrol.person for expperrol in self.expperrol_set.filter(role__text_help__iexact='PROCURADOR_PROPIO')]
+        return [expperrol.person for expperrol in
+                self.expperrol_set.filter(role__text_help__iexact='PROCURADOR_PROPIO')]
 
     class Meta:
         db_table = 'expedient'
@@ -120,6 +143,20 @@ class Headquarters(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class LawBranch(models.Model):
+    name = models.CharField(max_length=255)
+    text_help = models.CharField(unique=True, max_length=255)
+    is_active = models.BooleanField(default=True)
+    events = models.ManyToManyField(Event, db_table='branch_event')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'law_branch'
+        ordering = ['name']
 
 
 class Note(models.Model):
@@ -160,29 +197,6 @@ class Person(models.Model):
         return self.name or ''
 
 
-class Phone(models.Model):
-    number = models.CharField(max_length=255)
-    person = models.ForeignKey(Person, db_column='id_person')
-    phone_type = models.ForeignKey('PhoneType', db_column='id_phone_type')
-
-    class Meta:
-        db_table = 'phone'
-
-
-class LawBranch(models.Model):
-    name = models.CharField(max_length=255)
-    text_help = models.CharField(unique=True, max_length=255)
-    is_active = models.BooleanField(default=True)
-    events = models.ManyToManyField(Event, db_table='branch_event')
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        db_table = 'law_branch'
-        ordering = ['name']
-
-
 class Phase(models.Model):
     sequence = models.IntegerField()
     name = models.CharField(max_length=255)
@@ -197,6 +211,27 @@ class Phase(models.Model):
         db_table = 'phase'
         ordering = ['sequence']
         unique_together = (('id', 'sequence'),)
+
+
+class Phone(models.Model):
+    number = models.CharField(max_length=255)
+    person = models.ForeignKey(Person, db_column='id_person')
+    phone_type = models.ForeignKey('PhoneType', db_column='id_phone_type')
+
+    class Meta:
+        db_table = 'phone'
+
+
+class PhoneType(models.Model):
+    name = models.CharField(max_length=255)
+    text_help = models.CharField(unique=True, max_length=255)
+
+    class Meta:
+        db_table = 'phone_type'
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
 
 
 class Role(models.Model):
@@ -230,31 +265,6 @@ class StateBudget(models.Model):
 
     class Meta:
         db_table = 'state_budget'
-        ordering = ['name']
-
-    def __str__(self):
-        return self.name
-
-
-class PhoneType(models.Model):
-    name = models.CharField(max_length=255)
-    text_help = models.CharField(unique=True, max_length=255)
-
-    class Meta:
-        db_table = 'phone_type'
-        ordering = ['name']
-
-    def __str__(self):
-        return self.name
-
-
-class Attendant(models.Model):
-    name = models.CharField(max_length=255)
-    text_help = models.CharField(unique=True, max_length=255)
-    is_active = models.BooleanField(default=True)
-
-    class Meta:
-        db_table = 'user_type'
         ordering = ['name']
 
     def __str__(self):

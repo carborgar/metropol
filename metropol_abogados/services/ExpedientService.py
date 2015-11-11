@@ -66,7 +66,7 @@ def find_all():
 def build_initial_data(expedient):
     return {'id': expedient.id, 'expedient_num': expedient.id, 'branch': expedient.phase.law_branch if expedient.phase else None,
             'phase': expedient.phase, 'state': expedient.state, 'headquarters': expedient.headquarters,
-            'attendant': expedient.attendant, 'description': expedient.description, 'customers': expedient.customers(),
-            'contraries': expedient.contraries(), 'contrary_lawyers': expedient.contrary_lawyers(),
-            'attorneys': expedient.attorneys(), 'own_attorneys': expedient.own_attorneys(),
+            'attendant': expedient.attendant, 'description': expedient.description, 'customers': expedient.customers,
+            'contraries': expedient.contraries, 'contrary_lawyers': expedient.contrary_lawyers,
+            'attorneys': expedient.attorneys, 'own_attorneys': expedient.own_attorneys,
             'creation_date': expedient.creation_date, 'end_date': expedient.end_date}

@@ -28,7 +28,7 @@ def edit(request, expedient_id):
         return HttpResponseRedirect('{}#budget-payment'.format(reverse('expedient-details', args=(expedient.id,))))
 
     else:
-        if expedient.has_budget():
+        if expedient.has_budget:
             budget = expedient.budget
             additional_data = BudgetService.build_additional_data(budget)
             initial_data.update(additional_data)
