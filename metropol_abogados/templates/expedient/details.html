@@ -13,30 +13,32 @@
                     </li>
                     <li role="presentation"><a href="#expiration" role="tab" data-toggle="tab">Vencimientos</a>
                     </li>
-                    <li role="presentation"><a href="#budget-payment" role="tab" data-toggle="tab">Presupuesto y
-                        pagos</a>
+                    <li role="presentation"><a href="#budget-payment" role="tab" data-toggle="tab">Presupuesto y pagos</a>
                     </li>
                     <li role="presentation"><a href="#notes" role="tab" data-toggle="tab">Notas</a>
                     </li>
                 </ul>
 
-                <div class="row">
-                    <div class="col-sm-5">
-                        {% include "expedient/expedient-data.html" with expedient=expedient show_links=True %}
-                    </div>
+                <div class="col-sm-6">
+                    {% include "expedient/expedient-data.html" with expedient=expedient show_links=True %}
                 </div>
             </div>
             <!-- Tab panes -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade" id="expedientData">
+                    <div class="col-sm-6">
+                        <!-- Customers table -->
+                        {% include "expedient/expedient-person-list.html" with persons=expedient.customers title="Clientes" %}
+                    </div>
+                    <div class="clearfix"></div>
                     <div class="row">
-                        <div class="col-sm-6">
-                            <!-- Customers table -->
-                            {% include "expedient/expedient-person-list.html" with persons=expedient.customers title="Clientes" %}
-                        </div>
                         <div class="col-sm-6">
                             <!-- Contraries (not lawyers) table -->
                             {% include "expedient/expedient-person-list.html" with persons=expedient.contraries title="Contrarios" %}
+                        </div>
+                        <div class="col-sm-6">
+                            <!-- Contraries (lawyers) table -->
+                            {% include "expedient/expedient-person-list.html" with persons=expedient.contrary_lawyers title="Abogados contrarios" %}
                         </div>
                     </div>
                     <div class="row">
@@ -50,45 +52,40 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-6 col-sm-offset-6">
-                            <!-- Contraries (lawyers) table -->
-                            {% include "expedient/expedient-person-list.html" with persons=expedient.contrary_lawyers title="Abogados contrarios" %}
-                        </div>
+
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="expiration">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="page-header">
+                    <div class="col-sm-6">
+                        <div class="page-header">
                                 <h3>Vencimientos
-                                    <small><a data-help="Añadir vencimiento"
-                                              href="{% url 'expiration-create' expedient.id %}">{% bootstrap_icon "plus" %}</a>
+                                    <small><a data-help="Añadir vencimiento" href="{% url 'expiration-create' expedient.id %}">{% bootstrap_icon "plus" %}</a>
                                     </small>
                                 </h3>
                             </div>
                             {% include "expiration/list.html" with expiration_list=expedient.expiration_set.all %}
-                        </div>
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="budget-payment">
-                    <div class="row">
-                        <div class="col-sm-6">
-                        {% include "budget/details.html" with budget=expedient.budget show_links=True %}
-                        </div>
-                        {% if expedient.budget %}
-                            <div class="col-sm-6">
-                                <div class="page-header">
-                                    <h3>Pagos
-                                        <small><a data-help="Añadir pago"
-                                                  href="{% url 'payment-create' expedient.budget.id %}">{% bootstrap_icon "plus" %}</a></small>
-                                    </h3>
-                                </div>
-                                {% include "payment/list.html" with payment_list=expedient.budget.payment_set.all %}
-                            </div>
-                        {% endif %}
+                    <div class="col-sm-6">
+                    {% include "budget/details.html" with budget=expedient.budget show_links=True %}
                     </div>
+                    {% if expedient.budget %}
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="page-header">
+                                <h3>Pagos
+                                    <small><a data-help="Añadir pago"
+                                              href="{% url 'payment-create' expedient.budget.id %}">{% bootstrap_icon "plus" %}</a></small>
+                                </h3>
+                            </div>
+                            {% include "payment/list.html" with payment_list=expedient.budget.payment_set.all %}
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="notes">
+                    <div class="clearfix"></div>
                     {% include "note/list.html" with note_list=expedient.note_set.all expedient=expedient %}
                 </div>
             </div>

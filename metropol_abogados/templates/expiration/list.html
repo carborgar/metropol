@@ -12,14 +12,14 @@
         <tbody>
         {% for expiration in expiration_list %}
             <tr>
-                <td class="col-md-1">{{ expiration.place|default:"-"|truncatechars:100 }}</td>
+                <td class="col-md-3">{{ expiration.place|default:"-"|truncatechars:100 }}</td>
                 <td class="col-md-4">{{ expiration.event|default:"-" }}</td>
-                <td class="col-md-2">{{ expiration.date|date:"d/m/Y H:i" }}</td>
+                <td class="col-md-4">{{ expiration.date|date:"d/m/Y H:i" }}</td>
                 <td class="col-md-1">
                     <a data-help="Ver detalles"
-                       href="{% url "expiration-details" expiration.id %}">{% bootstrap_icon "eye-open" %}</a>&nbsp;&nbsp;
+                       href="{% url "expiration-details" expiration.id %}">{% bootstrap_icon "eye-open" %}</a>
                     <a data-help="Editar"
-                       href="{% url "expiration-edit" expiration.id %}">{% bootstrap_icon "pencil" %}</a>&nbsp;&nbsp;
+                       href="{% url "expiration-edit" expiration.id %}">{% bootstrap_icon "pencil" %}</a>
                     <a href="{% url 'expiration-delete' expiration.id %}" data-help="Borrar"
                        data-delete="este vencimiento">{% bootstrap_icon "trash" %}</a>
                 </td>

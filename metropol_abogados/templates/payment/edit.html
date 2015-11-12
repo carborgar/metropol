@@ -7,15 +7,15 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-12">
             {% include "expedient/expedient-data.html" with expedient=expedient %}
-        </div>
-        <div class="col-sm-6">
-            {% include "budget/details.html" with expedient=expedient budget=expedient.budget %}
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-6 col-sm-offset-3">
+        <div class="col-sm-6">
+            {% include "budget/details.html" with expedient=expedient budget=expedient.budget %}
+        </div>
+        <div class="col-sm-6">
             <div class="page-header">
                 <h3>Datos del pago</h3>
             </div>
