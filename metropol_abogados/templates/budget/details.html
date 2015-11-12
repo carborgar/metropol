@@ -2,22 +2,23 @@
 {% load humanize %}
 
 <div class="page-header">
-    <h4>Presupuesto
-        <small><a data-help="{% if budget %}Editar{% else %}Añadir {% endif %} presupuesto"
-                  href="{% url 'budget-edit' expedient.id %}">
-            {% if budget %}{% bootstrap_icon "pencil" %}{% else %}{% bootstrap_icon "plus" %}{% endif %}</a>&nbsp;&nbsp;<a
-                href="{% url 'budget-delete' expedient.id %}" data-help="Borrar presupuesto"
-                data-delete="este presupuesto">{% bootstrap_icon "trash" %}</a></small>
-    </h4>
+    <h3>Presupuesto
+        {% if show_links %}
+        <small>
+            <a data-help="{% if budget %}Editar{% else %}Añadir {% endif %} presupuesto" href="{% url 'budget-edit' expedient.id %}">
+            {% if budget %}{% bootstrap_icon "pencil" %}{% else %}{% bootstrap_icon "plus" %}{% endif %}</a>&nbsp;&nbsp;
+            {% if budget %}<a  href="{% url 'budget-delete' expedient.id %}" data-help="Borrar presupuesto" data-delete="este presupuesto">{% bootstrap_icon "trash" %}</a></small>{% endif %}
+        {% endif %}
+    </h3>
 </div>
 {% if budget %}
     <dl class="dl-horizontal">
         <dt>Estado</dt>
         <dd>{{ budget.state_budget|default:'-' }}</dd>
         <dt>Cantidad total</dt>
-        <dd>{{ budget.amount|intcomma }}</dd>
+        <dd>{{ budget.amount|intcomma }} &euro;</dd>
         <dt>Cantidad entregada</dt>
-        <dd>{{ budget.payed_amount|intcomma }}</dd>
+        <dd>{{ budget.payed_amount|intcomma }} &euro;</dd>
         <dt>Procurador propio</dt>
         <dd>{{ budget.own_attorney|yesno:"Sí,No" }}</dd>
         <dt>Última revisión</dt>

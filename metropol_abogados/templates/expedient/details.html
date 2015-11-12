@@ -7,7 +7,7 @@
 
             <div>
                 <!-- Nav tabs -->
-                <ul class="nav nav-pills nav-justified" role="tablist" id="expedientTabs">
+                <ul class="nav nav-tabs nav-justified" role="tablist" id="expedientTabs">
                     <li role="presentation">
                         <a href="#expedientData" aria-controls="home" role="tab" data-toggle="tab">Datos expediente</a>
                     </li>
@@ -22,7 +22,7 @@
 
                 <div class="row">
                     <div class="col-sm-5">
-                        {% include "expedient/expedient-data.html" with expedient=expedient %}
+                        {% include "expedient/expedient-data.html" with expedient=expedient show_links=True %}
                     </div>
                 </div>
             </div>
@@ -60,11 +60,11 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="page-header">
-                                <h4>Vencimientos
+                                <h3>Vencimientos
                                     <small><a data-help="Añadir vencimiento"
                                               href="{% url 'expiration-create' expedient.id %}">{% bootstrap_icon "plus" %}</a>
                                     </small>
-                                </h4>
+                                </h3>
                             </div>
                             {% include "expiration/list.html" with expiration_list=expedient.expiration_set.all %}
                         </div>
@@ -73,15 +73,15 @@
                 <div role="tabpanel" class="tab-pane fade" id="budget-payment">
                     <div class="row">
                         <div class="col-sm-6">
-                        {% include "budget/details.html" with budget=expedient.budget %}
+                        {% include "budget/details.html" with budget=expedient.budget show_links=True %}
                         </div>
                         {% if expedient.budget %}
                             <div class="col-sm-6">
                                 <div class="page-header">
-                                    <h4>Pagos
+                                    <h3>Pagos
                                         <small><a data-help="Añadir pago"
                                                   href="{% url 'payment-create' expedient.budget.id %}">{% bootstrap_icon "plus" %}</a></small>
-                                    </h4>
+                                    </h3>
                                 </div>
                                 {% include "payment/list.html" with payment_list=expedient.budget.payment_set.all %}
                             </div>

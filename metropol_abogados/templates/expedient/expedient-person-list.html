@@ -1,13 +1,12 @@
 {% load bootstrap3 %}
 <div class="page-header">
-    <h4>{{ title }}</h4>
+    <h3>{{ title }}</h3>
 </div>
 
 {% if persons %}
     <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
-            <th>N&ordm;</th>
             <th>Nombre</th>
             <th>DNI/NIF</th>
             <th>Acciones</th>
@@ -16,7 +15,6 @@
         <tbody>
         {% for person in persons %}
             <tr>
-                <td class="col-md-1">{{ person.id }}</td>
                 <td class="col-md-4">{{ person.name|default:"-" }}</td>
                 <td class="col-md-2">{{ person.id_number|default:"-" }}</td>
                 <td class="col-md-1"><a data-help="Ver detalles"

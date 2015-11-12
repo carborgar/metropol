@@ -87,8 +87,8 @@ class ExpedientForm(MetropolForm):
     contrary_lawyers = chosenforms.ChosenModelMultipleChoiceField(queryset=persons, required=False, label="Abogados contrarios", overlay='Selecciona los abogados contrarios')
     own_attorneys = chosenforms.ChosenModelMultipleChoiceField(required=False, queryset=persons, label="Procuradores propios", overlay='Selecciona los procuradores propios')
     attorneys = chosenforms.ChosenModelMultipleChoiceField(required=False, queryset=persons, label="Procuradores contrarios", overlay='Selecciona los procuradores contrarios')
-    creation_date = PastDateField(label="Fecha alta", initial=datetime.datetime.now,
-                                  widget=DateTimePicker(options={"format": "DD/MM/YYYY", "pickTime": False},
+    creation_date = PastDateField(label='Fecha', initial=datetime.datetime.now,
+                         widget=DateTimePicker(options={"format": "DD/MM/YYYY", "pickTime": False},
                                                attrs={'placeholder': 'DD/MM/AAAA'}))
     end_date = forms.DateField(label="Fecha cierre", required=False, initial=datetime.datetime.now,
                                   widget=DateTimePicker(options={"format": "DD/MM/YYYY", "pickTime": False},
@@ -131,26 +131,28 @@ class ExpedientForm(MetropolForm):
         if selected_law_branch and not selected_phase:
             raise forms.ValidationError("Si seleccionas una rama, debes seleccionar una fase.")
 
-        if form_end_date and form_creation_date > form_end_date:
+        if form_end_date and form_creation_date and form_creation_date > form_end_date:
             # Check that creation date is before or equal to end date
             raise forms.ValidationError("La fecha de cierre debe ser igual o posterior a la fecha de alta.")
 
 
 class ExpedientListFilterForm(MetropolForm):
-    branch = forms.ChoiceField(label="Rama", required=False)
+    branch = forms.ChoiceField(label="Rama", required=False, widget=forms.Select())
     headquarters = forms.ChoiceField(label="Sede", required=False)
     state = forms.ModelChoiceField(queryset=State.objects.all(), label="Estado", required=False)
-    customers = chosenforms.ChosenModelMultipleChoiceField(queryset=Person.objects.all(), overlay="Clientes", required=False)
+    customers = chosenforms.ChosenModelMultipleChoiceField(queryset=Person.objects.all(), overlay="Clientes", required=False, label="Clientes")
     keyword = forms.CharField(label='Criterio de búsqueda', required=False)
 
     def __init__(self, *args, **kwargs):
         super(ExpedientListFilterForm, self).__init__(*args, **kwargs)
-        extra_choices = [('-1', 'Ninguna'), (None, 'Todos')]
-        branch_choices = FormUtils.add_extra_choices([(b.id, b) for b in LawBranch.objects.all()], extra_choices)
-        headquarters_choices = FormUtils.add_extra_choices([(h.id, h) for h in Headquarters.objects.all()], extra_choices)
+        extra_choices = [('-1', 'Ninguna'), (None, 'Seleccionar...')]
 
-        self.fields['branch'].choices = FormUtils.get_sorted_choices(branch_choices)
-        self.fields['headquarters'].choices = FormUtils.get_sorted_choices(headquarters_choices)
+        # We need to add extra_choices at the end of the select
+        branch_choices = FormUtils.add_extra_choices(FormUtils.get_sorted_choices([(b.id, b) for b in LawBranch.objects.all()]), extra_choices)
+        headquarters_choices = FormUtils.add_extra_choices(FormUtils.get_sorted_choices([(h.id, h) for h in Headquarters.objects.all()]), extra_choices)
+
+        self.fields['branch'].choices = branch_choices
+        self.fields['headquarters'].choices = headquarters_choices
 
 
 class NoteForm(MetropolForm):
@@ -168,7 +170,7 @@ class ExpirationForm(MetropolForm):
                                                      attrs={'placeholder': 'DD/MM/AAAA HH:mm'}))
     place = forms.CharField(label="Lugar", required=False)
     description = forms.CharField(widget=forms.Textarea(), required=False, label="Asunto")
-    event = forms.ModelChoiceField(queryset=Event.objects.all(), required=False)
+    event = forms.ModelChoiceField(queryset=Event.objects.all(), required=False, label="Evento")
 
     def __init__(self, *args, **kwargs):
         expedient_events = kwargs.pop("available_events")
@@ -180,7 +182,7 @@ class ExpirationForm(MetropolForm):
 
         else:
             # Otherwise, hide the input
-            self.fields['event'].widget = forms.HiddenInput()
+            self.fields['event'].widget.attrs['disabled'] = True
 
 
 class BudgetForm(MetropolForm):

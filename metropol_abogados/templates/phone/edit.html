@@ -3,7 +3,7 @@
 {% block content %}
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-sm-offset-3">
-            <h2>{% if form.phone_id.value %}Editar{% else %}Añadir{% endif %} teléfono</h2>
+            <h2>{% if form.phone_id.value %}Editar{% else %}Añadir{% endif %} contacto</h2>
 
             <form method="post" class="form-horizontal" data-toggle="validator" id="phoneForm">
                 {% csrf_token %}

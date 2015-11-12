@@ -38,8 +38,12 @@
 </div>
 
 <script type="text/javascript">
-    $('.sticky-note').focusin(function () {
+    var noteSelector = $('.sticky-note');
+    noteSelector.focusin(function () {
         $(this).next().find('button').removeClass('hidden');
+    });
+    noteSelector.focusout(function () {
+        $(this).next().find('button').addClass('hidden');
     });
     $(function () {
         $('.note-form').formValidation({

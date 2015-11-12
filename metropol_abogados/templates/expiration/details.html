@@ -3,8 +3,7 @@
 {% block content %}
     <div class="row">
         <div class="col-sm-12">
-            <h2><a href="{% url "expedient-details" expiration.expedient.id %}">{% bootstrap_icon "arrow-left" %}</a>
-                Detalles de vencimiento</h2>
+            <h2>Detalles de vencimiento</h2>
         </div>
     </div>
     <div class="row">
@@ -30,6 +29,11 @@
                 <dt>Asunto</dt>
                 <dd>{{ expiration.description|default:"-"|linebreaks }}</dd>
             </dl>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <h2><a href="{% url "expedient-details" expiration.expedient.id %}#expiration">{% bootstrap_icon "arrow-left" %} Ir a vencimientos</a></h2>
         </div>
     </div>
 {% endblock %}

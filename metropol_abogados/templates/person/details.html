@@ -1,5 +1,6 @@
 {% extends 'layout/base.html' %}
 {% load bootstrap3 %}
+{% load extra-tags %}
 {% block content %}
     <div class="row">
         <div class="col-xs-12">
@@ -27,7 +28,7 @@
                 <dt>Correo</dt>
                 <dd>{{ person.email|default:"-" }}</dd>
                 <dt>Página web</dt>
-                <dd>{{ person.web|default:"-"|urlizetrunc:30}}</dd>
+                <dd>{{ person.web|default:"-"|urlizetrunc:30|url_target_blank}}</dd>
                 <dt>Fecha de alta</dt>
                 <dd>{{ person.creation_date|date:"d/m/Y"|default:"-" }}</dd>
             </dl>
@@ -47,7 +48,7 @@
                     <thead>
                     <tr>
                         <th>Tipo</th>
-                        <th>Numero</th>
+                        <th>Número</th>
                         <th>Acciones</th>
                     </tr>
                     </thead>
@@ -56,9 +57,9 @@
                         <tr>
                             <td>{{ tel.phone_type.name }}</td>
                             <td>{{ tel.number }}</td>
-                            <td><a data-help="Editar teléfono"
+                            <td><a data-help="Editar contacto"
                                    href="{% url 'phone-edit' person.id tel.id %}">{% bootstrap_icon "pencil" %}</a>&nbsp;&nbsp;<a
-                                    data-help="Borrar teléfono" data-delete="este teléfono"
+                                    data-help="Borrar contacto" data-delete="este contacto"
                                     href="{% url 'phone-delete' tel.id %}">{% bootstrap_icon "trash" %}</a>
                             </td>
                         </tr>
@@ -84,9 +85,9 @@
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                     <tr>
-                        <th>Direccion</th>
-                        <th>Poblacion</th>
-                        <th>Codigo postal</th>
+                        <th>Dirección</th>
+                        <th>Población</th>
+                        <th>Código postal</th>
                         <th>Provincia</th>
                         <th>Acciones</th>
                     </tr>
@@ -110,11 +111,12 @@
             </div>
             {% endif %}
         </div>
-        <div class="row">
-            <div class="col-sm-12">
-                {% include "note/list.html" with note_list=person.note_set.all person=person %}
-                </div>
-        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            {% include "note/list.html" with note_list=person.note_set.all person=person %}
+            </div>
+    </div>
    <script type="text/javascript">
         $('.sticky-note').focusin(function(){
            $(this).next().find('button').removeClass('hidden');

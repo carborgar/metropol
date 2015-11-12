@@ -1,10 +1,12 @@
 {% load bootstrap3 %}
 <div class="page-header">
     <h3>Datos expediente
+        {% if show_links %}
         <small><a data-help="Editar expediente"
                   href="{% url 'expedient-edit' expedient.id %}">{% bootstrap_icon "pencil" %}</a>&nbsp;&nbsp;<a
                 href="{% url 'expedient-delete' expedient.id %}" data-help="Borrar expediente"
                 data-delete="este expediente">{% bootstrap_icon "trash" %}</a></small>
+        {% endif %}
     </h3>
 </div>
 <div class="expedient-details">
