@@ -8,6 +8,7 @@
             <a data-help="{% if budget %}Editar{% else %}Añadir {% endif %} presupuesto" href="{% url 'budget-edit' expedient.id %}">
             {% if budget %}{% bootstrap_icon "pencil" %}{% else %}{% bootstrap_icon "plus" %}{% endif %}</a>&nbsp;&nbsp;
             {% if budget %}<a  href="{% url 'budget-delete' expedient.id %}" data-help="Borrar presupuesto" data-delete="este presupuesto">{% bootstrap_icon "trash" %}</a></small>{% endif %}
+        </small>
         {% endif %}
     </h3>
 </div>

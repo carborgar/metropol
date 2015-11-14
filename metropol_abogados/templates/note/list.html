@@ -38,13 +38,11 @@
 </div>
 
 <script type="text/javascript">
-    var noteSelector = $('.sticky-note');
+    var noteSelector = $('.note-form');
     noteSelector.focusin(function () {
-        $(this).next().find('button').removeClass('hidden');
+        $(this).children().find('button').removeClass('hidden');
     });
-    noteSelector.focusout(function () {
-        $(this).next().find('button').addClass('hidden');
-    });
+
     $(function () {
         $('.note-form').formValidation({
             framework: 'bootstrap',
