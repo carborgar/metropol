@@ -179,7 +179,7 @@ class Payment(models.Model):
 
     class Meta:
         db_table = 'payment'
-        ordering = ['date']
+        ordering = ['-date']
 
 
 class Person(models.Model):

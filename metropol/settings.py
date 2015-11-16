@@ -3,8 +3,6 @@
 import os
 from configparser import RawConfigParser
 
-from django.utils.translation import ugettext_lazy as _
-
 config = RawConfigParser()
 config.read('/etc/secrets/metropol_settings.ini')
 
@@ -116,19 +114,10 @@ LOGIN_REDIRECT_URL = '/'
 ATOMIC_REQUESTS = True
 
 # I18N
-USE_I18N = True
+USE_I18N = False
 
 # L10N
 USE_L10N = True
-
-LANGUAGES = [
-    ('es', _('Spanish')),
-]
-
-LOCALE_PATHS = (
-    os.path.join(BASE_DIR, "locale"),
-)
-
 
 # Bootstrap 3 settings
 

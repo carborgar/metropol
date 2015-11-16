@@ -9,6 +9,7 @@ from bootstrap3_datetime.widgets import DateTimePicker
 from .utils import FormUtils
 from .models import *
 from metropol.validators import validate_past_date
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 # Custom form to set "required" attributes to HTML
@@ -199,3 +200,15 @@ class PaymentForm(MetropolForm):
                          widget=DateTimePicker(options={"format": "DD/MM/YYYY", "pickTime": False},
                                                attrs={'placeholder': 'DD/MM/AAAA'}))
 
+
+class ValidatingPasswordChangeForm(PasswordChangeForm):
+    MIN_LENGTH = 6
+
+    def clean_new_password1(self):
+        password1 = self.cleaned_data.get('new_password1')
+
+        # At least MIN_LENGTH long
+        if len(password1) < self.MIN_LENGTH:
+            raise forms.ValidationError("La nueva contraseña debe tener al menos %d caracteres." % self.MIN_LENGTH)
+
+        return password1

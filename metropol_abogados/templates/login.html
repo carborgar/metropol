@@ -5,7 +5,7 @@
     <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <div class="panel-title text-center">{% trans "login.title" %}</div>
+                <div class="panel-title text-center">Inicia sesión para acceder a Metropol</div>
             </div>
             <div style="padding-top:30px" class="panel-body">
                 {% if form.errors %}
@@ -41,14 +41,14 @@
                             {{ form.password }}
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">{% trans "button.login" %}</button>
+                    <button type="submit" class="btn btn-primary">Acceder</button>
                 </form>
             </div>
         </div>
     </div>
     <script type="text/javascript">
         $("input:visible").attr('required', true).addClass('form-control');
-        $("#id_username").attr('placeholder', '{% trans 'login.username' %}');
-        $("#id_password").attr('placeholder', '{% trans 'login.password' %}');
+        $("#id_username").attr('placeholder', 'Cuenta de usuario');
+        $("#id_password").attr('placeholder', 'Contraseña');
     </script>
 {% endblock %}

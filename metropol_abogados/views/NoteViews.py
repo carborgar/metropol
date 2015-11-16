@@ -44,14 +44,6 @@ def edit(request):
     if message_action_key:
         messages.success(request, "Nota %s correctamente" % message_action_key)
 
-    return HttpResponseRedirect(reverse(view_name, args=(redir_id,)))
+    return HttpResponseRedirect('{}#notes'.format(reverse(view_name, args=(redir_id,))))
 
 
-@permission_required('auth.management_metropol')
-def delete(request, address_id):
-    address = get_object_or_404(Address, id=address_id)
-    person_id = address.person.id
-    address.delete()
-    messages.success(request, "Se ha borrado la dirección correctamente.")
-
-    return HttpResponseRedirect(reverse('person-details', args=(person_id,)))
