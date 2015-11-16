@@ -1,5 +1,11 @@
 {% extends 'layout/base.html' %}
 {% load i18n %}
+{% load staticfiles %}
 {% block content %}
-    <h1 class="text-center">PAGINA DE INICIO, EN CONSTRUCIÓN</h1>
+    <div class="row" style="margin-top: 50px;">
+        <div class="col-xs-12 text-center">
+            <h1 class="text-center">Bienvenido a metropol abogados</h1>
+            <img src="{% static "img/welcome-image.jpg" %}" alt="Bienvenido a metropol abogados"/>
+        </div>
+    </div>
 {% endblock %}
