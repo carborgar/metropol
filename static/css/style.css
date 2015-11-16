@@ -84,9 +84,11 @@ body {
 .mt20 {
     margin-top: 20px;
 }
-.mb20{
+
+.mb20 {
     margin-bottom: 20px;
 }
+
 dd {
     margin: 0 0 5px 0;
 }
@@ -94,49 +96,72 @@ dd {
 .page-header {
     border-bottom: 1px solid #EEE;
 }
-td, th{
+
+td, th {
     vertical-align: middle;
 }
+
 th:last-child, td:last-child {
     text-align: center
 }
-textarea{
+
+textarea {
     resize: none;
     max-height: 150px;
 }
-.chosen-container{
+
+.chosen-container {
     width: 100% !important;
 }
-.table tbody>tr>td{
+
+.table tbody > tr > td {
     vertical-align: middle;
 }
-table>tbody>tr>td>ul{
+
+table > tbody > tr > td > ul {
     margin: 0;
 }
+
 .sticky-note {
-	display: inherit;
-	padding:25px 25px 40px;
-	margin:0 auto;
-	width:250px;
-	height:250px;
-	font:16px 'Gloria Hallelujah', cursive;
-	line-height:1.5;
-	border:0;
-	border-radius:3px;
-	background: -webkit-linear-gradient(#F9EFAF, #F7E98D);
-	background: -moz-linear-gradient(#F9EFAF, #F7E98D);
-	background: -o-linear-gradient(#F9EFAF, #F7E98D);
-	background: -ms-linear-gradient(#F9EFAF, #F7E98D);
-	background: linear-gradient(#F9EFAF, #F7E98D);
-	box-shadow:0 4px 6px rgba(0,0,0,0.1);
-	overflow:hidden;
-	transition:box-shadow 0.5s ease;
-	max-width:520px;
-	max-height:250px;
+    display: inherit;
+    padding: 25px 25px 40px;
+    margin: 0 auto;
+    width: 250px;
+    height: 250px;
+    font: 16px 'Gloria Hallelujah', cursive;
+    line-height: 1.5;
+    border: 0;
+    border-radius: 3px;
+    background: -webkit-linear-gradient(#F9EFAF, #F7E98D);
+    background: -moz-linear-gradient(#F9EFAF, #F7E98D);
+    background: -o-linear-gradient(#F9EFAF, #F7E98D);
+    background: -ms-linear-gradient(#F9EFAF, #F7E98D);
+    background: linear-gradient(#F9EFAF, #F7E98D);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: box-shadow 0.5s ease;
+    max-width: 520px;
+    max-height: 250px;
     overflow-y: auto;
 }
-.sticky-note:hover { box-shadow:0 5px 8px rgba(0,0,0,0.15); }
-.sticky-note:focus { box-shadow:0 5px 12px rgba(0,0,0,0.2); outline:none; }
-.sticky-note-action{
+
+.sticky-note:hover {
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.15);
+}
+
+.sticky-note:focus {
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.2);
+    outline: none;
+}
+
+.sticky-note-action {
     margin-top: -60px;
+}
+.panel-metropol{
+    border-color: #2C3E50;
+    color: #FFF;
+}
+
+.panel-metropol > .panel-heading{
+    background-color: #2C3E50;
 }

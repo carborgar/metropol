@@ -5,18 +5,23 @@ from django import forms
 from chosen import forms as chosenforms
 from django.forms import DateField
 from bootstrap3_datetime.widgets import DateTimePicker
+from django.contrib.auth.forms import PasswordChangeForm
 
 from .utils import FormUtils
 from .models import *
 from metropol.validators import validate_past_date
-from django.contrib.auth.forms import PasswordChangeForm
 
 
 # Custom form to set "required" attributes to HTML
 class MetropolForm(forms.Form):
     def __init__(self, *args, **kwargs):
+        default_max_length = 255
         super(MetropolForm, self).__init__(*args, **kwargs)
         for name, field in self.fields.items():
+            # All CharFields are max_lenght 255 by default
+            if isinstance(field, (forms.CharField, forms.URLField, forms.EmailField)):
+                field.max_length = default_max_length
+                field.widget.attrs.update({'maxlength': default_max_length})
             if 'class' in field.widget.attrs:
                 field.widget.attrs['class'] += ' form-control'
             else:
