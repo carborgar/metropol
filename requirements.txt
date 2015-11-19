@@ -1,5 +1,4 @@
 Django>=1.8,<1.9
-mysqlclient
 django-endless-pagination
 django-bootstrap3
 git+git://github.com/carborgar/django-chosen.git
