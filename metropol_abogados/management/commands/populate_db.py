@@ -40,49 +40,7 @@ class Command(BaseCommand):
     def insert_production_data():
         print('Populating with production data...')
 
-        user_alfonso_fernandez = User(
-            username='alffermac',
-            first_name='Alfonso',
-            last_name='Fernández Machuca',
-            email='alfonsoprofe10@gmail.com',
-        )
-        user_alfonso_fernandez.set_password('metropol')
-        user_alfonso_fernandez.save()
-        user_alfonso_fernandez.user_permissions.add(Permission.objects.get(codename='management_metropol'))
-        user_alfonso_fernandez.save()
-
-        user_santiago_machuca = User(
-            username='sanmacrod',
-            first_name='Santiago',
-            last_name='Machuca Rodríguez',
-            email='santiago.machuca@juntadeandalucia.es',
-        )
-        user_santiago_machuca.set_password('metropol')
-        user_santiago_machuca.save()
-        user_santiago_machuca.user_permissions.add(Permission.objects.get(codename='management_metropol'))
-        user_santiago_machuca.save()
-
-        user_antonia_carbonell = User(
-            username='antcarmor',
-            first_name='Antonia',
-            last_name='Carbonell Morilla',
-            email='tmorilla@gmail.com',
-        )
-        user_antonia_carbonell.set_password('metropol')
-        user_antonia_carbonell.save()
-        user_antonia_carbonell.user_permissions.add(Permission.objects.get(codename='management_metropol'))
-        user_antonia_carbonell.save()
-
-        user_ana_ruiz = User(
-            username='anaruigon',
-            first_name='Ana',
-            last_name='Ruiz González',
-            email='ruiz1989@hotmail.com',
-        )
-        user_ana_ruiz.set_password('metropol')
-        user_ana_ruiz.save()
-        user_ana_ruiz.user_permissions.add(Permission.objects.get(codename='management_metropol'))
-        user_ana_ruiz.save()
+        # Intentionally empty
 
         print('Populating with production data....OK\n')
 
